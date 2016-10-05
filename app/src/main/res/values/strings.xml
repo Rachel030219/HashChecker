@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright 2016 Rachel030219
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<resources>
+
+    <string name="app_name">HashChecker</string>
+	
+	<string name="open">Open drawer</string>
+	<string name="close">Close drawer</string>
+	
+	<string name="home">Home</string>
+	<string name="section">Others</string>
+	<string name="setting">Settings</string>
+	<string name="donate">Donate</string>
+	<string name="about">About</string>
+	
+	<string name="file">File : %1$s</string>
+	<string name="md5">MD5 : %1$s</string>
+	<string name="sha1">SHA1 : %1$s</string>
+	<string name="sha224">SHA224 : %1$s</string>
+	<string name="sha256">SHA256 : %1$s</string>
+	<string name="sha384">SHA384 : %1$s</string>
+	<string name="sha512">SHA512 : %1$s</string>
+	<string name="copied">Copied %1$s to clipboard</string>
+	<string name="checkInput">Input a value to check this file</string>
+
+	<string name="settings_output">Output</string>
+	<string name="settings_output_case">Uppercase</string>
+	<string name="settings_output_case_on">Make result be uppercase</string>
+	<string name="settings_output_case_off">Make result be lowercase</string>
+
+	<string name="about_version">HashChecker 0.3 BETA</string>
+	<string name="about_projects">Open-source projects</string>
+	<string name="about_projects_preferencefragment">PreferenceFragment-Compat by Machinarius</string>
+	<string name="about_projects_preferencefragment_license">Copyright (C) 2013 The Android Open Source Project\nLicensed under the Apache License, Version 2.0 (the \"License\");\nYou may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 \nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
+	<string name="about_projects_materialsettingsactivitydemo">MaterialSettingsActivityDemo by drakeet</string>
+	<string name="about_projects_materialsettingsactivitydemo_license">The author didn\'t give out a license. I learned how to make a Material-Design settings activity from his blog https://drakeet.me .</string>
+	<string name="about_specialthanks">Special thanks to:</string>
+	<string name="about_specialthanks_to">Liang Yuteng(@liangyuteng )</string>
+	<string name="about_me">Developed by Rachel, 2016</string>
+	<string name="about_me_title">About me</string>
+	<string name="about_me_content">Hi, I am Rachel, a thirteen-year-old student(Grade Nine) and independent developer.\nI spent my free time developing on Android. All of my apps are free forever, hope you like them. And, please follow me on Twitter(@tangrui003 ) to get latest news and join the Telegram channel(@rachelnotice ) to get latest update notice, and feel free to ask me any question through Telegram(@Rachel030219 ).\n- Rachel, 2016</string>
+	<string name="donate_message">As you know, I am a student. While lunch time, I have to eat out, because the lunch in our school is pretty, pretty bad ╮(╯_╰)╭. If you can support me for lunch through WeChat, I would be very pleased o(*≧▽≦)ツ. You can send your donating screenshot as a comment in Coolapk or send me via Telegram(@Rachel030219 ), and you will be added to the \"Special thanks\" list ヽ(･ω･｡)ﾉ.\nThank you for support my lunch! (｡・`ω´･)</string>
+	<string-array name="donate_items">
+		<item>Save to your phone</item>
+	</string-array>
+	<string name="donate_saved">Saved to /sdcard/donate.png</string>
+	<string name="updated_title">What\'s New</string>
+	<string name="updated_changelog">HashChecker 0.3 BETA Changelog:\n- Added a new way to calculate the hash of file</string>
+	
+</resources>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright 2016 Rachel030219
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<resources>
+
+    <string name="app_name">HashChecker</string>
+
+	<string name="open">Open drawer</string>
+	<string name="close">Close drawer</string>
+
+	<string name="home">主页</string>
+	<string name="section">其他</string>
+	<string name="setting">设置</string>
+	<string name="donate">捐赠</string>
+	<string name="about">关于</string>
+
+	<string name="file">文件：%1$s</string>
+	<string name="md5">MD5：%1$s</string>
+	<string name="sha1">SHA1：%1$s</string>
+	<string name="sha224">SHA224：%1$s</string>
+	<string name="sha256">SHA256：%1$s</string>
+	<string name="sha384">SHA384：%1$s</string>
+	<string name="sha512">SHA512：%1$s</string>
+	<string name="copied">已经复制 %1$s 到剪贴板</string>
+	<string name="checkInput">输入一个值进行比对</string>
+	
+	<string name="settings_output">输出</string>
+	<string name="settings_output_case">大写</string>
+	<string name="settings_output_case_on">使结果以大写输出</string>
+	<string name="settings_output_case_off">使结果以小写输出</string>
+
+	<string name="about_version">HashChecker 0.3 BETA</string>
+	<string name="about_projects">开源项目</string>
+	<string name="about_projects_preferencefragment">PreferenceFragment-Compat by Machinarius</string>
+	<string name="about_projects_preferencefragment_license">Copyright (C) 2013 The Android Open Source Project\nLicensed under the Apache License, Version 2.0 (the \"License\");\nYou may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 \nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
+	<string name="about_projects_materialsettingsactivitydemo">MaterialSettingsActivityDemo by drakeet</string>
+	<string name="about_projects_materialsettingsactivitydemo_license">作者没有给出开源协议，我从博客 https://drakeet.me 里学会了如何制作Material Design的设置界面</string>
+	<string name="about_specialthanks">特别感谢：</string>
+	<string name="about_specialthanks_to">Liang Yuteng(@liangyuteng )</string>
+	<string name="about_me">Developed by Rachel, 2016</string>
+	<string name="about_me_title">自述</string>
+	<string name="about_me_content">你好，我是Rachel，一名13岁的初三学生，也是一名独立开发者。\n我用空余时间来开发Android应用。所有我个人的应用都将永久免费，希望你会喜欢。欢迎关注我的Twitter（@tangrui003 ）来获取最新消息，加入Telegram频道（@rachelnotice ）以得到更新提示，你也可以随意在Telegram（@Rachel030219 ）上向我提任何问题。\n－Rachel, 2016</string>
+	<string name="donate_message">嘛，大家都知道我是个学生。我们学校食堂的饭菜太差太差，我每次只能到外面店里吃 ╮(╯_╰)╭ 如果你能用微信资助我吃一顿午餐，我会很感谢你哒 o(*≧▽≦)ツ 你可以把你的捐赠截图发送到酷安评论区或者在 Telegram 上发给我(@Rachel030219 )，这样下一次更新的“特别感谢”名单里就会有你的名字辣 ヽ(･ω･｡)ﾉ\n蟹蟹！ (｡・`ω´･)</string>
+	<string-array name="donate_items">
+		<item>保存到手机</item>
+	</string-array>
+	<string name="donate_saved">已保存到 /sdcard/donate.png</string>
+	<string name="updated_title">更新日志</string>
+	<string name="updated_changelog">HashChecker 0.3 BETA 更新日志:\n－添加了一种计算文件 Hash 值的新途径</string>
+	
+</resources>
