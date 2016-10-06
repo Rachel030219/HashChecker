@@ -41,8 +41,9 @@ import android.support.design.widget.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 	private static final int FILE_SELECT_CODE = 1;
-	private static final int REQUEST_PERMISSION_CODE = 2;
-
+	private static final int REQUEST_FILE_PERMISSION_CODE_INAPP = 2;
+	private static final int REQUEST_FILE_PERMISSION_CODE_SHARE = 3;
+	
 	Toolbar mToolbar;
 	ActionBar mActionBar;
 	DrawerLayout mDrawerLayout;
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
 				uppercase = defaultPreferences.getBoolean("output_case",true);
 				if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
 					if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-						requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_PERMISSION_CODE);
+						requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_FILE_PERMISSION_CODE_SHARE);
 					} else {
 						Uri data = open.getParcelableExtra(Intent.EXTRA_STREAM);
 						showResult(data);
@@ -165,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
 			public void onClick(View v){
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
 					if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-						requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_PERMISSION_CODE);
+						requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_FILE_PERMISSION_CODE_INAPP);
 					} else {
 						showFileChooser();
 					}
@@ -294,10 +295,15 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults){
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-		if(requestCode == REQUEST_PERMISSION_CODE){
+		if(requestCode == REQUEST_FILE_PERMISSION_CODE_INAPP){
 			int grantResult = grantResults[0];
 			if (grantResult == PackageManager.PERMISSION_GRANTED){
 				showFileChooser();
+			}
+		} else if(requestCode == REQUEST_FILE_PERMISSION_CODE_SHARE) {
+			int grantResult = grantResults[0];
+			if (grantResult == PackageManager.PERMISSION_GRANTED){
+				showResult((Uri)getIntent().getParcelableExtra(Intent.EXTRA_STREAM));
 			}
 		}
 	}
