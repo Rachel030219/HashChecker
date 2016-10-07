@@ -23,8 +23,8 @@ android {
         applicationId "net.rachel030219.hash"
         minSdkVersion 7
         targetSdkVersion 23
-        versionCode 3
-        versionName "0.3 BETA"
+        versionCode 10
+        versionName "1.0 STABLE"
     }
     buildTypes {
         release {

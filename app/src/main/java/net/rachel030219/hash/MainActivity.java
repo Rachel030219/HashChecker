@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.FileOutputStream;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.Manifest;
 import android.os.Build;
@@ -203,19 +205,27 @@ public class MainActivity extends AppCompatActivity {
 			public void afterTextChanged(Editable text){
 				// TODO: Implement this method
 				String check = null;
+				Pattern lowerPattern = Pattern.compile("[a-z]");
+				Pattern upperPattern = Pattern.compile("[A-Z]");
 				if(!text.toString().equals(""))
-					check = text.toString().substring(text.toString().length()-1,text.toString().length());
+					check = text.toString().substring(0,text.toString().length());
 				if(uppercase){
-					if(check != null && check.matches("[a-z]")){
-						int selection = mCheckInput.getSelectionStart();
-						mCheckInput.setText(text.toString().toUpperCase());
-						mCheckInput.setSelection(selection);
+					if(check != null){
+						Matcher matcher = lowerPattern.matcher(check);
+						if(matcher.find()){
+							int selection = mCheckInput.getSelectionStart();
+							mCheckInput.setText(text.toString().toUpperCase());
+							mCheckInput.setSelection(selection);
+						}
 					}
 				} else {
-					if(check != null && check.matches("[A-Z]")){
-						int selection = mCheckInput.getSelectionStart();
-						mCheckInput.setText(text.toString().toLowerCase());
-						mCheckInput.setSelection(selection);
+					if(check != null){
+						Matcher matcher = upperPattern.matcher(check);
+						if(matcher.find()){
+							int selection = mCheckInput.getSelectionStart();
+							mCheckInput.setText(text.toString().toLowerCase());
+							mCheckInput.setSelection(selection);
+						}
 					}
 				}
 				
@@ -306,6 +316,20 @@ public class MainActivity extends AppCompatActivity {
 				showResult((Uri)getIntent().getParcelableExtra(Intent.EXTRA_STREAM));
 			}
 		}
+		
+		int grantResult = grantResults[0];
+		if (grantResult == PackageManager.PERMISSION_GRANTED){
+			switch(requestCode){
+				case REQUEST_FILE_PERMISSION_CODE_INAPP:
+					showFileChooser();
+					break;
+				case REQUEST_FILE_PERMISSION_CODE_SHARE:
+					showResult((Uri)getIntent().getParcelableExtra(Intent.EXTRA_STREAM));
+					break;
+			}
+		} else if(grantResult == PackageManager.PERMISSION_DENIED) {
+			Snackbar.make(mRoot,"Pl",Snackbar.LENGTH_LONG).show();
+		}
 	}
 	
 	public void showResult(Uri uri){
@@ -322,7 +346,21 @@ public class MainActivity extends AppCompatActivity {
 					sha256 = HashTool.getFileHash("SHA256",file);
 					sha384 = HashTool.getFileHash("SHA384",file);
 					sha512 = HashTool.getFileHash("SHA512",file);
-
+					
+					if(uppercase){
+						md5 = md5.toUpperCase();
+						sha1 = sha1.toUpperCase();
+						sha256 = sha256.toUpperCase();
+						sha384 = sha384.toUpperCase();
+						sha512 = sha512.toUpperCase();
+					} else {
+						md5 = md5.toLowerCase();
+						sha1 = sha1.toLowerCase();
+						sha256 = sha256.toLowerCase();
+						sha384 = sha384.toLowerCase();
+						sha512 = sha512.toLowerCase();
+					}
+					
 					runOnUiThread(new Runnable(){
 							@Override
 							public void run(){
@@ -347,31 +385,17 @@ public class MainActivity extends AppCompatActivity {
 	
 	public void changeResults(){
 		Resources res = getResources();
-		if(!uppercase){
-			mMD5.setText(String.format(res.getString(R.string.md5),md5.toLowerCase()));
-			mSHA1.setText(String.format(res.getString(R.string.sha1),sha1.toLowerCase()));
-			mSHA256.setText(String.format(res.getString(R.string.sha256),sha256.toLowerCase()));
-			mSHA384.setText(String.format(res.getString(R.string.sha384),sha384.toLowerCase()));
-			mSHA512.setText(String.format(res.getString(R.string.sha512),sha512.toLowerCase()));
+		mMD5.setText(String.format(res.getString(R.string.md5),md5));
+		mSHA1.setText(String.format(res.getString(R.string.sha1),sha1));
+		mSHA256.setText(String.format(res.getString(R.string.sha256),sha256));
+		mSHA384.setText(String.format(res.getString(R.string.sha384),sha384));
+		mSHA512.setText(String.format(res.getString(R.string.sha512),sha512));
 
-			mMD5.setOnLongClickListener(new OnHashLongClick(md5.toLowerCase(),"MD5"));
-			mSHA1.setOnLongClickListener(new OnHashLongClick(sha1.toLowerCase(),"SHA1"));
-			mSHA256.setOnLongClickListener(new OnHashLongClick(sha256.toLowerCase(),"SHA256"));
-			mSHA384.setOnLongClickListener(new OnHashLongClick(sha384.toLowerCase(),"SHA384"));
-			mSHA512.setOnLongClickListener(new OnHashLongClick(sha512.toLowerCase(),"SHA512"));
-		} else {
-			mMD5.setText(String.format(res.getString(R.string.md5),md5));
-			mSHA1.setText(String.format(res.getString(R.string.sha1),sha1));
-			mSHA256.setText(String.format(res.getString(R.string.sha256),sha256));
-			mSHA384.setText(String.format(res.getString(R.string.sha384),sha384));
-			mSHA512.setText(String.format(res.getString(R.string.sha512),sha512));
-
-			mMD5.setOnLongClickListener(new OnHashLongClick(md5,"MD5"));
-			mSHA1.setOnLongClickListener(new OnHashLongClick(sha1,"SHA1"));
-			mSHA256.setOnLongClickListener(new OnHashLongClick(sha256,"SHA256"));
-			mSHA384.setOnLongClickListener(new OnHashLongClick(sha384,"SHA384"));
-			mSHA512.setOnLongClickListener(new OnHashLongClick(sha512,"SHA512"));
-		}
+		mMD5.setOnLongClickListener(new OnHashLongClick(md5,"MD5"));
+		mSHA1.setOnLongClickListener(new OnHashLongClick(sha1,"SHA1"));
+		mSHA256.setOnLongClickListener(new OnHashLongClick(sha256,"SHA256"));
+		mSHA384.setOnLongClickListener(new OnHashLongClick(sha384,"SHA384"));
+		mSHA512.setOnLongClickListener(new OnHashLongClick(sha512,"SHA512"));
 	}
 	
 	class OnHashLongClick implements View.OnLongClickListener{
