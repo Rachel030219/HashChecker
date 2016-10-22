@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="net.rachel030219.hash">
+	package="net.rachel030219.hashchecker">
 
 	<uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -26,7 +26,7 @@ limitations under the License.
         android:theme="@style/AppTheme" >
 
         <activity
-            android:name="net.rachel030219.hash.MainActivity"
+            android:name="net.rachel030219.hashchecker.MainActivity"
 			android:theme="@style/AppTheme.Transparent">
 
             <intent-filter>
@@ -50,11 +50,11 @@ limitations under the License.
         </activity>
 
 		<activity
-			android:name="net.rachel030219.hash.SettingsActivity"
+			android:name="net.rachel030219.hashchecker.SettingsActivity"
 			android:label="@string/setting"/>
 
 		<activity
-			android:name="net.rachel030219.hash.AboutActivity"
+			android:name="net.rachel030219.hashchecker.AboutActivity"
 			android:label="@string/about"/>
 
 	</application>

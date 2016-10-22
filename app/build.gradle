@@ -20,11 +20,11 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "net.rachel030219.hash"
+        applicationId "net.rachel030219.hashchecker"
         minSdkVersion 9
         targetSdkVersion 23
-        versionCode 11
-        versionName "1.1 STABLE"
+        versionCode 12
+        versionName "1.2 STABLE"
     }
     buildTypes {
         release {
