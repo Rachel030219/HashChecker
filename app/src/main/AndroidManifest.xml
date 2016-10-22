@@ -57,10 +57,6 @@ limitations under the License.
 			android:name="net.rachel030219.hash.AboutActivity"
 			android:label="@string/about"/>
 
-		<activity
-			android:name="net.rachel030219.hash.DonateActivity"
-			android:label="@string/donate"/>
-
-    </application>
+	</application>
 
 </manifest>

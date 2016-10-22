@@ -148,10 +148,6 @@ public class MainActivity extends AppCompatActivity {
 						Intent settingIntent = new Intent(MainActivity.this,SettingsActivity.class);
 						startActivity(settingIntent);
 						break;
-					case R.id.donate:
-						Intent donateIntent = new Intent(MainActivity.this,DonateActivity.class);
-						startActivity(donateIntent);
-						break;
 					case R.id.about:
 						Intent aboutIntent = new Intent(MainActivity.this,AboutActivity.class);
 						startActivity(aboutIntent);

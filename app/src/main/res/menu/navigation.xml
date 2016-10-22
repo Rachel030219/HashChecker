@@ -33,11 +33,6 @@ limitations under the License.
 			android:id="@+id/setting"
 			android:icon="@drawable/ic_setting"
 			android:title="@string/setting"/>
-			
-		<item
-			android:id="@+id/donate"
-			android:icon="@drawable/ic_donate"
-			android:title="@string/donate"/>
 		
 		<item
 			android:id="@+id/about"
