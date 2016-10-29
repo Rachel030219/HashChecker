@@ -28,6 +28,30 @@ limitations under the License.
 			android:summaryOn="@string/settings_output_case_on"
 			android:summaryOff="@string/settings_output_case_off"
 			android:defaultValue="true"/>
+
+		<CheckBoxPreference
+            android:layout="@layout/settings_item"
+            android:title="@string/settings_output_sha256"
+            android:key="output_sha256"
+            android:summaryOn="@string/settings_output_sha256_on"
+            android:summaryOff="@string/settings_output_sha256_off"
+            android:defaultValue="true"/>
+
+        <CheckBoxPreference
+            android:layout="@layout/settings_item"
+            android:title="@string/settings_output_sha384"
+            android:key="output_sha384"
+            android:summaryOn="@string/settings_output_sha384_on"
+            android:summaryOff="@string/settings_output_sha384_off"
+            android:defaultValue="true"/>
+
+        <CheckBoxPreference
+            android:layout="@layout/settings_item"
+            android:title="@string/settings_output_sha512"
+            android:key="output_sha512"
+            android:summaryOn="@string/settings_output_sha512_on"
+            android:summaryOff="@string/settings_output_sha512_off"
+            android:defaultValue="true"/>
 		
 	</PreferenceCategory>
 	

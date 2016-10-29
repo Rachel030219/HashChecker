@@ -54,7 +54,7 @@ limitations under the License.
 				android:text="@string/about_version"
 				android:textColor="#212121"
 				android:textSize="20sp"
-				android:singleLine="true"
+				android:maxLines="1"
 				android:layout_marginBottom="10dp"/>
 
 			<TextView
@@ -63,7 +63,7 @@ limitations under the License.
 				android:text="@string/about_projects"
 				android:textColor="#3C3C3C"
 				android:textSize="16sp"
-				android:singleLine="true"
+				android:maxLines="1"
 				android:layout_marginBottom="10dp"/>
 
 			<TextView
@@ -71,7 +71,7 @@ limitations under the License.
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/about_projects_preferencefragment"
-				android:singleLine="true"
+				android:maxLines="1"
 				android:layout_marginBottom="10dp"/>
 
 			<TextView
@@ -79,7 +79,7 @@ limitations under the License.
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/about_projects_materialsettingsactivitydemo"
-				android:singleLine="true"
+				android:maxLines="1"
 				android:layout_marginBottom="10dp"/>
 
 			<TextView
@@ -88,22 +88,22 @@ limitations under the License.
 				android:text="@string/about_specialthanks"
 				android:textColor="#3C3C3C"
 				android:textSize="16sp"
-				android:singleLine="true"
+				android:maxLines="1"
 				android:layout_marginBottom="10dp"/>
 
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/about_specialthanks_to"
-				android:singleLine="true"
-				android:layout_marginBottom="10dp"/>
+				android:layout_marginBottom="10dp"
+				android:gravity="center"/>
 
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="And You"
 				android:textSize="18sp"
-				android:singleLine="true"/>
+				android:maxLines="1"/>
 
 		</LinearLayout>
 
@@ -114,7 +114,7 @@ limitations under the License.
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="@string/about_me"
-		android:singleLine="true"
+		android:maxLines="1"
 		android:layout_marginBottom="16dp"
 		android:layout_gravity="center|bottom"/>
 

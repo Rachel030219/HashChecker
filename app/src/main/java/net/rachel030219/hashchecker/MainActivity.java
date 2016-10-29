@@ -61,8 +61,11 @@ public class MainActivity extends AppCompatActivity {
 	String sha256 = null;
 	String sha384 = null;
 	String sha512 = null;
-	
-	CardView mCheck;
+
+    boolean eSHA256 = true;
+    boolean eSHA384 = true;
+    boolean eSHA512 = true;
+
 	EditText mCheckInput;
 
 	ClipboardManager manager;
@@ -77,7 +80,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.main);
 		
 		manager = new ClipboardManager(this);
-		
+
+        getPreferences();
 		bindView();
 		checkUpdated();
 		
@@ -87,8 +91,7 @@ public class MainActivity extends AppCompatActivity {
 			String action = open.getAction();
 			String type = open.getType();
 			if(action.equals(Intent.ACTION_SEND) && type != null){
-				defaultPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-				uppercase = defaultPreferences.getBoolean("output_case",true);
+                getPreferences();
 				if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
 					if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
 						requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_FILE_PERMISSION_CODE_SHARE);
@@ -103,7 +106,15 @@ public class MainActivity extends AppCompatActivity {
 			}
 		}
     }
-	
+
+    private void getPreferences(){
+        defaultPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        eSHA256 = defaultPreferences.getBoolean("output_sha256",true);
+        eSHA384 = defaultPreferences.getBoolean("output_sha384",true);
+        eSHA512 = defaultPreferences.getBoolean("output_sha512",true);
+        uppercase = defaultPreferences.getBoolean("output_case",true);
+    }
+
 	private void bindView(){
 		mToolbar = (Toolbar)findViewById(R.id.toolbar);
 		mToolbar.setTitle(getTitle());
@@ -125,7 +136,6 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         mDrawerToggle.syncState();
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
 
 		if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
 			WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();    
@@ -170,31 +180,41 @@ public class MainActivity extends AppCompatActivity {
 		});
 		
 		mRoot = (CoordinatorLayout)findViewById(R.id.rootLayout);
-		
+
+        getPreferences();
 		mResult = (CardView)findViewById(R.id.result);
 		mFile = (TextView)findViewById(R.id.file);
 		mMD5 = (TextView)findViewById(R.id.md5);
 		mSHA1 = (TextView)findViewById(R.id.sha1);
 		mSHA256 = (TextView)findViewById(R.id.sha256);
+        if (eSHA256)
+            mSHA256.setVisibility(View.VISIBLE);
+        else
+            mSHA256.setVisibility(View.GONE);
 		mSHA384 = (TextView)findViewById(R.id.sha384);
-		mSHA512 = (TextView)findViewById(R.id.sha512);
-		
-		mCheck = (CardView)findViewById(R.id.check);
+        if (eSHA384)
+            mSHA384.setVisibility(View.VISIBLE);
+        else
+            mSHA384.setVisibility(View.GONE);
+        mSHA512 = (TextView)findViewById(R.id.sha512);
+        if (eSHA512)
+            mSHA512.setVisibility(View.VISIBLE);
+        else
+            mSHA512.setVisibility(View.GONE);
 		mCheckInput = (EditText)findViewById(R.id.checkInput);
 		mCheckInput.addTextChangedListener(new TextWatcher(){
 			@Override
 			public void beforeTextChanged(CharSequence text, int start, int count, int after){
-				// TODO: Implement this method
+
 			}
 
 			@Override
 			public void onTextChanged(CharSequence text, int start, int before, int count){
-				// TODO: Implement this method
+
 			}
 				
 			@Override
 			public void afterTextChanged(Editable text){
-				// TODO: Implement this method
 				String check = null;
 				Pattern lowerPattern = Pattern.compile("[a-z]");
 				Pattern upperPattern = Pattern.compile("[A-Z]");
@@ -224,9 +244,15 @@ public class MainActivity extends AppCompatActivity {
 					mCheckInput.setTextColor(Color.parseColor("#FF0000"));
 					mMD5.setTextColor(Color.parseColor("#797979"));
 					mSHA1.setTextColor(Color.parseColor("#797979"));
-					mSHA256.setTextColor(Color.parseColor("#797979"));
-					mSHA384.setTextColor(Color.parseColor("#797979"));
-					mSHA512.setTextColor(Color.parseColor("#797979"));
+                    if (eSHA256) {
+                        mSHA256.setTextColor(Color.parseColor("#797979"));
+                    }
+                    if (eSHA384) {
+                        mSHA384.setTextColor(Color.parseColor("#797979"));
+                    }
+                    if (eSHA512) {
+                        mSHA512.setTextColor(Color.parseColor("#797979"));
+                    }
 				} else {
 					if(text.toString().equals(md5)) {
 						mMD5.setTextColor(Color.parseColor("#00CD00"));
@@ -234,13 +260,13 @@ public class MainActivity extends AppCompatActivity {
 					} else if(text.toString().equals(sha1)) {
 						mSHA1.setTextColor(Color.parseColor("#00CD00"));
 						mCheckInput.setTextColor(Color.parseColor("#00CD00"));
-					} else if(text.toString().equals(sha256)) {
+					} else if(eSHA256 && text.toString().equals(sha256)) {
 						mSHA256.setTextColor(Color.parseColor("#00CD00"));
 						mCheckInput.setTextColor(Color.parseColor("#00CD00"));
-					} else if(text.toString().equals(sha384)) {
+					} else if(eSHA384 && text.toString().equals(sha384)) {
 						mSHA384.setTextColor(Color.parseColor("#00CD00"));
 						mCheckInput.setTextColor(Color.parseColor("#00CD00"));
-					} else if(text.toString().equals(sha512)) {
+					} else if(eSHA512 && text.toString().equals(sha512)) {
 						mSHA512.setTextColor(Color.parseColor("#00CD00"));
 						mCheckInput.setTextColor(Color.parseColor("#00CD00"));
 					}
@@ -254,8 +280,7 @@ public class MainActivity extends AppCompatActivity {
 		intent.setType("*/*"); 
 		intent.addCategory(Intent.CATEGORY_OPENABLE);
 
-		defaultPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		uppercase = defaultPreferences.getBoolean("output_case",true);
+		getPreferences();
 		
 		try {
 			startActivityForResult(Intent.createChooser(intent, "Select a File to Upload"), FILE_SELECT_CODE);
@@ -328,28 +353,51 @@ public class MainActivity extends AppCompatActivity {
 			final File file = new File(FileUtils.getPath(this,uri));
 			final Resources res = getResources();
 
+            getPreferences();
+            if (eSHA256)
+                mSHA256.setVisibility(View.VISIBLE);
+            else
+                mSHA256.setVisibility(View.GONE);
+            if (eSHA384)
+                mSHA384.setVisibility(View.VISIBLE);
+            else
+                mSHA384.setVisibility(View.GONE);
+            if (eSHA512)
+                mSHA512.setVisibility(View.VISIBLE);
+            else
+                mSHA512.setVisibility(View.GONE);
+
 			final ProgressDialog dialog = ProgressDialog.show(MainActivity.this,null,"Calculating...",true);
 			new Thread(){
 				@Override
 				public void run(){
 					md5 = HashTool.getFileHash("MD5",file);
 					sha1 = HashTool.getFileHash("SHA1",file);
-					sha256 = HashTool.getFileHash("SHA256",file);
-					sha384 = HashTool.getFileHash("SHA384",file);
-					sha512 = HashTool.getFileHash("SHA512",file);
+                    if (eSHA256)
+					    sha256 = HashTool.getFileHash("SHA256",file);
+                    if (eSHA384)
+					    sha384 = HashTool.getFileHash("SHA384",file);
+                    if (eSHA512)
+                        sha512 = HashTool.getFileHash("SHA512",file);
 					
 					if(uppercase){
 						md5 = md5.toUpperCase();
 						sha1 = sha1.toUpperCase();
-						sha256 = sha256.toUpperCase();
-						sha384 = sha384.toUpperCase();
-						sha512 = sha512.toUpperCase();
+                        if (eSHA256)
+						    sha256 = sha256.toUpperCase();
+                        if (eSHA384)
+						    sha384 = sha384.toUpperCase();
+                        if (eSHA512)
+						    sha512 = sha512.toUpperCase();
 					} else {
 						md5 = md5.toLowerCase();
 						sha1 = sha1.toLowerCase();
-						sha256 = sha256.toLowerCase();
-						sha384 = sha384.toLowerCase();
-						sha512 = sha512.toLowerCase();
+                        if (eSHA256)
+						    sha256 = sha256.toLowerCase();
+                        if (eSHA384)
+						    sha384 = sha384.toLowerCase();
+                        if (eSHA512)
+						    sha512 = sha512.toLowerCase();
 					}
 					
 					runOnUiThread(new Runnable(){
@@ -360,7 +408,6 @@ public class MainActivity extends AppCompatActivity {
 								mFile.setText(String.format(res.getString(R.string.file),file.getAbsolutePath()));
 
 								mResult.setVisibility(View.VISIBLE);
-								mCheck.setVisibility(View.VISIBLE);
 								mCheckInput.requestFocus();
 								mCheckInput.setFocusableInTouchMode(true);
 

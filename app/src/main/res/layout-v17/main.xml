@@ -107,12 +107,12 @@ limitations under the License.
                             android:layout_marginBottom="10dp"
                             android:visibility="gone"/>
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="#60797979"/>
+						<View
+							android:layout_width="match_parent"
+							android:layout_height="1dp"
+							android:background="#60797979"/>
 
-                        <android.support.design.widget.TextInputLayout
+						<android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
@@ -138,8 +138,8 @@ limitations under the License.
 			android:id="@+id/fab"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_gravity="bottom|right"
-			android:layout_marginRight="16dp"
+			android:layout_gravity="bottom|end"
+			android:layout_marginEnd="16dp"
 			android:layout_marginBottom="16dp"
 			android:src="@drawable/ic_add"
 			app:fabSize="normal"/>
