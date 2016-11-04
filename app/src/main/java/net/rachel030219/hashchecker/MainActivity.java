@@ -36,6 +36,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.CoordinatorLayout;
@@ -59,11 +60,9 @@ public class MainActivity extends AppCompatActivity {
 	String sha384 = null;
 	String sha512 = null;
 
-    HashMap<Integer,String> mMD5Map;
-    HashMap<Integer,String> mSHA1Map;
-    HashMap<Integer,String> mSHA256Map;
-    HashMap<Integer,String> mSHA384Map;
-    HashMap<Integer,String> mSHA512Map;
+    HashMap<Integer,String> mMap;
+
+    ArrayList<HashMap<Integer,String>> mDatas;
 
     boolean eSHA256 = true;
     boolean eSHA384 = true;
@@ -87,7 +86,15 @@ public class MainActivity extends AppCompatActivity {
 
 		bindView();
 		checkUpdated();
-		
+
+        mMap = new HashMap<Integer, String>();
+        mDatas = new ArrayList<>();
+
+        mRecycler = (RecyclerView)findViewById(R.id.recycler);
+        mRecycler.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new RecyclerAdapter();
+        mRecycler.setAdapter(adapter);
+
 		// handle share
 		Intent open = getIntent();
 		if(open != null){
@@ -191,10 +198,6 @@ public class MainActivity extends AppCompatActivity {
 		});
 		
 		mRoot = (CoordinatorLayout)findViewById(R.id.rootLayout);
-
-        mRecycler = (RecyclerView)findViewById(R.id.recycler);
-        adapter = new RecyclerAdapter();
-        mRecycler.setAdapter(adapter);
 	}
 	
 	private void showFileChooser() {
@@ -204,7 +207,6 @@ public class MainActivity extends AppCompatActivity {
 		
 		try {
 			startActivityForResult(Intent.createChooser(intent, "Select a File to Upload"), FILE_SELECT_CODE);
-            adapter.clearEditText();
 		} catch (android.content.ActivityNotFoundException ex) {
 			android.widget.Toast.makeText(this, "Please install a File Manager.", android.widget.Toast.LENGTH_SHORT).show();
 		}
@@ -232,6 +234,7 @@ public class MainActivity extends AppCompatActivity {
 			case FILE_SELECT_CODE:
 				if(resultCode == RESULT_OK){
 					updateResult(data.getData());
+                    adapter.notifyDataSetChanged();
 				}
 				break;
 		}
@@ -260,7 +263,6 @@ public class MainActivity extends AppCompatActivity {
 	public void updateResult(Uri uri){
 		try{
 			final File file = new File(FileUtils.getPath(this,uri));
-			final Resources res = getResources();
 
 			final ProgressDialog dialog = ProgressDialog.show(MainActivity.this,null,"Calculating...",true);
 			new Thread(){
@@ -295,16 +297,18 @@ public class MainActivity extends AppCompatActivity {
 						    sha512 = sha512.toLowerCase();
 					}
 
-                    mMD5Map.put(1,md5);
-                    mSHA1Map.put(1,sha1);
-                    mSHA256Map.put(1,sha256);
-                    mSHA384Map.put(1,sha384);
-                    mSHA512Map.put(1,sha512);
+                    mMap = new HashMap<>();
+                    mMap.put(1,file.getAbsolutePath());
+                    mMap.put(2,md5);
+                    mMap.put(3,sha1);
+                    mMap.put(4,sha256);
+                    mMap.put(5,sha384);
+                    mMap.put(6,sha512);
+                    mDatas.add(mMap);
 
 					runOnUiThread(new Runnable(){
 							@Override
 							public void run(){
-                                adapter.updateUI(file.getAbsolutePath());
 								dialog.dismiss();
 							}
 						});
@@ -334,35 +338,62 @@ public class MainActivity extends AppCompatActivity {
 
     // 以下是 RecyclerView 的 Adapter
     class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder>{
-        Holder holder;
-
         @Override
         public void onBindViewHolder(Holder holder, int position) {
+            Resources res = getResources();
 
+            String path = mDatas.get(position).get(1);
+            String md5 = mDatas.get(position).get(2);
+            String sha1 = mDatas.get(position).get(3);
+            String sha256 = mDatas.get(position).get(4);
+            String sha384 = mDatas.get(position).get(5);
+            String sha512 = mDatas.get(position).get(6);
+
+            holder.mFile.setText(String.format(res.getString(R.string.file),path));
+            
+            holder.mMD5.setText(String.format(res.getString(R.string.md5),md5));
+            holder.mSHA1.setText(String.format(res.getString(R.string.sha1),sha1));
+            holder.mSHA256.setText(String.format(res.getString(R.string.sha256),sha256));
+            holder.mSHA384.setText(String.format(res.getString(R.string.sha384),sha384));
+            holder.mSHA512.setText(String.format(res.getString(R.string.sha512),sha512));
+
+            holder.mMD5.setOnLongClickListener(new OnHashLongClick(md5,"MD5"));
+            holder.mSHA1.setOnLongClickListener(new OnHashLongClick(sha1,"SHA1"));
+            holder.mSHA256.setOnLongClickListener(new OnHashLongClick(sha256,"SHA256"));
+            holder.mSHA384.setOnLongClickListener(new OnHashLongClick(sha384,"SHA384"));
+            holder.mSHA512.setOnLongClickListener(new OnHashLongClick(sha512,"SHA512"));
+
+            holder.mCheckInput.addTextChangedListener(new Watcher(holder,md5,sha1,sha256,sha384,sha512));
+
+            if (eSHA256) {
+                holder.mSHA256.setVisibility(View.VISIBLE);
+            } else {
+                holder.mSHA256.setVisibility(View.GONE);
+            }
+            if (eSHA384) {
+                holder.mSHA384.setVisibility(View.VISIBLE);
+            } else {
+                holder.mSHA384.setVisibility(View.GONE);
+            }
+            if (eSHA512) {
+                holder.mSHA512.setVisibility(View.VISIBLE);
+            } else {
+                holder.mSHA512.setVisibility(View.GONE);
+            }
         }
-
+        
         @Override
         public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-            this.holder = new Holder(LayoutInflater.from(MainActivity.this).inflate(R.layout.recycler_item,parent,false));
+            Holder holder = new Holder(LayoutInflater.from(MainActivity.this).inflate(R.layout.recycler_item,parent,false));
             return holder;
         }
 
         @Override
         public int getItemCount() {
-            return 0;
-        }
-
-        public void updateUI(String path){
-            holder.updateUI(path);
-        }
-
-        public void clearEditText(){
-            // TODO:这里仍然有 Bug ，还有不知道多少 Bug ，下星期上来弄
-            holder.clear();
+            return mDatas.size();
         }
 
         class Holder extends RecyclerView.ViewHolder{
-
             CardView mResult;
             TextView mFile;
             TextView mMD5;
@@ -374,150 +405,114 @@ public class MainActivity extends AppCompatActivity {
 
             Holder(View view){
                 super(view);
-                bind();
-            }
-
-            void updateUI(String path){
-                Resources res = getResources();
-                showHided();
-
-                mFile.setText(String.format(res.getString(R.string.file),path));
-
-                mResult.setVisibility(View.VISIBLE);
-                mCheckInput.requestFocus();
-                mCheckInput.setFocusableInTouchMode(true);
-
-                mMD5.setText(String.format(res.getString(R.string.md5),md5));
-                mSHA1.setText(String.format(res.getString(R.string.sha1),sha1));
-                mSHA256.setText(String.format(res.getString(R.string.sha256),sha256));
-                mSHA384.setText(String.format(res.getString(R.string.sha384),sha384));
-                mSHA512.setText(String.format(res.getString(R.string.sha512),sha512));
-
-                mMD5.setOnLongClickListener(new OnHashLongClick(md5,"MD5"));
-                mSHA1.setOnLongClickListener(new OnHashLongClick(sha1,"SHA1"));
-                mSHA256.setOnLongClickListener(new OnHashLongClick(sha256,"SHA256"));
-                mSHA384.setOnLongClickListener(new OnHashLongClick(sha384,"SHA384"));
-                mSHA512.setOnLongClickListener(new OnHashLongClick(sha512,"SHA512"));
-            }
-
-            void bind(){
                 // 常规
-                mResult = (CardView)findViewById(R.id.result);
-                mFile = (TextView)findViewById(R.id.file);
+                mResult = (CardView)view.findViewById(R.id.result);
+                mFile = (TextView)view.findViewById(R.id.file);
 
-                mMD5 = (TextView)findViewById(R.id.md5);
-                mMD5Map = new HashMap<Integer,String>();
-                mMD5Map.put(1,md5);
+                mMD5 = (TextView)view.findViewById(R.id.md5);
 
-                mSHA1 = (TextView)findViewById(R.id.sha1);
-                mSHA1Map = new HashMap<Integer,String>();
-                mSHA1Map.put(1,sha1);
+                mSHA1 = (TextView)view.findViewById(R.id.sha1);
 
-                mSHA256 = (TextView)findViewById(R.id.sha256);
-                mSHA384 = (TextView)findViewById(R.id.sha384);
-                mSHA512 = (TextView)findViewById(R.id.sha512);
-
-                mSHA256Map = new HashMap<Integer, String>();
-                mSHA384Map = new HashMap<Integer, String>();
-                mSHA512Map = new HashMap<Integer, String>();
-                showHided();
+                mSHA256 = (TextView)view.findViewById(R.id.sha256);
+                mSHA384 = (TextView)view.findViewById(R.id.sha384);
+                mSHA512 = (TextView)view.findViewById(R.id.sha512);
 
                 // EditText
-                mCheckInput = (EditText)findViewById(R.id.checkInput);
-                mCheckInput.addTextChangedListener(new TextWatcher(){
+                mCheckInput = (EditText)view.findViewById(R.id.checkInput);
+                mCheckInput.setOnClickListener(new View.OnClickListener(){
                     @Override
-                    public void beforeTextChanged(CharSequence text, int start, int count, int after){
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence text, int start, int before, int count){
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable text){
-                        String check = null;
-                        Pattern lowerPattern = Pattern.compile("[a-z]");
-                        Pattern upperPattern = Pattern.compile("[A-Z]");
-                        if(!text.toString().equals(""))
-                            check = text.toString().substring(0,text.toString().length());
-                        if(uppercase){
-                            if(check != null){
-                                Matcher matcher = lowerPattern.matcher(check);
-                                if(matcher.find()){
-                                    int selection = mCheckInput.getSelectionStart();
-                                    mCheckInput.setText(text.toString().toUpperCase());
-                                    mCheckInput.setSelection(selection);
-                                }
-                            }
-                        } else {
-                            if(check != null){
-                                Matcher matcher = upperPattern.matcher(check);
-                                if(matcher.find()){
-                                    int selection = mCheckInput.getSelectionStart();
-                                    mCheckInput.setText(text.toString().toLowerCase());
-                                    mCheckInput.setSelection(selection);
-                                }
-                            }
-                        }
-
-                        if(!text.toString().equals(md5) && !text.toString().equals(sha1) && !text.toString().equals(sha256) && !text.toString().equals(sha384) && !text.toString().equals(sha512)) {
-                            mCheckInput.setTextColor(Color.parseColor("#FF0000"));
-                            mMD5.setTextColor(Color.parseColor("#797979"));
-                            mSHA1.setTextColor(Color.parseColor("#797979"));
-                            if (eSHA256) {
-                                mSHA256.setTextColor(Color.parseColor("#797979"));
-                            }
-                            if (eSHA384) {
-                                mSHA384.setTextColor(Color.parseColor("#797979"));
-                            }
-                            if (eSHA512) {
-                                mSHA512.setTextColor(Color.parseColor("#797979"));
-                            }
-                        } else {
-                            if(text.toString().equals(md5)) {
-                                mMD5.setTextColor(Color.parseColor("#00CD00"));
-                                mCheckInput.setTextColor(Color.parseColor("#00CD00"));
-                            } else if(text.toString().equals(sha1)) {
-                                mSHA1.setTextColor(Color.parseColor("#00CD00"));
-                                mCheckInput.setTextColor(Color.parseColor("#00CD00"));
-                            } else if(eSHA256 && text.toString().equals(sha256)) {
-                                mSHA256.setTextColor(Color.parseColor("#00CD00"));
-                                mCheckInput.setTextColor(Color.parseColor("#00CD00"));
-                            } else if(eSHA384 && text.toString().equals(sha384)) {
-                                mSHA384.setTextColor(Color.parseColor("#00CD00"));
-                                mCheckInput.setTextColor(Color.parseColor("#00CD00"));
-                            } else if(eSHA512 && text.toString().equals(sha512)) {
-                                mSHA512.setTextColor(Color.parseColor("#00CD00"));
-                                mCheckInput.setTextColor(Color.parseColor("#00CD00"));
-                            }
-                        }
+                    public void onClick(View v){
+                        v.requestFocus();
+                        v.setFocusableInTouchMode(true);
                     }
                 });
             }
-            void showHided(){
-                if (eSHA256) {
-                    mSHA256.setVisibility(View.VISIBLE);
-                    mSHA256Map.put(1, sha256);
-                } else {
-                    mSHA256.setVisibility(View.GONE);
-                }
-                if (eSHA384) {
-                    mSHA384.setVisibility(View.VISIBLE);
-                    mSHA384Map.put(1, sha384);
-                } else {
-                    mSHA384.setVisibility(View.GONE);
-                }
-                if (eSHA512) {
-                    mSHA512.setVisibility(View.VISIBLE);
-                    mSHA512Map.put(1, sha512);
-                } else {
-                    mSHA512.setVisibility(View.GONE);
-                }
+        }
+
+        class Watcher implements TextWatcher{
+            Holder holder;
+            String md5;
+            String sha1;
+            String sha256;
+            String sha384;
+            String sha512;
+
+            Watcher(Holder holder,String md5,String sha1,String sha256,String sha384,String sha512){
+                this.holder = holder;
+                this.md5 = md5;
+                this.sha1 = sha1;
+                this.sha256 = sha256;
+                this.sha384 = sha384;
+                this.sha512 = sha512;
             }
-            void clear(){
-                mCheckInput.setText("");
+            @Override
+            public void beforeTextChanged(CharSequence text, int start, int count, int after){
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence text, int start, int before, int count){
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable text){
+                String check = null;
+                Pattern lowerPattern = Pattern.compile("[a-z]");
+                Pattern upperPattern = Pattern.compile("[A-Z]");
+                if(!text.toString().equals(""))
+                    check = text.toString().substring(0,text.toString().length());
+                if(uppercase){
+                    if(check != null){
+                        Matcher matcher = lowerPattern.matcher(check);
+                        if(matcher.find()){
+                            int selection = holder.mCheckInput.getSelectionStart();
+                            holder.mCheckInput.setText(text.toString().toUpperCase());
+                            holder.mCheckInput.setSelection(selection);
+                        }
+                    }
+                } else {
+                    if(check != null){
+                        Matcher matcher = upperPattern.matcher(check);
+                        if(matcher.find()){
+                            int selection = holder.mCheckInput.getSelectionStart();
+                            holder.mCheckInput.setText(text.toString().toLowerCase());
+                            holder.mCheckInput.setSelection(selection);
+                        }
+                    }
+                }
+
+                if(!text.toString().equals(md5) && !text.toString().equals(sha1) && !text.toString().equals(sha256) && !text.toString().equals(sha384) && !text.toString().equals(sha512)) {
+                    holder.mCheckInput.setTextColor(Color.parseColor("#FF0000"));
+                    holder.mMD5.setTextColor(Color.parseColor("#797979"));
+                    holder.mSHA1.setTextColor(Color.parseColor("#797979"));
+                    if (eSHA256) {
+                        holder.mSHA256.setTextColor(Color.parseColor("#797979"));
+                    }
+                    if (eSHA384) {
+                        holder.mSHA384.setTextColor(Color.parseColor("#797979"));
+                    }
+                    if (eSHA512) {
+                        holder.mSHA512.setTextColor(Color.parseColor("#797979"));
+                    }
+                } else {
+                    if(text.toString().equals(md5)) {
+                        holder.mMD5.setTextColor(Color.parseColor("#00CD00"));
+                        holder.mCheckInput.setTextColor(Color.parseColor("#00CD00"));
+                    } else if(text.toString().equals(sha1)) {
+                        holder.mSHA1.setTextColor(Color.parseColor("#00CD00"));
+                        holder.mCheckInput.setTextColor(Color.parseColor("#00CD00"));
+                    } else if(eSHA256 && text.toString().equals(sha256)) {
+                        holder.mSHA256.setTextColor(Color.parseColor("#00CD00"));
+                        holder.mCheckInput.setTextColor(Color.parseColor("#00CD00"));
+                    } else if(eSHA384 && text.toString().equals(sha384)) {
+                        holder.mSHA384.setTextColor(Color.parseColor("#00CD00"));
+                        holder.mCheckInput.setTextColor(Color.parseColor("#00CD00"));
+                    } else if(eSHA512 && text.toString().equals(sha512)) {
+                        holder.mSHA512.setTextColor(Color.parseColor("#00CD00"));
+                        holder.mCheckInput.setTextColor(Color.parseColor("#00CD00"));
+                    }
+                }
             }
         }
     }

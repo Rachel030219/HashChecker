@@ -28,7 +28,8 @@ limitations under the License.
 
         <activity
             android:name="net.rachel030219.hashchecker.MainActivity"
-			android:theme="@style/AppTheme.Transparent">
+			android:theme="@style/AppTheme.Transparent"
+			android:windowSoftInputMode="stateHidden|adjustPan">
 
             <intent-filter>
 
