@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 	private static final int FILE_SELECT_CODE = 1;
 	private static final int REQUEST_FILE_PERMISSION_CODE_INAPP = 2;
 	private static final int REQUEST_FILE_PERMISSION_CODE_SHARE = 3;
+    private static final int REQUEST_FILE_PERMISSION_CODE_MULTI_SHARE = 4;
 	
 	Toolbar mToolbar;
 	ActionBar mActionBar;
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
     boolean eSHA256 = true;
     boolean eSHA384 = true;
     boolean eSHA512 = true;
+    boolean eCover = true;
 
 	ClipboardManager manager;
 	
@@ -75,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
 
     RecyclerView mRecycler;
     RecyclerAdapter adapter;
+
+    boolean multiShare = false;
 	
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -101,20 +105,11 @@ public class MainActivity extends AppCompatActivity {
 			String action = open.getAction();
 			String type = open.getType();
 			if(action.equals(Intent.ACTION_SEND) && type != null){
-				if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-					if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-						requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_FILE_PERMISSION_CODE_SHARE);
-					} else {
-						Uri data = open.getParcelableExtra(Intent.EXTRA_STREAM);
-						updateResult(data);
-					}
-				} else {
-					Uri data = open.getParcelableExtra(Intent.EXTRA_STREAM);
-					updateResult(data);
-				}
+                multiShare = false;
+                checkPermissions(REQUEST_FILE_PERMISSION_CODE_SHARE,open);
 			} else if(action.equals(Intent.ACTION_SEND_MULTIPLE)){
-                // TODO:这里需要 handle
-                ArrayList<?> list = open.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
+                multiShare = true;
+                checkPermissions(REQUEST_FILE_PERMISSION_CODE_MULTI_SHARE,open);
             }
 		}
     }
@@ -130,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
         eSHA256 = defaultPreferences.getBoolean("output_sha256",true);
         eSHA384 = defaultPreferences.getBoolean("output_sha384",true);
         eSHA512 = defaultPreferences.getBoolean("output_sha512",true);
+        eCover = defaultPreferences.getBoolean("output_cover",true);
         uppercase = defaultPreferences.getBoolean("output_case",true);
     }
 
@@ -185,15 +181,7 @@ public class MainActivity extends AppCompatActivity {
 		mFab.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v){
-				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-					if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-						requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_FILE_PERMISSION_CODE_INAPP);
-					} else {
-						showFileChooser();
-					}
-				} else {
-					showFileChooser();
-				}
+				checkPermissions(REQUEST_FILE_PERMISSION_CODE_INAPP,null);
 			}
 		});
 		
@@ -206,6 +194,7 @@ public class MainActivity extends AppCompatActivity {
 		intent.addCategory(Intent.CATEGORY_OPENABLE);
 		
 		try {
+            multiShare = false;
 			startActivityForResult(Intent.createChooser(intent, "Select a File to Upload"), FILE_SELECT_CODE);
 		} catch (android.content.ActivityNotFoundException ex) {
 			android.widget.Toast.makeText(this, "Please install a File Manager.", android.widget.Toast.LENGTH_SHORT).show();
@@ -234,12 +223,51 @@ public class MainActivity extends AppCompatActivity {
 			case FILE_SELECT_CODE:
 				if(resultCode == RESULT_OK){
 					updateResult(data.getData());
-                    adapter.notifyDataSetChanged();
 				}
 				break;
 		}
 		super.onActivityResult(requestCode,resultCode,data);
 	}
+
+    public void checkPermissions(int REQUEST_CODE,Intent intent){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_CODE);
+            } else {
+                switch(REQUEST_CODE){
+                    case REQUEST_FILE_PERMISSION_CODE_INAPP:
+                        showFileChooser();
+                        break;
+                    case REQUEST_FILE_PERMISSION_CODE_SHARE:
+                        Uri data = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                        updateResult(data);
+                        break;
+                    case REQUEST_FILE_PERMISSION_CODE_MULTI_SHARE:
+                        ArrayList<Uri> list = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
+                        for(int i = 0;i < list.size();i++){
+                            updateResult(list.get(i));
+                        }
+                        break;
+                }
+            }
+        } else {
+            switch(REQUEST_CODE){
+                case REQUEST_FILE_PERMISSION_CODE_INAPP:
+                    showFileChooser();
+                    break;
+                case REQUEST_FILE_PERMISSION_CODE_SHARE:
+                    Uri data = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                    updateResult(data);
+                    break;
+                case REQUEST_FILE_PERMISSION_CODE_MULTI_SHARE:
+                    ArrayList<Uri> list = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
+                    for(int i = 0;i < list.size();i++){
+                        updateResult(list.get(i));
+                    }
+                    break;
+            }
+        }
+    }
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults){
@@ -268,6 +296,7 @@ public class MainActivity extends AppCompatActivity {
 			new Thread(){
 				@Override
 				public void run(){
+                    getPreferences();
 					md5 = HashTool.getFileHash("MD5",file);
 					sha1 = HashTool.getFileHash("SHA1",file);
                     if (eSHA256)
@@ -276,40 +305,46 @@ public class MainActivity extends AppCompatActivity {
 					    sha384 = HashTool.getFileHash("SHA384",file);
                     if (eSHA512)
                         sha512 = HashTool.getFileHash("SHA512",file);
-					
-					if(uppercase){
-						md5 = md5.toUpperCase();
-						sha1 = sha1.toUpperCase();
-                        if (eSHA256)
-						    sha256 = sha256.toUpperCase();
-                        if (eSHA384)
-						    sha384 = sha384.toUpperCase();
-                        if (eSHA512)
-						    sha512 = sha512.toUpperCase();
-					} else {
-						md5 = md5.toLowerCase();
-						sha1 = sha1.toLowerCase();
-                        if (eSHA256)
-						    sha256 = sha256.toLowerCase();
-                        if (eSHA384)
-						    sha384 = sha384.toLowerCase();
-                        if (eSHA512)
-						    sha512 = sha512.toLowerCase();
-					}
 
-                    mMap = new HashMap<>();
-                    mMap.put(1,file.getAbsolutePath());
-                    mMap.put(2,md5);
-                    mMap.put(3,sha1);
-                    mMap.put(4,sha256);
-                    mMap.put(5,sha384);
-                    mMap.put(6,sha512);
-                    mDatas.add(mMap);
+					if(uppercase){
+                        mMap = new HashMap<>();
+                        mMap.put(1,file.getAbsolutePath());
+
+						mMap.put(2,md5.toUpperCase());
+                        mMap.put(3,sha1.toUpperCase());
+                        if (eSHA256)
+						    mMap.put(4,sha256.toUpperCase());
+                        if (eSHA384)
+						    mMap.put(5,sha384.toUpperCase());
+                        if (eSHA512)
+						    mMap.put(6,sha512.toUpperCase());
+
+                        if(!multiShare && eCover)
+                            mDatas = new ArrayList<>();
+                        mDatas.add(mMap);
+					} else {
+                        mMap = new HashMap<>();
+                        mMap.put(1,file.getAbsolutePath());
+
+                        mMap.put(2,md5.toLowerCase());
+                        mMap.put(3,sha1.toLowerCase());
+                        if (eSHA256)
+                            mMap.put(4,sha256.toLowerCase());
+                        if (eSHA384)
+                            mMap.put(5,sha384.toLowerCase());
+                        if (eSHA512)
+                            mMap.put(6,sha512.toLowerCase());
+
+                        if(!multiShare && eCover)
+                            mDatas = new ArrayList<>();
+                        mDatas.add(mMap);
+					}
 
 					runOnUiThread(new Runnable(){
 							@Override
 							public void run(){
 								dialog.dismiss();
+                                adapter.notifyDataSetChanged();
 							}
 						});
 				}
@@ -356,6 +391,7 @@ public class MainActivity extends AppCompatActivity {
             holder.mSHA256.setText(String.format(res.getString(R.string.sha256),sha256));
             holder.mSHA384.setText(String.format(res.getString(R.string.sha384),sha384));
             holder.mSHA512.setText(String.format(res.getString(R.string.sha512),sha512));
+            holder.mCheckInput.setText("");
 
             holder.mMD5.setOnLongClickListener(new OnHashLongClick(md5,"MD5"));
             holder.mSHA1.setOnLongClickListener(new OnHashLongClick(sha1,"SHA1"));
@@ -452,7 +488,42 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence text, int start, int before, int count){
-
+                String check = null;
+                if (!text.equals(""))
+                    check = text.subSequence(0,text.toString().length()).toString();
+                if(check != null){
+                    if(!check.toString().equals(md5) && !check.toString().equals(sha1) && !check.toString().equals(sha256) && !check.toString().equals(sha384) && !check.toString().equals(sha512)) {
+                        holder.mCheckInput.setTextColor(Color.parseColor("#FF0000"));
+                        holder.mMD5.setTextColor(Color.parseColor("#797979"));
+                        holder.mSHA1.setTextColor(Color.parseColor("#797979"));
+                        if (eSHA256) {
+                            holder.mSHA256.setTextColor(Color.parseColor("#797979"));
+                        }
+                        if (eSHA384) {
+                            holder.mSHA384.setTextColor(Color.parseColor("#797979"));
+                        }
+                        if (eSHA512) {
+                            holder.mSHA512.setTextColor(Color.parseColor("#797979"));
+                        }
+                    } else {
+                        if(check.toString().equals(md5)) {
+                            holder.mMD5.setTextColor(Color.parseColor("#00CD00"));
+                            holder.mCheckInput.setTextColor(Color.parseColor("#00CD00"));
+                        } else if(check.toString().equals(sha1)) {
+                            holder.mSHA1.setTextColor(Color.parseColor("#00CD00"));
+                            holder.mCheckInput.setTextColor(Color.parseColor("#00CD00"));
+                        } else if(eSHA256 && check.toString().equals(sha256)) {
+                            holder.mSHA256.setTextColor(Color.parseColor("#00CD00"));
+                            holder.mCheckInput.setTextColor(Color.parseColor("#00CD00"));
+                        } else if(eSHA384 && check.toString().equals(sha384)) {
+                            holder.mSHA384.setTextColor(Color.parseColor("#00CD00"));
+                            holder.mCheckInput.setTextColor(Color.parseColor("#00CD00"));
+                        } else if(eSHA512 && check.toString().equals(sha512)) {
+                            holder.mSHA512.setTextColor(Color.parseColor("#00CD00"));
+                            holder.mCheckInput.setTextColor(Color.parseColor("#00CD00"));
+                        }
+                    }
+                }
             }
 
             @Override
@@ -469,6 +540,7 @@ public class MainActivity extends AppCompatActivity {
                             int selection = holder.mCheckInput.getSelectionStart();
                             holder.mCheckInput.setText(text.toString().toUpperCase());
                             holder.mCheckInput.setSelection(selection);
+                            check = text.toString().substring(0,text.toString().length());
                         }
                     }
                 } else {
@@ -478,39 +550,8 @@ public class MainActivity extends AppCompatActivity {
                             int selection = holder.mCheckInput.getSelectionStart();
                             holder.mCheckInput.setText(text.toString().toLowerCase());
                             holder.mCheckInput.setSelection(selection);
+                            check = text.toString().substring(0,text.toString().length());
                         }
-                    }
-                }
-
-                if(!text.toString().equals(md5) && !text.toString().equals(sha1) && !text.toString().equals(sha256) && !text.toString().equals(sha384) && !text.toString().equals(sha512)) {
-                    holder.mCheckInput.setTextColor(Color.parseColor("#FF0000"));
-                    holder.mMD5.setTextColor(Color.parseColor("#797979"));
-                    holder.mSHA1.setTextColor(Color.parseColor("#797979"));
-                    if (eSHA256) {
-                        holder.mSHA256.setTextColor(Color.parseColor("#797979"));
-                    }
-                    if (eSHA384) {
-                        holder.mSHA384.setTextColor(Color.parseColor("#797979"));
-                    }
-                    if (eSHA512) {
-                        holder.mSHA512.setTextColor(Color.parseColor("#797979"));
-                    }
-                } else {
-                    if(text.toString().equals(md5)) {
-                        holder.mMD5.setTextColor(Color.parseColor("#00CD00"));
-                        holder.mCheckInput.setTextColor(Color.parseColor("#00CD00"));
-                    } else if(text.toString().equals(sha1)) {
-                        holder.mSHA1.setTextColor(Color.parseColor("#00CD00"));
-                        holder.mCheckInput.setTextColor(Color.parseColor("#00CD00"));
-                    } else if(eSHA256 && text.toString().equals(sha256)) {
-                        holder.mSHA256.setTextColor(Color.parseColor("#00CD00"));
-                        holder.mCheckInput.setTextColor(Color.parseColor("#00CD00"));
-                    } else if(eSHA384 && text.toString().equals(sha384)) {
-                        holder.mSHA384.setTextColor(Color.parseColor("#00CD00"));
-                        holder.mCheckInput.setTextColor(Color.parseColor("#00CD00"));
-                    } else if(eSHA512 && text.toString().equals(sha512)) {
-                        holder.mSHA512.setTextColor(Color.parseColor("#00CD00"));
-                        holder.mCheckInput.setTextColor(Color.parseColor("#00CD00"));
                     }
                 }
             }

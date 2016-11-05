@@ -47,99 +47,11 @@ limitations under the License.
 			android:layout_width="match_parent"
 			app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-			<!--
-			<RelativeLayout
-				android:id="@+id/containerLayout"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
-
-				<android.support.v7.widget.CardView
-					android:id="@+id/result"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_centerInParent="true"
-					android:layout_alignParentTop="true"
-					android:layout_margin="16dp"
-					android:visibility="gone">
-					
-					<LinearLayout
-						android:layout_width="match_parent"
-						android:layout_height="match_parent"
-						android:padding="8dp"
-						android:gravity="center|start"
-						android:orientation="vertical">
-
-						<TextView
-							android:id="@+id/file"
-							android:layout_width="match_parent"
-							android:layout_height="wrap_content"
-							android:layout_marginBottom="10dp"/>
-
-						<TextView
-							android:id="@+id/md5"
-							android:layout_width="match_parent"
-							android:layout_height="wrap_content"
-							android:layout_marginBottom="10dp"/>
-
-						<TextView
-							android:id="@+id/sha1"
-							android:layout_width="match_parent"
-							android:layout_height="wrap_content"
-							android:layout_marginBottom="10dp"/>
-
-						<TextView
-							android:id="@+id/sha256"
-							android:layout_width="match_parent"
-							android:layout_height="wrap_content"
-							android:layout_marginBottom="10dp"
-                            android:visibility="gone"/>
-
-						<TextView
-							android:id="@+id/sha384"
-							android:layout_width="match_parent"
-							android:layout_height="wrap_content"
-							android:layout_marginBottom="10dp"
-                            android:visibility="gone"/>
-
-						<TextView
-							android:id="@+id/sha512"
-							android:layout_width="match_parent"
-							android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
-                            android:visibility="gone"/>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="#60797979"/>
-
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:visibility="visible">
-
-                            <EditText
-                                android:id="@+id/checkInput"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="@string/checkInput"/>
-
-                        </android.support.design.widget.TextInputLayout>
-
-					</LinearLayout>
-
-				</android.support.v7.widget.CardView>
-
-			</RelativeLayout>
-			-->
-
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:descendantFocusability="beforeDescendants"
-				android:fastScrollEnabled="true">
+                android:descendantFocusability="beforeDescendants">
 
             </android.support.v7.widget.RecyclerView>
 

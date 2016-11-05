@@ -50,6 +50,9 @@ limitations under the License.
     <string name="settings_output_sha512">SHA512</string>
     <string name="settings_output_sha512_on">Enable SHA512 output</string>
     <string name="settings_output_sha512_off">Disable SHA512 output</string>
+	<string name="settings_output_cover">Cover the result</string>
+    <string name="settings_output_cover_on">The result before will be covered after a new value is calculated</string>
+    <string name="settings_output_cover_off">The result before will not be covered after a new value is calculated</string>
 
 	<string name="about_version">HashChecker 1.3 STABLE</string>
 	<string name="about_projects">Open-source projects</string>
@@ -63,6 +66,6 @@ limitations under the License.
 	<string name="about_me_title">About me</string>
 	<string name="about_me_content">Hi, I am Rachel, a thirteen-year-old student(Grade Nine) and independent developer.\nI spent my free time developing on Android. All of my apps are free forever, hope you like them. And, please follow me on Twitter(@tangrui003 ) to get latest news and join the Telegram channel(@rachelnotice ) to get latest update notice, and feel free to ask me any question through Telegram(@Rachel030219 ).\n- Rachel, 2016</string>
 	<string name="updated_title">What\'s New</string>
-	<string name="updated_changelog">HashChecker 1.3 STABLE Changelog:\n- Added encrypting method selector\n- Supported RTS layout\n- Improved UI</string>
+	<string name="updated_changelog">HashChecker 1.3 STABLE Changelog:\n- Supported multiple calculations\n- Added encrypting method selector\n- Supported RTS layout\n- Improved UI</string>
 
 </resources>

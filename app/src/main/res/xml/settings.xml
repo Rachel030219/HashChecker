@@ -52,6 +52,14 @@ limitations under the License.
             android:summaryOn="@string/settings_output_sha512_on"
             android:summaryOff="@string/settings_output_sha512_off"
             android:defaultValue="true"/>
+
+		<CheckBoxPreference
+            android:layout="@layout/settings_item"
+            android:title="@string/settings_output_cover"
+            android:key="output_cover"
+            android:summaryOn="@string/settings_output_cover_on"
+            android:summaryOff="@string/settings_output_cover_off"
+            android:defaultValue="true"/>
 		
 	</PreferenceCategory>
 	

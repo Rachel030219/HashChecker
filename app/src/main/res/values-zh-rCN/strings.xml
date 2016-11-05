@@ -50,6 +50,9 @@ limitations under the License.
 	<string name="settings_output_sha512">SHA512</string>
 	<string name="settings_output_sha512_on">启用 SHA512 输出</string>
 	<string name="settings_output_sha512_off">禁用 SHA512 输出</string>
+	<string name="settings_output_cover">覆盖计算结果</string>
+	<string name="settings_output_cover_on">在新值计算出来后，原值将被覆盖</string>
+	<string name="settings_output_cover_off">在新值计算出来后，原值将不会被覆盖</string>
 
 	<string name="about_version">HashChecker 1.3 STABLE</string>
 	<string name="about_projects">开源项目</string>
