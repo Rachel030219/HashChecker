@@ -25,5 +25,15 @@ limitations under the License.
 		android:layout_width="match_parent"
 		android:layout_height="196dp"
 		android:scaleType="centerCrop"/>
+
+	<TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="end|bottom"
+        android:gravity="end|bottom"
+        android:background="@android:color/transparent"
+        android:textColor="#FFFFFF"
+        android:text="@string/header"
+        android:padding="8dp"/>
 	
 </FrameLayout>

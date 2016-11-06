@@ -17,8 +17,13 @@ package net.rachel030219.hashchecker;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.DigestInputStream;
+
+import java.util.zip.CRC32;
 
 public class HashTool{
 
@@ -92,5 +97,23 @@ public class HashTool{
 		return new String(resultCharArray);
 
 	}
-	
+
+	public static long getCRC32(File file){
+        try {
+            InputStream fi = new BufferedInputStream(new FileInputStream(file));
+
+            int gByte = 0;
+            CRC32 gCRC = new CRC32();
+            while ((gByte = fi.read()) != -1) {
+                gCRC.update(gByte);
+            }
+            fi.close();
+
+            return gCRC.getValue();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
 }

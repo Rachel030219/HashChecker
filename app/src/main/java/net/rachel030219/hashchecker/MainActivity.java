@@ -41,6 +41,9 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 	private static final int FILE_SELECT_CODE = 1;
@@ -60,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
 	String sha256 = null;
 	String sha384 = null;
 	String sha512 = null;
+    String crc32 = null;
 
     HashMap<Integer,String> mMap;
 
@@ -68,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
     boolean eSHA256 = true;
     boolean eSHA384 = true;
     boolean eSHA512 = true;
+    boolean eCRC32 = true;
     boolean eCover = true;
 
 	ClipboardManager manager;
@@ -125,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         eSHA256 = defaultPreferences.getBoolean("output_sha256",true);
         eSHA384 = defaultPreferences.getBoolean("output_sha384",true);
         eSHA512 = defaultPreferences.getBoolean("output_sha512",true);
+        eCRC32 = defaultPreferences.getBoolean("output_crc32",true);
         eCover = defaultPreferences.getBoolean("output_cover",true);
         uppercase = defaultPreferences.getBoolean("output_case",true);
     }
@@ -203,14 +209,15 @@ public class MainActivity extends AppCompatActivity {
 	
 	public void checkUpdated(){
 		final SharedPreferences preferences = getSharedPreferences("updated",MODE_PRIVATE);
-		if(!preferences.getBoolean("updated12",false)){
+		if(!preferences.getBoolean("updated13",false)){
+            preferences.edit().clear().apply();
 			AlertDialog.Builder dialog = new AlertDialog.Builder(this);
 			dialog.setTitle(R.string.updated_title);
 			dialog.setMessage(R.string.updated_changelog);
 			dialog.setPositiveButton("GOT IT",new DialogInterface.OnClickListener(){
 				@Override
 				public void onClick(DialogInterface dialog,int count){
-					preferences.edit().putBoolean("updated12",true).apply();
+					preferences.edit().putBoolean("updated13",true).apply();
 				}
 			});
 			dialog.show();
@@ -305,6 +312,8 @@ public class MainActivity extends AppCompatActivity {
 					    sha384 = HashTool.getFileHash("SHA384",file);
                     if (eSHA512)
                         sha512 = HashTool.getFileHash("SHA512",file);
+                    if (eCRC32)
+                        crc32 = HashTool.getCRC32(file) + "";
 
 					if(uppercase){
                         mMap = new HashMap<>();
@@ -318,6 +327,7 @@ public class MainActivity extends AppCompatActivity {
 						    mMap.put(5,sha384.toUpperCase());
                         if (eSHA512)
 						    mMap.put(6,sha512.toUpperCase());
+                        mMap.put(7,crc32.toUpperCase());
 
                         if(!multiShare && eCover)
                             mDatas = new ArrayList<>();
@@ -334,6 +344,7 @@ public class MainActivity extends AppCompatActivity {
                             mMap.put(5,sha384.toLowerCase());
                         if (eSHA512)
                             mMap.put(6,sha512.toLowerCase());
+                        mMap.put(7,crc32.toLowerCase());
 
                         if(!multiShare && eCover)
                             mDatas = new ArrayList<>();
@@ -383,6 +394,7 @@ public class MainActivity extends AppCompatActivity {
             String sha256 = mDatas.get(position).get(4);
             String sha384 = mDatas.get(position).get(5);
             String sha512 = mDatas.get(position).get(6);
+            String crc32 = mDatas.get(position).get(7);
 
             holder.mFile.setText(String.format(res.getString(R.string.file),path));
             
@@ -391,6 +403,7 @@ public class MainActivity extends AppCompatActivity {
             holder.mSHA256.setText(String.format(res.getString(R.string.sha256),sha256));
             holder.mSHA384.setText(String.format(res.getString(R.string.sha384),sha384));
             holder.mSHA512.setText(String.format(res.getString(R.string.sha512),sha512));
+            holder.mCRC32.setText(String.format(res.getString(R.string.crc32),crc32));
             holder.mCheckInput.setText("");
 
             holder.mMD5.setOnLongClickListener(new OnHashLongClick(md5,"MD5"));
@@ -398,24 +411,26 @@ public class MainActivity extends AppCompatActivity {
             holder.mSHA256.setOnLongClickListener(new OnHashLongClick(sha256,"SHA256"));
             holder.mSHA384.setOnLongClickListener(new OnHashLongClick(sha384,"SHA384"));
             holder.mSHA512.setOnLongClickListener(new OnHashLongClick(sha512,"SHA512"));
+            holder.mCRC32.setOnLongClickListener(new OnHashLongClick(crc32,"CRC32"));
 
-            holder.mCheckInput.addTextChangedListener(new Watcher(holder,md5,sha1,sha256,sha384,sha512));
+            holder.mCheckInput.addTextChangedListener(new Watcher(holder,md5,sha1,sha256,sha384,sha512,crc32));
 
-            if (eSHA256) {
+            if (eSHA256)
                 holder.mSHA256.setVisibility(View.VISIBLE);
-            } else {
+            else
                 holder.mSHA256.setVisibility(View.GONE);
-            }
-            if (eSHA384) {
+            if (eSHA384)
                 holder.mSHA384.setVisibility(View.VISIBLE);
-            } else {
+            else
                 holder.mSHA384.setVisibility(View.GONE);
-            }
-            if (eSHA512) {
+            if (eSHA512)
                 holder.mSHA512.setVisibility(View.VISIBLE);
-            } else {
+            else
                 holder.mSHA512.setVisibility(View.GONE);
-            }
+            if (eCRC32)
+                holder.mCRC32.setVisibility(View.VISIBLE);
+            else
+                holder.mCRC32.setVisibility(View.GONE);
         }
         
         @Override
@@ -437,6 +452,7 @@ public class MainActivity extends AppCompatActivity {
             TextView mSHA256;
             TextView mSHA384;
             TextView mSHA512;
+            TextView mCRC32;
             EditText mCheckInput;
 
             Holder(View view){
@@ -446,12 +462,12 @@ public class MainActivity extends AppCompatActivity {
                 mFile = (TextView)view.findViewById(R.id.file);
 
                 mMD5 = (TextView)view.findViewById(R.id.md5);
-
                 mSHA1 = (TextView)view.findViewById(R.id.sha1);
 
                 mSHA256 = (TextView)view.findViewById(R.id.sha256);
                 mSHA384 = (TextView)view.findViewById(R.id.sha384);
                 mSHA512 = (TextView)view.findViewById(R.id.sha512);
+                mCRC32 = (TextView)view.findViewById(R.id.crc32);
 
                 // EditText
                 mCheckInput = (EditText)view.findViewById(R.id.checkInput);
@@ -472,14 +488,16 @@ public class MainActivity extends AppCompatActivity {
             String sha256;
             String sha384;
             String sha512;
+            String crc32;
 
-            Watcher(Holder holder,String md5,String sha1,String sha256,String sha384,String sha512){
+            Watcher(Holder holder,String md5,String sha1,String sha256,String sha384,String sha512,String crc32){
                 this.holder = holder;
                 this.md5 = md5;
                 this.sha1 = sha1;
                 this.sha256 = sha256;
                 this.sha384 = sha384;
                 this.sha512 = sha512;
+                this.crc32 = crc32;
             }
             @Override
             public void beforeTextChanged(CharSequence text, int start, int count, int after){
@@ -492,7 +510,7 @@ public class MainActivity extends AppCompatActivity {
                 if (!text.equals(""))
                     check = text.subSequence(0,text.toString().length()).toString();
                 if(check != null){
-                    if(!check.toString().equals(md5) && !check.toString().equals(sha1) && !check.toString().equals(sha256) && !check.toString().equals(sha384) && !check.toString().equals(sha512)) {
+                    if(!check.toString().equals(md5) && !check.toString().equals(sha1) && !check.toString().equals(sha256) && !check.toString().equals(sha384) && !check.toString().equals(sha512) && !check.toString().equals(crc32)) {
                         holder.mCheckInput.setTextColor(Color.parseColor("#FF0000"));
                         holder.mMD5.setTextColor(Color.parseColor("#797979"));
                         holder.mSHA1.setTextColor(Color.parseColor("#797979"));
@@ -505,21 +523,57 @@ public class MainActivity extends AppCompatActivity {
                         if (eSHA512) {
                             holder.mSHA512.setTextColor(Color.parseColor("#797979"));
                         }
+                        if (eCRC32) {
+                            holder.mCRC32.setTextColor(Color.parseColor("#797979"));
+                        }
                     } else {
                         if(check.toString().equals(md5)) {
                             holder.mMD5.setTextColor(Color.parseColor("#00CD00"));
+                            holder.mSHA1.setTextColor(Color.parseColor("#797979"));
+                            holder.mSHA256.setTextColor(Color.parseColor("#797979"));
+                            holder.mSHA384.setTextColor(Color.parseColor("#797979"));
+                            holder.mSHA512.setTextColor(Color.parseColor("#797979"));
+                            holder.mCRC32.setTextColor(Color.parseColor("#797979"));
                             holder.mCheckInput.setTextColor(Color.parseColor("#00CD00"));
                         } else if(check.toString().equals(sha1)) {
+                            holder.mMD5.setTextColor(Color.parseColor("#797979"));
                             holder.mSHA1.setTextColor(Color.parseColor("#00CD00"));
+                            holder.mSHA256.setTextColor(Color.parseColor("#797979"));
+                            holder.mSHA384.setTextColor(Color.parseColor("#797979"));
+                            holder.mSHA512.setTextColor(Color.parseColor("#797979"));
+                            holder.mCRC32.setTextColor(Color.parseColor("#797979"));
                             holder.mCheckInput.setTextColor(Color.parseColor("#00CD00"));
                         } else if(eSHA256 && check.toString().equals(sha256)) {
+                            holder.mMD5.setTextColor(Color.parseColor("#797979"));
+                            holder.mSHA1.setTextColor(Color.parseColor("#797979"));
                             holder.mSHA256.setTextColor(Color.parseColor("#00CD00"));
+                            holder.mSHA384.setTextColor(Color.parseColor("#797979"));
+                            holder.mSHA512.setTextColor(Color.parseColor("#797979"));
+                            holder.mCRC32.setTextColor(Color.parseColor("#797979"));
                             holder.mCheckInput.setTextColor(Color.parseColor("#00CD00"));
                         } else if(eSHA384 && check.toString().equals(sha384)) {
+                            holder.mMD5.setTextColor(Color.parseColor("#797979"));
+                            holder.mSHA1.setTextColor(Color.parseColor("#797979"));
+                            holder.mSHA256.setTextColor(Color.parseColor("#797979"));
                             holder.mSHA384.setTextColor(Color.parseColor("#00CD00"));
+                            holder.mSHA512.setTextColor(Color.parseColor("#797979"));
+                            holder.mCRC32.setTextColor(Color.parseColor("#797979"));
                             holder.mCheckInput.setTextColor(Color.parseColor("#00CD00"));
                         } else if(eSHA512 && check.toString().equals(sha512)) {
-                            holder.mSHA512.setTextColor(Color.parseColor("#00CD00"));
+                            holder.mMD5.setTextColor(Color.parseColor("#797979"));
+                            holder.mSHA1.setTextColor(Color.parseColor("#797979"));
+                            holder.mSHA256.setTextColor(Color.parseColor("#797979"));
+                            holder.mSHA384.setTextColor(Color.parseColor("#797979"));
+                            holder.mSHA512.setTextColor(Color.parseColor("00CD00"));
+                            holder.mCRC32.setTextColor(Color.parseColor("#797979"));
+                            holder.mCheckInput.setTextColor(Color.parseColor("#00CD00"));
+                        } else if (eCRC32 && check.toString().equals(crc32)){
+                            holder.mMD5.setTextColor(Color.parseColor("#797979"));
+                            holder.mSHA1.setTextColor(Color.parseColor("#797979"));
+                            holder.mSHA256.setTextColor(Color.parseColor("#797979"));
+                            holder.mSHA384.setTextColor(Color.parseColor("#797979"));
+                            holder.mSHA512.setTextColor(Color.parseColor("#797979"));
+                            holder.mCRC32.setTextColor(Color.parseColor("#00CD00"));
                             holder.mCheckInput.setTextColor(Color.parseColor("#00CD00"));
                         }
                     }
@@ -540,7 +594,6 @@ public class MainActivity extends AppCompatActivity {
                             int selection = holder.mCheckInput.getSelectionStart();
                             holder.mCheckInput.setText(text.toString().toUpperCase());
                             holder.mCheckInput.setSelection(selection);
-                            check = text.toString().substring(0,text.toString().length());
                         }
                     }
                 } else {
@@ -550,7 +603,6 @@ public class MainActivity extends AppCompatActivity {
                             int selection = holder.mCheckInput.getSelectionStart();
                             holder.mCheckInput.setText(text.toString().toLowerCase());
                             holder.mCheckInput.setSelection(selection);
-                            check = text.toString().substring(0,text.toString().length());
                         }
                     }
                 }
