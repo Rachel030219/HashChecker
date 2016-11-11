@@ -69,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<HashMap<Integer,String>> mDatas;
 
+    boolean eMD5 = true;
+    boolean eSHA1 = true;
     boolean eSHA256 = true;
     boolean eSHA384 = true;
     boolean eSHA512 = true;
@@ -127,6 +129,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void getPreferences(){
         defaultPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        eMD5 = defaultPreferences.getBoolean("output_md5",true);
+        eSHA1 = defaultPreferences.getBoolean("output_sha1",true);
         eSHA256 = defaultPreferences.getBoolean("output_sha256",true);
         eSHA384 = defaultPreferences.getBoolean("output_sha384",true);
         eSHA512 = defaultPreferences.getBoolean("output_sha512",true);
@@ -304,8 +308,10 @@ public class MainActivity extends AppCompatActivity {
 				@Override
 				public void run(){
                     getPreferences();
-					md5 = HashTool.getFileHash("MD5",file);
-					sha1 = HashTool.getFileHash("SHA1",file);
+                    if (eMD5)
+					    md5 = HashTool.getFileHash("MD5",file);
+                    if (eSHA1)
+					    sha1 = HashTool.getFileHash("SHA1",file);
                     if (eSHA256)
 					    sha256 = HashTool.getFileHash("SHA256",file);
                     if (eSHA384)
@@ -319,15 +325,18 @@ public class MainActivity extends AppCompatActivity {
                         mMap = new HashMap<>();
                         mMap.put(1,file.getAbsolutePath());
 
-						mMap.put(2,md5.toUpperCase());
-                        mMap.put(3,sha1.toUpperCase());
+                        if (eMD5)
+						    mMap.put(2,md5.toUpperCase());
+                        if (eSHA1)
+                            mMap.put(3,sha1.toUpperCase());
                         if (eSHA256)
 						    mMap.put(4,sha256.toUpperCase());
                         if (eSHA384)
 						    mMap.put(5,sha384.toUpperCase());
                         if (eSHA512)
 						    mMap.put(6,sha512.toUpperCase());
-                        mMap.put(7,crc32.toUpperCase());
+                        if (eCRC32)
+                            mMap.put(7,crc32.toUpperCase());
 
                         if(!multiShare && eCover)
                             mDatas = new ArrayList<>();
@@ -336,15 +345,18 @@ public class MainActivity extends AppCompatActivity {
                         mMap = new HashMap<>();
                         mMap.put(1,file.getAbsolutePath());
 
-                        mMap.put(2,md5.toLowerCase());
-                        mMap.put(3,sha1.toLowerCase());
+                        if (eMD5)
+                            mMap.put(2,md5.toLowerCase());
+                        if (eSHA1)
+                            mMap.put(3,sha1.toLowerCase());
                         if (eSHA256)
                             mMap.put(4,sha256.toLowerCase());
                         if (eSHA384)
                             mMap.put(5,sha384.toLowerCase());
                         if (eSHA512)
                             mMap.put(6,sha512.toLowerCase());
-                        mMap.put(7,crc32.toLowerCase());
+                        if (eCRC32)
+                            mMap.put(7,crc32.toLowerCase());
 
                         if(!multiShare && eCover)
                             mDatas = new ArrayList<>();
@@ -415,6 +427,14 @@ public class MainActivity extends AppCompatActivity {
 
             holder.mCheckInput.addTextChangedListener(new Watcher(holder,md5,sha1,sha256,sha384,sha512,crc32));
 
+            if (eMD5)
+                holder.mMD5.setVisibility(View.VISIBLE);
+            else
+                holder.mMD5.setVisibility(View.GONE);
+            if (eSHA1)
+                holder.mSHA1.setVisibility(View.VISIBLE);
+            else
+                holder.mSHA1.setVisibility(View.GONE);
             if (eSHA256)
                 holder.mSHA256.setVisibility(View.VISIBLE);
             else

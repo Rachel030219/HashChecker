@@ -30,6 +30,22 @@ limitations under the License.
 			android:defaultValue="true"/>
 
 		<CheckBoxPreference
+			android:layout="@layout/settings_item"
+			android:title="@string/settings_output_md5"
+			android:key="output_md5"
+			android:summaryOn="@string/settings_output_md5_on"
+			android:summaryOff="@string/settings_output_md5_off"
+			android:defaultValue="true"/>
+
+		<CheckBoxPreference
+			android:layout="@layout/settings_item"
+			android:title="@string/settings_output_sha1"
+			android:key="output_sha1"
+			android:summaryOn="@string/settings_output_sha1_on"
+			android:summaryOff="@string/settings_output_sha1_off"
+			android:defaultValue="true"/>
+
+		<CheckBoxPreference
             android:layout="@layout/settings_item"
             android:title="@string/settings_output_sha256"
             android:key="output_sha256"
