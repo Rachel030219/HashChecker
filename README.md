@@ -44,7 +44,7 @@ For more information, please look up API DOC below.
 欲获得更多信息，请查阅下面的 API 文档。
 
 **Step 3**
-Just send it out!
+Just send it out!  
 射…呸，发出来吧！
 ```
 …
