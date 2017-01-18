@@ -27,7 +27,7 @@ limitations under the License.
 		android:supportsRtl="true">
 
         <activity
-            android:name="net.rachel030219.hashchecker.MainActivity"
+            android:name="net.rachel030219.hashchecker.activities.MainActivity"
 			android:theme="@style/AppTheme.Transparent">
 
             <intent-filter>
@@ -60,12 +60,39 @@ limitations under the License.
 
         </activity>
 
+        <activity android:name="net.rachel030219.hashchecker.activities.CalcActivity"
+            android:theme="@style/AppTheme.Transparent.Full">
+
+            <intent-filter>
+
+                <action android:name="net.rachel030219.hashchecker.action.CALCULATE_MD5"/>
+
+                <action android:name="net.rachel030219.hashchecker.action.CALCULATE_SHA1"/>
+
+                <action android:name="net.rachel030219.hashchecker.action.CALCULATE_SHA256"/>
+
+                <action android:name="net.rachel030219.hashchecker.action.CALCULATE_SHA384"/>
+
+                <action android:name="net.rachel030219.hashchecker.action.CALCULATE_SHA512"/>
+
+                <action android:name="net.rachel030219.hashchecker.action.CALCULATE_CRC32_HEX"/>
+
+                <action android:name="net.rachel030219.hashchecker.action.CALCULATE_CRC32_DEC"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data android:mimeType="*/*"/>
+
+            </intent-filter>
+
+        </activity>
+
 		<activity
-			android:name="net.rachel030219.hashchecker.SettingsActivity"
+			android:name="net.rachel030219.hashchecker.activities.SettingsActivity"
 			android:label="@string/setting"/>
 
 		<activity
-			android:name="net.rachel030219.hashchecker.AboutActivity"
+			android:name="net.rachel030219.hashchecker.activities.AboutActivity"
 			android:label="@string/about"/>
 
 	</application>

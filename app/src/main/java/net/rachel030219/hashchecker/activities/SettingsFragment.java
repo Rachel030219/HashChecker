@@ -13,11 +13,13 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-package net.rachel030219.hashchecker;
+package net.rachel030219.hashchecker.activities;
 
 import android.os.Bundle;
 
 import com.github.machinarius.preferencefragment.PreferenceFragment;
+
+import net.rachel030219.hashchecker.R;
 
 public class SettingsFragment extends PreferenceFragment{
 

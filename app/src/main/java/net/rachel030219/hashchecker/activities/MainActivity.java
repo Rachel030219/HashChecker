@@ -1,4 +1,4 @@
-package net.rachel030219.hashchecker;
+package net.rachel030219.hashchecker.activities;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Toast;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.content.Intent;
@@ -41,9 +42,11 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.widget.Toast;
 
-import org.w3c.dom.Text;
+import net.rachel030219.hashchecker.R;
+import net.rachel030219.hashchecker.tools.ClipboardManager;
+import net.rachel030219.hashchecker.tools.FileUtils;
+import net.rachel030219.hashchecker.tools.HashTool;
 
 public class MainActivity extends AppCompatActivity {
 	private static final int FILE_SELECT_CODE = 1;
@@ -98,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
 		bindView();
 		checkUpdated();
 
-        mMap = new HashMap<Integer, String>();
+        mMap = new HashMap<>();
         mDatas = new ArrayList<>();
 
         mRecycler = (RecyclerView)findViewById(R.id.recycler);
@@ -295,7 +298,8 @@ public class MainActivity extends AppCompatActivity {
 					break;
 			}
 		} else if(grantResult == PackageManager.PERMISSION_DENIED) {
-			Snackbar.make(mRoot,"Pl",Snackbar.LENGTH_LONG).show();
+            Toast.makeText(this,R.string.permission_denied,Toast.LENGTH_LONG).show();
+			finish();
 		}
 	}
 	

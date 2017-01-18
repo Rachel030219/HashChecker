@@ -15,7 +15,7 @@
  */
 // From Rachel:I got this from a answer under Stack Overflow. Thanks him! 
  
-package net.rachel030219.hashchecker;
+package net.rachel030219.hashchecker.tools;
 
 import android.os.Build;
 import android.os.Environment;

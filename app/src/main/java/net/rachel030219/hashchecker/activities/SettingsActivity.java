@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-package net.rachel030219.hashchecker;
+package net.rachel030219.hashchecker.activities;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -23,6 +23,8 @@ import android.view.WindowManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+
+import net.rachel030219.hashchecker.R;
 
 public class SettingsActivity extends AppCompatActivity{
 	@Override
