@@ -74,7 +74,9 @@ You've finished the tutorial! So easy, right?
 ***
 ## API DOC
 > Sorry, I have not made this until you see this message. Just wait for a while!
+
 ***
+
 欢迎关注 [Telegram Channel](https://telegram.me/rachelnotice) / [Twitter](https://twitter.com/tangrui003)
 
 ![Screenshot](./pic/Screenshot.png)
