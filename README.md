@@ -10,13 +10,13 @@ Now, you are able to check a file in other apps.(After 1.4)
 
 ***
 ## HOW TO USE HASHCHECKER'S API IN OTHER APPS - FAST TUTORIAL
-**Step 0**
+**Step 0**  
 You should have a file and a value to compare with.  
 你需要有一个文件和一个用于比对的值。  
 Of course, an Android device with this app.  
 当然还有，一台装有 HashChecker 的 Android 设备。
   
-**Step 1**
+**Step 1**  
 Create an Intent and put action into it.  
 实例化一个 Intent 并向内放入 action 。  
 For example,  
@@ -30,7 +30,7 @@ intent.setAction("net.rachel030219.hashchecker.action.CALCULATE_MD5");
 Optional action list will be rolled out soon.  
 可选的 action 列表将尽快放出。
 
-**Step 2**
+**Step 2**  
 Put in extra and set type.  
 放入数据，设置类型。
 ```
@@ -43,7 +43,7 @@ intent.setType("image/png");
 For more information, please look up API DOC below.  
 欲获得更多信息，请查阅下面的 API 文档。
 
-**Step 3**
+**Step 3**  
 Just send it out!  
 射…呸，发出来吧！
 ```
