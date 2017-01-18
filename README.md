@@ -8,7 +8,6 @@ Feel free to do anything you like, for example, fork it and change it.
 Now, you are able to check a file in other apps.(After 1.4)  
 现在，你可以在其它应用中检查文件正确性。（1.4之后）
 
-***
 ## HOW TO USE HASHCHECKER'S API IN OTHER APPS - FAST TUTORIAL
 **Step 0**  
 You should have a file and a value to compare with.  
@@ -68,13 +67,12 @@ protected void onActivityResult(int requestCode,int resultCode,Intent data){
 }
 ```
 
-**And…**
+**And…**  
 You've finished the tutorial! So easy, right?  
 没了！很简单，不是吗？
-***
+
 ## API DOC
 > Sorry, I have not made this until you see this message. Just wait for a while!
-
 ***
 
 欢迎关注 [Telegram Channel](https://telegram.me/rachelnotice) / [Twitter](https://twitter.com/tangrui003)
