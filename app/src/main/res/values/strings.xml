@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Copyright 2016 Rachel030219
+Copyright 2017 Rachel030219
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ limitations under the License.
 	<string name="copied">Copied %1$s to clipboard</string>
 	<string name="checkInput">Input a value to check this file</string>
 
-    <string name="header">HashChecker 1.3.1 STABLE\nMay be the best hash calculator</string>
+    <string name="header">HashChecker 1.4 STABLE\nMay be the best hash calculator</string>
 
 	<string name="settings_output">Output</string>
 	<string name="settings_output_case">Uppercase</string>
@@ -62,11 +62,14 @@ limitations under the License.
 	<string name="settings_output_crc32">CRC32</string>
     <string name="settings_output_crc32_on">Enable CRC32 output</string>
     <string name="settings_output_crc32_off">Disable CRC32 output</string>
+	<string name="settings_output_crc32_hex">CRC32 results use hexadecimal</string>
+    <string name="settings_output_crc32_hex_on">Convert CRC32 to hexadecimal</string>
+    <string name="settings_output_crc32_hex_off">Convert CRC32 to decimal</string>
 	<string name="settings_output_cover">Cover the result</string>
     <string name="settings_output_cover_on">The result before will be covered after a new value is calculated</string>
     <string name="settings_output_cover_off">The result before will not be covered after a new value is calculated</string>
 
-	<string name="about_version">HashChecker 1.3.1 STABLE</string>
+	<string name="about_version">HashChecker 1.4 STABLE</string>
 	<string name="about_projects">Open-source projects</string>
 	<string name="about_projects_preferencefragment">PreferenceFragment-Compat by Machinarius</string>
 	<string name="about_projects_preferencefragment_license">Copyright (C) 2013 The Android Open Source Project\nLicensed under the Apache License, Version 2.0 (the \"License\");\nYou may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 \nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
@@ -74,11 +77,11 @@ limitations under the License.
 	<string name="about_projects_materialsettingsactivitydemo_license">The author didn\'t give out a license. I learned how to make a Material-Design settings activity from his blog https://drakeet.me .</string>
 	<string name="about_specialthanks">Special thanks to:</string>
 	<string name="about_specialthanks_to">Liang Yuteng(@liangyuteng )\nRikka(@RikkaW or @蓝莓味绿茶 )</string>
-	<string name="about_me">Developed by Rachel, 2016</string>
+	<string name="about_me">Developed by Rachel, 2017</string>
 	<string name="about_me_title">About me</string>
-	<string name="about_me_content">Hi, I am Rachel, a thirteen-year-old student(Grade Nine) and independent developer.\nI spent my free time developing on Android. All of my apps are free forever, hope you like them. And, please follow me on Twitter(@tangrui003 ) to get latest news and join the Telegram channel(@rachelnotice ) to get latest update notice, and feel free to ask me any question through Telegram(@Rachel030219 ).\n- Rachel, 2016</string>
+	<string name="about_me_content">Hi, I am Rachel, a thirteen-year-old student(Grade Nine) and independent developer.\nI spent my free time developing on Android. All of my apps are free forever, hope you like them. And, please follow me on Twitter(@tangrui003 ) to get latest news and join the Telegram channel(@rachelnotice ) to get latest update notice, and feel free to ask me any question through Telegram(@Rachel030219 ).\n- Rachel, 2017</string>
 	<string name="updated_title">What\'s New</string>
-	<string name="updated_changelog">HashChecker 1.4 STABLE Changelog:\n- Open API, welcome developers to look up API DOC in GitHub</string>
+	<string name="updated_changelog">HashChecker 1.4 STABLE Changelog:\n- Open API, welcome developers to look up API DOC in GitHub\n- Provide CRC32 hexadecimal choice now!</string>
 
     <string name="permission_denied">Please grant permission in settings, or you will be no longer able to use this app.</string>
 </resources>

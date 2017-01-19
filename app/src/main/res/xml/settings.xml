@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Copyright 2016 Rachel030219
+Copyright 2017 Rachel030219
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -76,6 +76,15 @@ limitations under the License.
             android:summaryOn="@string/settings_output_crc32_on"
             android:summaryOff="@string/settings_output_crc32_off"
             android:defaultValue="true"/>
+
+		<CheckBoxPreference
+            android:layout="@layout/settings_item"
+			android:title="@string/settings_output_crc32_hex"
+			android:key="output_crc32_hex"
+            android:summaryOn="@string/settings_output_crc32_hex_on"
+            android:summaryOff="@string/settings_output_crc32_hex_off"
+            android:defaultValue="false"
+            android:dependency="output_crc32"/>
 
 		<CheckBoxPreference
             android:layout="@layout/settings_item"

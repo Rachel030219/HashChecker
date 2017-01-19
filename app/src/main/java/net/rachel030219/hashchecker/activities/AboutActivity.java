@@ -1,5 +1,5 @@
 /*
- Copyright 2016 Rachel030219
+ Copyright 2017 Rachel030219
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -83,7 +83,6 @@ public class AboutActivity extends AppCompatActivity{
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
-		// TODO: Implement this method
 		switch(item.getItemId()){
 			case android.R.id.home:
 				finish();

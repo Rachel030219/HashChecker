@@ -47,6 +47,7 @@ import net.rachel030219.hashchecker.R;
 import net.rachel030219.hashchecker.tools.ClipboardManager;
 import net.rachel030219.hashchecker.tools.FileUtils;
 import net.rachel030219.hashchecker.tools.HashTool;
+import net.rachel030219.hashchecker.tools.MathTool;
 
 public class MainActivity extends AppCompatActivity {
 	private static final int FILE_SELECT_CODE = 1;
@@ -78,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
     boolean eSHA384 = true;
     boolean eSHA512 = true;
     boolean eCRC32 = true;
+    boolean hexCRC32 = false;
     boolean eCover = true;
 
 	ClipboardManager manager;
@@ -138,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
         eSHA384 = defaultPreferences.getBoolean("output_sha384",true);
         eSHA512 = defaultPreferences.getBoolean("output_sha512",true);
         eCRC32 = defaultPreferences.getBoolean("output_crc32",true);
+        hexCRC32 = defaultPreferences.getBoolean("output_crc32_hex",false);
         eCover = defaultPreferences.getBoolean("output_cover",true);
         uppercase = defaultPreferences.getBoolean("output_case",true);
     }
@@ -307,7 +310,7 @@ public class MainActivity extends AppCompatActivity {
 		try{
 			final File file = new File(FileUtils.getPath(this,uri));
 
-			final ProgressDialog dialog = ProgressDialog.show(MainActivity.this,null,"Calculating...",true);
+			final ProgressDialog dialog = ProgressDialog.show(MainActivity.this,null,"Calculating…",true);
 			new Thread(){
 				@Override
 				public void run(){
@@ -323,7 +326,10 @@ public class MainActivity extends AppCompatActivity {
                     if (eSHA512)
                         sha512 = HashTool.getFileHash("SHA512",file);
                     if (eCRC32)
-                        crc32 = HashTool.getCRC32(file) + "";
+                        if (hexCRC32)
+                            crc32 = MathTool.toHex(HashTool.getCRC32(file));
+                        else
+                            crc32 = HashTool.getCRC32(file) + "";
 
 					if(uppercase){
                         mMap = new HashMap<>();
