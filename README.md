@@ -44,7 +44,7 @@ For more information, please look up API DOC below.
 
 **Step 3**  
 Just send it out!  
-射…呸，发出来吧！
+~~射~~发出来吧！
 ```
 …
 startActivityForResult(intent,REQUEST_CODE);
@@ -60,7 +60,7 @@ protected void onActivityResult(int requestCode,int resultCode,Intent data){
                 // Do something…
                 break;
             default:
-                // Try to f*** your user?
+                // What about trying to f*** your user?
                 break;
         }
     }
@@ -124,7 +124,9 @@ That's all! So easy, right?
     The value which will be compared with the result.  
     最后会和结果进行对比的值。  
     Android limits the result an activity can return, so you **MUST** turn in this.  
-    Android 限制了 activity 能够回传的结果，所以你**必须**传入这个值。
+    Android 限制了 activity 能够回传的结果，所以你**必须**传入这个值。  
+    BTW, HashChecker will auto change its case, so do not change it specially.  
+    另外， HashChecker 会自动改变其大小写，不必特意去改动。
     
 #### And the result…
 As what I said, HashChecker is unable to return a String value, so its API is used for only comparing.  
