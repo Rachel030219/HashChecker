@@ -79,9 +79,9 @@ limitations under the License.
 	<string name="about_specialthanks_to">Liang Yuteng(@liangyuteng )\nRikka(@RikkaW 或者 @蓝莓味绿茶 )</string>
 	<string name="about_me">Developed by Rachel, 2017</string>
 	<string name="about_me_title">自述</string>
-	<string name="about_me_content">你好，我是 Rachel ，一名13岁的初三学生，也是一名独立开发者。\n我用空余时间来开发 Android 应用。所有我个人的应用都将永久免费，希望你会喜欢。欢迎关注我的 Twitter（@tangrui003 ）来获取最新消息，加入 Telegram 频道（@rachelnotice ）以得到更新提示，你也可以随意在 Telegram（@Rachel030219 ）上向我提任何问题。\n- Rachel, 2017</string>
+	<string name="about_me_content">你好，我是 Rachel ，一名14岁的初三学生，也是一名独立开发者。\n我用空余时间来开发 Android 应用。所有我个人的应用都将永久免费，希望你会喜欢。欢迎关注我的 Twitter（@tangrui003 ）来获取最新消息，加入 Telegram 频道（@rachelnotice ）以得到更新提示，你也可以随意在 Telegram（@Rachel030219 ）上向我提任何问题。\n- Rachel, 2017</string>
 	<string name="updated_title">更新日志</string>
-	<string name="updated_changelog">HashChecker 1.4 STABLE 更新日志:\n- 对外开放 API ，欢迎开发者到 GitHub 阅读 API 文档\n- CRC32 现在可以选择进制</string>
+	<string name="updated_changelog">HashChecker 1.4 STABLE 更新日志:\n\n- 对外开放 API ，欢迎开发者到 GitHub 阅读 API 文档\n\n- CRC32 现在可以选择十六进制\n\n- 修复了一个一定会在检查 SHA512 时导致 FC 的 bug</string>
 
     <string name="permission_denied">没权限的应用还有什么意思…</string>
 </resources>

@@ -45,7 +45,12 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("net.rachel030219.hashchecker.extra.VALUE",
                 "D41D8CD98F00B204E9800998ECF8427E");                                                // Turn in value to compare with. For .nomedia files, it is usually D41D8CD98F00B204E9800998ECF8427E
         intent.setType("*/*");                                                                      // I don't know what its type is, so just type "*/*"
-        startActivityForResult(intent,REQUEST_CODE);                                                // Let's try it now!
+        try {
+            startActivityForResult(intent,REQUEST_CODE);                                            // Let's try it now!
+        } catch (android.content.ActivityNotFoundException e) {                                     // This means user's device does not have HashChecker installed
+            Toast.makeText(this, "You do not have HashChecker installed. Search for it!",
+                    Toast.LENGTH_SHORT).show();                                                     // I'd like to tell user. You can just ignore this exception
+        }
     }
 
     @Override
@@ -59,8 +64,8 @@ public class MainActivity extends AppCompatActivity {
                 case -100:                                                                          // This means your value does not match your file
                     Toast.makeText(this, "What? Does not match…", Toast.LENGTH_SHORT).show();
                     break;
-                default:                                                                            // This means "这届用户不行啊"
-                    Toast.makeText(this, "What's wrong?", Toast.LENGTH_SHORT).show();
+                default:                                                                            // This means "这届用户不行啊", ignoring this section is OK
+                    break;
             }
         }
     }

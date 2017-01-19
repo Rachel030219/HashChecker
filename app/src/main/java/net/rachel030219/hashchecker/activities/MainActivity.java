@@ -594,7 +594,7 @@ public class MainActivity extends AppCompatActivity {
                             holder.mSHA1.setTextColor(Color.parseColor("#797979"));
                             holder.mSHA256.setTextColor(Color.parseColor("#797979"));
                             holder.mSHA384.setTextColor(Color.parseColor("#797979"));
-                            holder.mSHA512.setTextColor(Color.parseColor("00CD00"));
+                            holder.mSHA512.setTextColor(Color.parseColor("#00CD00"));
                             holder.mCRC32.setTextColor(Color.parseColor("#797979"));
                             holder.mCheckInput.setTextColor(Color.parseColor("#00CD00"));
                         } else if (eCRC32 && check.toString().equals(crc32)){

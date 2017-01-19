@@ -47,7 +47,11 @@ Just send it out!
 ~~射~~发出来吧！
 ```
 …
-startActivityForResult(intent,REQUEST_CODE);
+try {
+    startActivityForResult(intent,REQUEST_CODE);
+} catch (android.content.ActivityNotFoundException e) {
+    // This means the user has not installed HashChecker
+}
 …
 @Override
 protected void onActivityResult(int requestCode,int resultCode,Intent data){
@@ -60,7 +64,7 @@ protected void onActivityResult(int requestCode,int resultCode,Intent data){
                 // Do something…
                 break;
             default:
-                // What about trying to f*** your user?
+                // Must be something happened. I suggest to ignore this section in your code.
                 break;
         }
     }
@@ -70,6 +74,8 @@ protected void onActivityResult(int requestCode,int resultCode,Intent data){
 **And…**  
 That's all! So easy, right?  
 没了！很简单，不是吗？
+
+> 若有需要，请参阅 [APIExample](https://github.com/Rachel030219/HashChecker/blob/master/apiexample)
 
 ## API DOC
 
@@ -143,7 +149,7 @@ And so, you need to check what it returns. Only two cases.
 2. And other values?  
     Umm… I don't know either. Maybe your user did something that impolite to HashChecker. So if you got this case, you can just retry. ~~(F***ing your user is also OK)~~  
     唔…我也不知道了。可能你的用户做了某些对 HashChecker 不礼貌的事情。所以如果你发现出现这种奇葩事情，重来就行。 ~~（对你的用户表示*礼貌*也行我不反对）~~  
-      
+
 ***
 
 欢迎关注 [Telegram Channel](https://telegram.me/rachelnotice) / [Twitter](https://twitter.com/tangrui003)
