@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -305,8 +306,59 @@ public class MainActivity extends AppCompatActivity {
 			finish();
 		}
 	}
-	
-	public void updateResult(Uri uri){
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.copyall:
+                StringBuilder builder = new StringBuilder();
+                builder.append("[HashChecker]");
+                String clipBefore = manager.get().toString();
+                for(int i = 0;i < mDatas.size();i++){
+                    builder.append("\n[File]");
+                    builder.append(mDatas.get(i).get(1));
+                    if (eMD5) {
+                        builder.append("\n[MD5]");
+                        builder.append(mDatas.get(i).get(2));
+                    }
+                    if (eSHA1) {
+                        builder.append("\n[SHA1]");
+                        builder.append(mDatas.get(i).get(3));
+                    }
+                    if (eSHA256) {
+                        builder.append("\n[SHA256]");
+                        builder.append(mDatas.get(i).get(4));
+                    }
+                    if (eSHA384) {
+                        builder.append("\n[SHA384]");
+                        builder.append(mDatas.get(i).get(5));
+                    }
+                    if (eSHA512) {
+                        builder.append("\n[SHA512]");
+                        builder.append(mDatas.get(i).get(6));
+                    }
+                    if (eCRC32) {
+                        builder.append("\n[CRC32]");
+                        builder.append(mDatas.get(i).get(7));
+                    }
+                }
+                if (!builder.toString().equals("[HashChecker]") && !builder.toString().equals(clipBefore)) {
+                    manager.set(builder.toString());
+                    Snackbar.make(mRoot, String.format(getResources().getString(R.string.copied),"all"), Snackbar.LENGTH_SHORT).show();
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void updateResult(Uri uri){
 		try{
 			final File file = new File(FileUtils.getPath(this,uri));
 
