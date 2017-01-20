@@ -154,7 +154,8 @@ And so, you need to check what it returns. Only two cases.
 
 欢迎关注 [Telegram Channel](https://telegram.me/rachelnotice) / [Twitter](https://twitter.com/tangrui003)
 
-![Screenshot](./pic/Screenshot.png)
+![Screenshot1](./pic/Screenshot1.png)
+![Screenshot2](./pic/Screenshot2.png)
 
 ***
 ### LICENSE
