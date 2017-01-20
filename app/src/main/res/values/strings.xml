@@ -39,7 +39,7 @@ limitations under the License.
 	<string name="copied">Copied %1$s to clipboard</string>
 	<string name="checkInput">Input a value to check this file</string>
 
-    <string name="header">HashChecker 1.4 STABLE\nMay be the best hash calculator</string>
+    <string name="header">HashChecker 1.4 STABLE\nMust be the best hash calculator</string>
 
 	<string name="settings_output">Output</string>
 	<string name="settings_output_case">Uppercase</string>
@@ -80,9 +80,9 @@ limitations under the License.
 	<string name="about_specialthanks_to">Liang Yuteng(@liangyuteng )\nRikka(@RikkaW or @蓝莓味绿茶 )</string>
 	<string name="about_me">Developed by Rachel, 2017</string>
 	<string name="about_me_title">About me</string>
-	<string name="about_me_content">Hi, I am Rachel, a thirteen-year-old student(Grade Nine) and independent developer.\nI spent my free time developing on Android. All of my apps are free forever, hope you like them. And, please follow me on Twitter(@tangrui003 ) to get latest news and join the Telegram channel(@rachelnotice ) to get latest update notice, and feel free to ask me any question through Telegram(@Rachel030219 ).\n- Rachel, 2017</string>
+	<string name="about_me_content">Hi, I am Rachel, a thirteen-year-old student(Grade Nine) and independent developer.\nI spent my free time developing on Android. All of my apps are free forever, hope you like them. And, please follow me on Twitter(@tangrui003 ) to get latest news and join the Telegram channel(@rachelnotice ) to get notice, and feel free to ask me any question through Telegram(@Rachel030219 ).\n- Rachel, 2017</string>
 	<string name="updated_title">What\'s New</string>
-	<string name="updated_changelog">HashChecker 1.4 STABLE Changelog:\n\n- Open API, welcome developers to look up API DOC in GitHub\n\n- Provide CRC32 hexadecimal choice now!\n\n- Fixed a bug that always causes FC when checking SHA512</string>
+	<string name="updated_changelog">HashChecker 1.4 STABLE Changelog:\n\n- Open API, welcome developers to look up API DOC in GitHub\n\n- Provide a "Copy all" feature\n\n- Support CRC32 hexadecimal value now!\n\n- Fixed a bug that always causes FC when checking SHA512\n\n- Updated translations and license</string>
 
     <string name="permission_denied">Please grant permission in settings, or you will be no longer able to use this app.</string>
 </resources>
