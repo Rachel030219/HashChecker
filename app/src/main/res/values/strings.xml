@@ -39,7 +39,7 @@ limitations under the License.
 	<string name="copied">Copied %1$s to clipboard</string>
 	<string name="checkInput">Input a value to check this file</string>
 
-    <string name="header">HashChecker 1.4 STABLE\nMust be the best hash calculator</string>
+    <string name="header">HashChecker 1.5 STABLE\nYou need not to calculate hash,\nbut you should have a HashChecker</string>
 
 	<string name="settings_output">Output</string>
 	<string name="settings_output_case">Uppercase</string>
@@ -66,11 +66,14 @@ limitations under the License.
 	<string name="settings_output_crc32_hex">CRC32 results use hexadecimal</string>
     <string name="settings_output_crc32_hex_on">Convert CRC32 to hexadecimal</string>
     <string name="settings_output_crc32_hex_off">Convert CRC32 to decimal</string>
+	<string name="settings_output_copyall_tag">Output tags(like \"[File]\")</string>
+	<string name="settings_output_copyall_tag_on">Output tags while copying all</string>
+	<string name="settings_output_copyall_tag_off">Do not output tags while copying all</string>
 	<string name="settings_output_cover">Cover the result</string>
     <string name="settings_output_cover_on">The result before will be covered after a new value is calculated</string>
     <string name="settings_output_cover_off">The result before will not be covered after a new value is calculated</string>
 
-	<string name="about_version">HashChecker 1.4 STABLE</string>
+	<string name="about_version">HashChecker 1.5 STABLE</string>
 	<string name="about_projects">Open-source projects</string>
 	<string name="about_projects_preferencefragment">PreferenceFragment-Compat by Machinarius</string>
 	<string name="about_projects_preferencefragment_license">Copyright (C) 2013 The Android Open Source Project\nLicensed under the Apache License, Version 2.0 (the \"License\");\nYou may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 \nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
@@ -82,7 +85,7 @@ limitations under the License.
 	<string name="about_me_title">About me</string>
 	<string name="about_me_content">Hi, I am Rachel, a thirteen-year-old student(Grade Nine) and independent developer.\nI spent my free time developing on Android. All of my apps are free forever, hope you like them. And, please follow me on Twitter(@tangrui003 ) to get latest news and join the Telegram channel(@rachelnotice ) to get notice, and feel free to ask me any question through Telegram(@Rachel030219 ).\n- Rachel, 2017</string>
 	<string name="updated_title">What\'s New</string>
-	<string name="updated_changelog">HashChecker 1.4 STABLE Changelog:\n\n- Open API, welcome developers to look up API DOC on GitHub\n\n- Provide a "Copy all" feature\n\n- Support CRC32 hexadecimal value now!\n\n- Fixed a bug that always causes FC when checking SHA512\n\n- Updated translations and license</string>
+	<string name="updated_changelog">HashChecker 1.5 STABLE Changelog:\n\n- Added tag switch\n\n- Reduced meaningless waste of RAM\n\n- Fixed a bug when copying all</string>
 
     <string name="permission_denied">Please grant permission in settings, or you will be no longer able to use this app.</string>
 </resources>

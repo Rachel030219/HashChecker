@@ -39,7 +39,10 @@ public class ClipboardManager{
 	
 	public CharSequence get(){
 		if(newAPI){
-			return newManager.getPrimaryClip().getItemAt(0).getText();
+			if (newManager.getPrimaryClip() != null)
+				return newManager.getPrimaryClip().getItemAt(0).getText();
+			else
+				return "";
 		} else {
 			return oldManager.getText();
 		}

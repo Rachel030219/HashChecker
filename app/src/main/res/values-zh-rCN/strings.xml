@@ -39,7 +39,7 @@ limitations under the License.
 	<string name="copied">已经复制 %1$s 到剪贴板</string>
 	<string name="checkInput">输入一个值进行比对</string>
 
-    <string name="header">HashChecker 1.4 STABLE\n必须是坠吼的 Hash 计算器</string>
+    <string name="header">HashChecker 1.5 STABLE\n你可以不计算 Hash 值，\n但你一定要有 HashChecker</string>
 
 	<string name="settings_output">输出</string>
 	<string name="settings_output_case">大写</string>
@@ -66,11 +66,14 @@ limitations under the License.
     <string name="settings_output_crc32_hex">CRC32 使用十六进制</string>
     <string name="settings_output_crc32_hex_on">将 CRC32 转换为十六进制</string>
     <string name="settings_output_crc32_hex_off">将 CRC32 转换为十进制</string>
+	<string name="settings_output_copyall_tag">输出标签（比如“ [File] ”）</string>
+	<string name="settings_output_copyall_tag_on">在全部复制时加上标签</string>
+	<string name="settings_output_copyall_tag_off">在全部复制时不要加上标签</string>
     <string name="settings_output_cover">覆盖计算结果</string>
 	<string name="settings_output_cover_on">在新值计算出来后，原值将被覆盖</string>
 	<string name="settings_output_cover_off">在新值计算出来后，原值将不会被覆盖</string>
 
-	<string name="about_version">HashChecker 1.4 STABLE</string>
+	<string name="about_version">HashChecker 1.5 STABLE</string>
 	<string name="about_projects">开源项目</string>
 	<string name="about_projects_preferencefragment">PreferenceFragment-Compat by Machinarius</string>
 	<string name="about_projects_preferencefragment_license">Copyright (C) 2013 The Android Open Source Project\nLicensed under the Apache License, Version 2.0 (the \"License\");\nYou may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 \nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
@@ -82,7 +85,7 @@ limitations under the License.
 	<string name="about_me_title">自述</string>
 	<string name="about_me_content">你好，我是 Rachel ，一名14岁的初三学生，也是一名独立开发者。\n我用空余时间来开发 Android 应用。所有我个人的应用都将永久免费，希望你会喜欢。欢迎关注我的 Twitter（@tangrui003 ）来获取最新消息，加入 Telegram 频道（@rachelnotice ）以得到更新提示，你也可以随意在 Telegram（@Rachel030219 ）上向我提任何问题。\n- Rachel, 2017</string>
 	<string name="updated_title">更新日志</string>
-	<string name="updated_changelog">HashChecker 1.4 STABLE 更新日志:\n\n- 对外开放 API ，欢迎开发者到 GitHub 阅读 API 文档\n\n- （终于）提供全部复制功能\n\n- CRC32 现在可以选择十六进制\n\n- 修复了一个一定会在检查 SHA512 时导致 FC 的 bug\n\n- 更新译文和 LICENSE</string>
+	<string name="updated_changelog">HashChecker 1.5 STABLE 更新日志:\n\n- 增加标签开关\n\n- 减少无意义的内存浪费\n\n- 修复了在全部复制时可能遇到的问题</string>
 
     <string name="permission_denied">没权限的应用还有什么意思…</string>
 </resources>
