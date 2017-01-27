@@ -27,6 +27,7 @@ limitations under the License.
 	<string name="donate">捐赠</string>
 	<string name="about">关于</string>
 	<string name="copyall">全部复制</string>
+	<string name="repeated">识别重复</string>
 
 	<string name="file">文件：%1$s</string>
 	<string name="md5">MD5：%1$s</string>

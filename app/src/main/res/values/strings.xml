@@ -27,6 +27,7 @@ limitations under the License.
 	<string name="donate">Donate</string>
 	<string name="about">About</string>
 	<string name="copyall">Copy all</string>
+	<string name="repeated">Recognize repeat</string>
 	
 	<string name="file">File : %1$s</string>
 	<string name="md5">MD5 : %1$s</string>

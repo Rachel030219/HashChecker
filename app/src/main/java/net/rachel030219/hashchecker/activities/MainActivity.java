@@ -62,17 +62,11 @@ public class MainActivity extends AppCompatActivity {
 	ActionBarDrawerToggle mDrawerToggle;
 	FloatingActionButton mFab;
 	CoordinatorLayout mRoot;
-	
-	String md5 = null;
-	String sha1 = null;
-	String sha256 = null;
-	String sha384 = null;
-	String sha512 = null;
-    String crc32 = null;
 
     HashMap<Integer,String> mMap;
 
     ArrayList<HashMap<Integer,String>> mDatas;
+    ArrayList<CardView> mCards;
 
     boolean eMD5 = true;
     boolean eSHA1 = true;
@@ -93,6 +87,10 @@ public class MainActivity extends AppCompatActivity {
     RecyclerAdapter adapter;
 
     boolean multiShare = false;
+
+    String[] colorList = new String[]{"#F8BBD0","#D1C4E9","#C5CAE9","#C8C6D9","#F0F4C3","#FFCCBC","#B2DFDB","#BBDEFB","#CFD8DC"};
+    int nowColor = -1;
+    int shouldUse = 0;
 	
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -107,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
         mMap = new HashMap<>();
         mDatas = new ArrayList<>();
+        mCards = new ArrayList<>();
 
         mRecycler = (RecyclerView)findViewById(R.id.recycler);
         mRecycler.setLayoutManager(new LinearLayoutManager(this));
@@ -146,6 +145,18 @@ public class MainActivity extends AppCompatActivity {
         eTags = defaultPreferences.getBoolean("output_copyall_tag",true);
         eCover = defaultPreferences.getBoolean("output_cover",true);
         uppercase = defaultPreferences.getBoolean("output_case",true);
+        if (eMD5)
+            shouldUse = 2;
+        else if (eSHA1)
+            shouldUse = 3;
+        else if (eSHA256)
+            shouldUse = 4;
+        else if (eSHA384)
+            shouldUse = 5;
+        else if (eSHA512)
+            shouldUse = 6;
+        else if (eCRC32)
+            shouldUse = 7;
     }
 
 	private void bindView(){
@@ -366,9 +377,41 @@ public class MainActivity extends AppCompatActivity {
                         builder.append(mDatas.get(i).get(7));
                     }
                 }
-                if (!builder.toString().equals("[HashChecker]") && !builder.toString().equals(clipBefore)) {
+                if (!builder.toString().equals("[HashChecker]") && !builder.toString().equals("") && !builder.toString().equals(clipBefore)) {
                     manager.set(builder.toString());
                     Snackbar.make(mRoot, String.format(getResources().getString(R.string.copied),"all"), Snackbar.LENGTH_SHORT).show();
+                }
+                return true;
+            case R.id.repeated:
+                if (mCards.size() > 1 && mDatas.size() > 1) {
+                    ArrayList<Integer> shouldColor = new ArrayList<>();
+                    for (int i1 = 0;i1 < mDatas.size() - 1;i1++){
+                        for (int i2 = mDatas.size() - 1;i2 > 0;i2--) {
+                            if (shouldUse > 1 && mDatas.get(i1).get(shouldUse).toUpperCase().equals(mDatas.get(i2).get(shouldUse).toUpperCase())) {
+                                if (!shouldColor.contains(i1))
+                                    shouldColor.add(i1);
+                                if (!shouldColor.contains(i2))
+                                    shouldColor.add(i2);
+                            }
+                        }
+                    }
+                    if (nowColor+1 == colorList.length) {
+                        nowColor = 0;
+                    } else {
+                        nowColor++;
+                    }
+                    if (shouldColor.size() > 1) {
+                        for (int i = 0;i < shouldColor.size();i++) {
+                            if (shouldUse > 1 && i >= 1 && !mDatas.get(shouldColor.get(i)).get(shouldUse).toUpperCase().equals(mDatas.get(shouldColor.get(i-1)).get(shouldUse).toUpperCase())) {
+                                if (nowColor + 1 == colorList.length) {
+                                    nowColor = 0;
+                                } else {
+                                    nowColor++;
+                                }
+                            }
+                            mCards.get(shouldColor.get(i)).setCardBackgroundColor(Color.parseColor(colorList[nowColor]));
+                        }
+                    }
                 }
                 return true;
             default:
@@ -392,6 +435,14 @@ public class MainActivity extends AppCompatActivity {
 				@Override
 				public void run(){
                     getPreferences();
+
+                    String md5 = null;
+                    String sha1 = null;
+                    String sha256 = null;
+                    String sha384 = null;
+                    String sha512 = null;
+                    String crc32 = null;
+
                     if (eMD5)
 					    md5 = HashTool.getFileHash("MD5",file);
                     if (eSHA1)
@@ -564,8 +615,8 @@ public class MainActivity extends AppCompatActivity {
 
             Holder(View view){
                 super(view);
-                // 常规
                 mResult = (CardView)view.findViewById(R.id.result);
+                mCards.add(mResult);
                 mFile = (TextView)view.findViewById(R.id.file);
 
                 mMD5 = (TextView)view.findViewById(R.id.md5);
@@ -619,67 +670,67 @@ public class MainActivity extends AppCompatActivity {
                 if(check != null){
                     if(!check.toString().equals(md5) && !check.toString().equals(sha1) && !check.toString().equals(sha256) && !check.toString().equals(sha384) && !check.toString().equals(sha512) && !check.toString().equals(crc32)) {
                         holder.mCheckInput.setTextColor(Color.parseColor("#FF0000"));
-                        holder.mMD5.setTextColor(Color.parseColor("#797979"));
-                        holder.mSHA1.setTextColor(Color.parseColor("#797979"));
+                        holder.mMD5.setTextColor(Color.parseColor("#000000"));
+                        holder.mSHA1.setTextColor(Color.parseColor("#000000"));
                         if (eSHA256) {
-                            holder.mSHA256.setTextColor(Color.parseColor("#797979"));
+                            holder.mSHA256.setTextColor(Color.parseColor("#000000"));
                         }
                         if (eSHA384) {
-                            holder.mSHA384.setTextColor(Color.parseColor("#797979"));
+                            holder.mSHA384.setTextColor(Color.parseColor("#000000"));
                         }
                         if (eSHA512) {
-                            holder.mSHA512.setTextColor(Color.parseColor("#797979"));
+                            holder.mSHA512.setTextColor(Color.parseColor("#000000"));
                         }
                         if (eCRC32) {
-                            holder.mCRC32.setTextColor(Color.parseColor("#797979"));
+                            holder.mCRC32.setTextColor(Color.parseColor("#000000"));
                         }
                     } else {
                         if(check.toString().equals(md5)) {
                             holder.mMD5.setTextColor(Color.parseColor("#00CD00"));
-                            holder.mSHA1.setTextColor(Color.parseColor("#797979"));
-                            holder.mSHA256.setTextColor(Color.parseColor("#797979"));
-                            holder.mSHA384.setTextColor(Color.parseColor("#797979"));
-                            holder.mSHA512.setTextColor(Color.parseColor("#797979"));
-                            holder.mCRC32.setTextColor(Color.parseColor("#797979"));
+                            holder.mSHA1.setTextColor(Color.parseColor("#000000"));
+                            holder.mSHA256.setTextColor(Color.parseColor("#000000"));
+                            holder.mSHA384.setTextColor(Color.parseColor("#000000"));
+                            holder.mSHA512.setTextColor(Color.parseColor("#000000"));
+                            holder.mCRC32.setTextColor(Color.parseColor("#000000"));
                             holder.mCheckInput.setTextColor(Color.parseColor("#00CD00"));
                         } else if(check.toString().equals(sha1)) {
-                            holder.mMD5.setTextColor(Color.parseColor("#797979"));
+                            holder.mMD5.setTextColor(Color.parseColor("#000000"));
                             holder.mSHA1.setTextColor(Color.parseColor("#00CD00"));
-                            holder.mSHA256.setTextColor(Color.parseColor("#797979"));
-                            holder.mSHA384.setTextColor(Color.parseColor("#797979"));
-                            holder.mSHA512.setTextColor(Color.parseColor("#797979"));
-                            holder.mCRC32.setTextColor(Color.parseColor("#797979"));
+                            holder.mSHA256.setTextColor(Color.parseColor("#000000"));
+                            holder.mSHA384.setTextColor(Color.parseColor("#000000"));
+                            holder.mSHA512.setTextColor(Color.parseColor("#000000"));
+                            holder.mCRC32.setTextColor(Color.parseColor("#000000"));
                             holder.mCheckInput.setTextColor(Color.parseColor("#00CD00"));
                         } else if(eSHA256 && check.toString().equals(sha256)) {
-                            holder.mMD5.setTextColor(Color.parseColor("#797979"));
-                            holder.mSHA1.setTextColor(Color.parseColor("#797979"));
+                            holder.mMD5.setTextColor(Color.parseColor("#000000"));
+                            holder.mSHA1.setTextColor(Color.parseColor("#000000"));
                             holder.mSHA256.setTextColor(Color.parseColor("#00CD00"));
-                            holder.mSHA384.setTextColor(Color.parseColor("#797979"));
-                            holder.mSHA512.setTextColor(Color.parseColor("#797979"));
-                            holder.mCRC32.setTextColor(Color.parseColor("#797979"));
+                            holder.mSHA384.setTextColor(Color.parseColor("#000000"));
+                            holder.mSHA512.setTextColor(Color.parseColor("#000000"));
+                            holder.mCRC32.setTextColor(Color.parseColor("#000000"));
                             holder.mCheckInput.setTextColor(Color.parseColor("#00CD00"));
                         } else if(eSHA384 && check.toString().equals(sha384)) {
-                            holder.mMD5.setTextColor(Color.parseColor("#797979"));
-                            holder.mSHA1.setTextColor(Color.parseColor("#797979"));
-                            holder.mSHA256.setTextColor(Color.parseColor("#797979"));
+                            holder.mMD5.setTextColor(Color.parseColor("#000000"));
+                            holder.mSHA1.setTextColor(Color.parseColor("#000000"));
+                            holder.mSHA256.setTextColor(Color.parseColor("#000000"));
                             holder.mSHA384.setTextColor(Color.parseColor("#00CD00"));
-                            holder.mSHA512.setTextColor(Color.parseColor("#797979"));
-                            holder.mCRC32.setTextColor(Color.parseColor("#797979"));
+                            holder.mSHA512.setTextColor(Color.parseColor("#000000"));
+                            holder.mCRC32.setTextColor(Color.parseColor("#000000"));
                             holder.mCheckInput.setTextColor(Color.parseColor("#00CD00"));
                         } else if(eSHA512 && check.toString().equals(sha512)) {
-                            holder.mMD5.setTextColor(Color.parseColor("#797979"));
-                            holder.mSHA1.setTextColor(Color.parseColor("#797979"));
-                            holder.mSHA256.setTextColor(Color.parseColor("#797979"));
-                            holder.mSHA384.setTextColor(Color.parseColor("#797979"));
+                            holder.mMD5.setTextColor(Color.parseColor("#000000"));
+                            holder.mSHA1.setTextColor(Color.parseColor("#000000"));
+                            holder.mSHA256.setTextColor(Color.parseColor("#000000"));
+                            holder.mSHA384.setTextColor(Color.parseColor("#000000"));
                             holder.mSHA512.setTextColor(Color.parseColor("#00CD00"));
-                            holder.mCRC32.setTextColor(Color.parseColor("#797979"));
+                            holder.mCRC32.setTextColor(Color.parseColor("#000000"));
                             holder.mCheckInput.setTextColor(Color.parseColor("#00CD00"));
                         } else if (eCRC32 && check.toString().equals(crc32)){
-                            holder.mMD5.setTextColor(Color.parseColor("#797979"));
-                            holder.mSHA1.setTextColor(Color.parseColor("#797979"));
-                            holder.mSHA256.setTextColor(Color.parseColor("#797979"));
-                            holder.mSHA384.setTextColor(Color.parseColor("#797979"));
-                            holder.mSHA512.setTextColor(Color.parseColor("#797979"));
+                            holder.mMD5.setTextColor(Color.parseColor("#000000"));
+                            holder.mSHA1.setTextColor(Color.parseColor("#000000"));
+                            holder.mSHA256.setTextColor(Color.parseColor("#000000"));
+                            holder.mSHA384.setTextColor(Color.parseColor("#000000"));
+                            holder.mSHA512.setTextColor(Color.parseColor("#000000"));
                             holder.mCRC32.setTextColor(Color.parseColor("#00CD00"));
                             holder.mCheckInput.setTextColor(Color.parseColor("#00CD00"));
                         }

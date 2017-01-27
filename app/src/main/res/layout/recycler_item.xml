@@ -39,52 +39,59 @@ limitations under the License.
                 android:id="@+id/file"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="10dp"
+                android:textColor="#000000"/>
 
             <TextView
                 android:id="@+id/md5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="10dp"
+                android:textColor="#000000"/>
 
             <TextView
                 android:id="@+id/sha1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="10dp"
+                android:textColor="#000000"/>
 
             <TextView
                 android:id="@+id/sha256"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                android:textColor="#000000"/>
 
             <TextView
                 android:id="@+id/sha384"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                android:textColor="#000000"/>
 
             <TextView
                 android:id="@+id/sha512"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                android:textColor="#000000"/>
 
             <TextView
                 android:id="@+id/crc32"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                android:textColor="#000000"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#60797979"/>
+                android:background="#60202020"/>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"

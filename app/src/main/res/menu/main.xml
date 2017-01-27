@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:title="@string/repeated"
+        android:icon="@drawable/ic_repeated"
+        android:id="@+id/repeated"
+        app:showAsAction="ifRoom"/>
+    <item
         android:title="@string/copyall"
         android:icon="@drawable/ic_copyall"
         android:id="@+id/copyall"
