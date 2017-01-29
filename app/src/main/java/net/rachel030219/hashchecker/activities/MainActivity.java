@@ -233,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
 	
 	public void checkUpdated(){
 		final SharedPreferences preferences = getSharedPreferences("updated",MODE_PRIVATE);
-		if(!preferences.getBoolean("updated14",false)){
+		if(!preferences.getBoolean("updated15",false)){
             preferences.edit().clear().apply();
 			AlertDialog.Builder dialog = new AlertDialog.Builder(this);
 			dialog.setTitle(R.string.updated_title);
@@ -241,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
 			dialog.setPositiveButton("GOT IT",new DialogInterface.OnClickListener(){
 				@Override
 				public void onClick(DialogInterface dialog,int count){
-					preferences.edit().putBoolean("updated14",true).apply();
+					preferences.edit().putBoolean("updated15",true).apply();
 				}
 			});
 			dialog.show();

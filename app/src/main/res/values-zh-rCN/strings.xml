@@ -81,12 +81,12 @@ limitations under the License.
 	<string name="about_projects_materialsettingsactivitydemo">MaterialSettingsActivityDemo by drakeet</string>
 	<string name="about_projects_materialsettingsactivitydemo_license">作者没有给出开源协议，我从博客 https://drakeet.me 里学会了如何制作 Material Design 的设置界面</string>
 	<string name="about_specialthanks">特别感谢：</string>
-	<string name="about_specialthanks_to">Liang Yuteng(@liangyuteng )\nRikka(@RikkaW 或者 @蓝莓味绿茶 )</string>
+	<string name="about_specialthanks_to">Trumeet\n\nRikka</string>
 	<string name="about_me">Developed by Rachel, 2017</string>
 	<string name="about_me_title">自述</string>
 	<string name="about_me_content">你好，我是 Rachel ，一名14岁的初三学生，也是一名独立开发者。\n我用空余时间来开发 Android 应用。所有我个人的应用都将永久免费，希望你会喜欢。欢迎关注我的 Twitter（@tangrui003 ）来获取最新消息，加入 Telegram 频道（@rachelnotice ）以得到更新提示，你也可以随意在 Telegram（@Rachel030219 ）上向我提任何问题。\n- Rachel, 2017</string>
 	<string name="updated_title">更新日志</string>
-	<string name="updated_changelog">HashChecker 1.5 STABLE 更新日志:\n\n- 增加标签开关\n\n- 减少无意义的内存浪费\n\n- 修复了在全部复制时可能遇到的问题</string>
+	<string name="updated_changelog">HashChecker 1.5 STABLE 更新日志:\n\n- 增加重复识别\n\n- 增加标签开关\n\n- 减少无意义的内存浪费\n\n- 提高线程安全\n\n- 修复了在全部复制时可能遇到的问题</string>
 
     <string name="permission_denied">没权限的应用还有什么意思…</string>
 </resources>

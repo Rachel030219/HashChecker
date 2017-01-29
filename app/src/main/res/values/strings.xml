@@ -81,12 +81,12 @@ limitations under the License.
 	<string name="about_projects_materialsettingsactivitydemo">MaterialSettingsActivityDemo by drakeet</string>
 	<string name="about_projects_materialsettingsactivitydemo_license">The author didn\'t give out a license. I learned how to make a Material-Design settings activity from his blog https://drakeet.me .</string>
 	<string name="about_specialthanks">Special thanks to:</string>
-	<string name="about_specialthanks_to">Liang Yuteng(@liangyuteng )\nRikka(@RikkaW or @蓝莓味绿茶 )</string>
+	<string name="about_specialthanks_to">Trumeet\n\nRikka</string>
 	<string name="about_me">Developed by Rachel, 2017</string>
 	<string name="about_me_title">About me</string>
-	<string name="about_me_content">Hi, I am Rachel, a thirteen-year-old student(Grade Nine) and independent developer.\nI spent my free time developing on Android. All of my apps are free forever, hope you like them. And, please follow me on Twitter(@tangrui003 ) to get latest news and join the Telegram channel(@rachelnotice ) to get notice, and feel free to ask me any question through Telegram(@Rachel030219 ).\n- Rachel, 2017</string>
+	<string name="about_me_content">Hi, I am Rachel, a fourteen-year-old student(Grade Nine) and independent developer.\nI spent my free time developing on Android. All of my apps are free forever, hope you like them. And, please follow me on Twitter(@tangrui003 ) to get latest news and join the Telegram channel(@rachelnotice ) to get notice, and feel free to ask me any question through Telegram(@Rachel030219 ).\n- Rachel, 2017</string>
 	<string name="updated_title">What\'s New</string>
-	<string name="updated_changelog">HashChecker 1.5 STABLE Changelog:\n\n- Added tag switch\n\n- Reduced meaningless waste of RAM\n\n- Fixed a bug when copying all</string>
+	<string name="updated_changelog">HashChecker 1.5 STABLE Changelog:\n\n- Added repeat recognizer\n\n- Added tag switch\n\n- Reduced meaningless waste of RAM\n\n- Improved thread safety\n\n- Fixed a bug when copying all</string>
 
     <string name="permission_denied">Please grant permission in settings, or you will be no longer able to use this app.</string>
 </resources>
