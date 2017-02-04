@@ -152,8 +152,12 @@ And so, you need to check what it returns. Only two cases.
 
 ***
 
+<a href='https://play.google.com/store/apps/details?id=net.rachel030219.hashchecker&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>  
+
 欢迎关注 [Telegram Channel](https://telegram.me/rachelnotice) / [Twitter](https://twitter.com/tangrui003)
 
+
+Screenshots:  
 ![Screenshot1](./pic/Screenshot1.png)
 ![Screenshot2](./pic/Screenshot2.png)
 
