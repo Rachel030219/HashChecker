@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
     boolean multiShare = false;
 
-    String[] colorList = new String[]{"#F8BBD0","#D1C4E9","#C5CAE9","#C8C6D9","#F0F4C3","#FFCCBC","#B2DFDB","#BBDEFB","#CFD8DC"};
+    String[] colorList = new String[]{"#F8BBD0","#D1C4E9","#C5CAE9","#F0F4C3","#FFCCBC","#B2DFDB","#C8C6D9","#BBDEFB","#CFD8DC"};
     int nowColor = -1;
     int shouldUse = 0;
     ArrayList<Integer> shouldColor = new ArrayList<>();
@@ -413,17 +413,17 @@ public class MainActivity extends AppCompatActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        for (int i = 0; i < shouldColor.size() - 1; i++) {
-                                            /*
-                                            if (shouldUse > 1 && i >= 1 && !mDatas.get(shouldColor.get(i)).get(shouldUse).toUpperCase().equals(mDatas.get(shouldColor.get(i-1)).get(shouldUse).toUpperCase())) {
+                                        for (int i : shouldColor) {
+
+                                            if (shouldUse > 1 && i >= 1 && !mDatas.get(shouldColor.get(shouldColor.indexOf(i))).get(shouldUse).toUpperCase().equals(mDatas.get(shouldColor.get(shouldColor.indexOf(i)-1)).get(shouldUse).toUpperCase())) {
                                                 if (nowColor + 1 == colorList.length) {
                                                     nowColor = 0;
                                                 } else {
                                                     nowColor++;
                                                 }
                                             }
-                                            */
-                                            mCards.get(shouldColor.get(i)).setCardBackgroundColor(Color.parseColor(colorList[nowColor]));
+
+                                            mCards.get(i).setCardBackgroundColor(Color.parseColor(colorList[nowColor]));
                                         }
                                     }
                                 });
