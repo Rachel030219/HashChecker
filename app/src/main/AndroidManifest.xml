@@ -65,19 +65,19 @@ limitations under the License.
 
             <intent-filter>
 
-                <action android:name="net.rachel030219.hashchecker.action.CALCULATE_MD5"/>
+                <action android:name="net.rachel030219.hashchecker.action.COMPARE_MD5"/>
 
-                <action android:name="net.rachel030219.hashchecker.action.CALCULATE_SHA1"/>
+                <action android:name="net.rachel030219.hashchecker.action.COMPARE_SHA1"/>
 
-                <action android:name="net.rachel030219.hashchecker.action.CALCULATE_SHA256"/>
+                <action android:name="net.rachel030219.hashchecker.action.COMPARE_SHA256"/>
 
-                <action android:name="net.rachel030219.hashchecker.action.CALCULATE_SHA384"/>
+                <action android:name="net.rachel030219.hashchecker.action.COMPARE_SHA384"/>
 
-                <action android:name="net.rachel030219.hashchecker.action.CALCULATE_SHA512"/>
+                <action android:name="net.rachel030219.hashchecker.action.COMPARE_SHA512"/>
 
-                <action android:name="net.rachel030219.hashchecker.action.CALCULATE_CRC32_HEX"/>
+                <action android:name="net.rachel030219.hashchecker.action.COMPARE_CRC32_HEX"/>
 
-                <action android:name="net.rachel030219.hashchecker.action.CALCULATE_CRC32_DEC"/>
+                <action android:name="net.rachel030219.hashchecker.action.COMPARE_CRC32_DEC"/>
 
                 <category android:name="android.intent.category.DEFAULT"/>
 

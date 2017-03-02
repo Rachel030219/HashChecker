@@ -23,7 +23,7 @@ For example,
 ```
 …
 Intent intent = new Intent();
-intent.setAction("net.rachel030219.hashchecker.action.CALCULATE_MD5");
+intent.setAction("net.rachel030219.hashchecker.action.COMPARE_MD5");
 …
 ```
 Optional action list is rolled out.  
@@ -44,7 +44,7 @@ For more information, please look up API DOC below.
 
 **Step 3**  
 Just send it out!  
-~~射~~发出来吧！
+~~射~~ 发出来吧！
 ```
 …
 try {
@@ -80,31 +80,31 @@ That's all! So easy, right?
 ## API DOC
 
 #### Actions
-0. `net.rachel030219.hashchecker.action.CALCULATE_MD5`  
+0. `net.rachel030219.hashchecker.action.COMPARE_MD5`
     Calculate and compare file's MD5  
     计算、比较 MD5 值
     
-1. `net.rachel030219.hashchecker.action.CALCULATE_SHA1`  
+1. `net.rachel030219.hashchecker.action.COMPARE_SHA1`
     The same, SHA1  
     同理， SHA1
     
-2. `net.rachel030219.hashchecker.action.CALCULATE_SHA256`  
+2. `net.rachel030219.hashchecker.action.COMPARE_SHA256`
     Again, SHA256  
     同理x2， SHA256
     
-3. `net.rachel030219.hashchecker.action.CALCULATE_SHA384`  
+3. `net.rachel030219.hashchecker.action.COMPARE_SHA384`
     Againn, SHA384  
     同理x3， SHA256
     
-4. `net.rachel030219.hashchecker.action.CALCULATE_SHA512`  
+4. `net.rachel030219.hashchecker.action.COMPARE_SHA512`
     Againnn, SHA384  
     同理x4， SHA256
     
-5. `net.rachel030219.hashchecker.action.CALCULATE_CRC32_HEX`  
+5. `net.rachel030219.hashchecker.action.COMPARE_CRC32_HEX`
     Againnnn, CRC32, remember to turn in a hexadecimal value  
     同理x5， CRC32 ，记得传入一个十六进制值
     
-6. `net.rachel030219.hashchecker.action.CALCULATE_CRC32_DEC`  
+6. `net.rachel030219.hashchecker.action.COMPARE_CRC32_DEC`
     Againnnnn, CRC32, you need also to turn in a String value, although decimal CRC32 can be long value  
     同理x6， CRC32 ，你同样需要传入一个 String 值，即使十进制的 CRC32 可以用 long 存储
     
@@ -130,7 +130,7 @@ That's all! So easy, right?
     The value which will be compared with the result.  
     最后会和结果进行对比的值。  
     Android limits the result an activity can return, so you **MUST** turn in this.  
-    Android 限制了 activity 能够回传的结果，所以你**必须**传入这个值。  
+    Android 限制了 activity 能够回传的结果，所以你必须传入这个值。
     BTW, HashChecker will auto change its case, so do not change it specially.  
     另外， HashChecker 会自动改变其大小写，不必特意去改动。
     

@@ -87,7 +87,7 @@ limitations under the License.
 	<string name="about_me_title">自述</string>
 	<string name="about_me_content">你好，我是 Rachel ，一名14岁的初三学生，也是一名独立开发者。\n我用空余时间来开发 Android 应用。所有我个人的应用都将永久免费，希望你会喜欢。欢迎关注我的 Twitter（@tangrui003 ）来获取最新消息，加入 Telegram 频道（@rachelnotice ）以得到更新提示，你也可以随意在 Telegram（@Rachel030219 ）上向我提任何问题。\n- Rachel, 2017</string>
 	<string name="updated_title">更新日志</string>
-	<string name="updated_changelog">HashChecker 1.5.1 STABLE 更新日志:\n\n- 修复了影响排重的问题\n\n- 对颜色进行重排以帮助分辨</string>
+	<string name="updated_changelog">HashChecker 1.5.1 STABLE 更新日志:\n\n- 更改 API\n\n- 修复了影响排重的问题\n\n- 对颜色进行重排以帮助分辨\n\n-添加了隐私权协议</string>
 
     <string name="permission_denied">没权限的应用还有什么意思…</string>
 </resources>

@@ -47,25 +47,25 @@ public class CalcActivity extends AppCompatActivity {
                 @Override
                 public void run(){
                     switch(mainIntent.getAction()){
-                        case "net.rachel030219.hashchecker.action.CALCULATE_MD5":
+                        case "net.rachel030219.hashchecker.action.COMPARE_MD5":
                             calculationValue = HashTool.getFileHash("MD5", file);
                             break;
-                        case "net.rachel030219.hashchecker.action.CALCULATE_SHA1":
+                        case "net.rachel030219.hashchecker.action.COMPARE_SHA1":
                             calculationValue = HashTool.getFileHash("SHA1", file);
                             break;
-                        case "net.rachel030219.hashchecker.action.CALCULATE_SHA256":
+                        case "net.rachel030219.hashchecker.action.COMPARE_SHA256":
                             calculationValue = HashTool.getFileHash("SHA256", file);
                             break;
-                        case "net.rachel030219.hashchecker.action.CALCULATE_SHA384":
+                        case "net.rachel030219.hashchecker.action.COMPARE_SHA384":
                             calculationValue = HashTool.getFileHash("SHA384", file);
                             break;
-                        case "net.rachel030219.hashchecker.action.CALCULATE_SHA512":
+                        case "net.rachel030219.hashchecker.action.COMPARE_SHA512":
                             calculationValue = HashTool.getFileHash("SHA512", file);
                             break;
-                        case "net.rachel030219.hashchecker.action.CALCULATE_CRC32_HEX":
+                        case "net.rachel030219.hashchecker.action.COMPARE_CRC32_HEX":
                             calculationValue = MathTool.toHex(HashTool.getCRC32(file));
                             break;
-                        case "net.rachel030219.hashchecker.action.CALCULATE_CRC32_DEC":
+                        case "net.rachel030219.hashchecker.action.COMPARE_CRC32_DEC":
                             calculationValue = HashTool.getCRC32(file) + "";
                             break;
                         default:
