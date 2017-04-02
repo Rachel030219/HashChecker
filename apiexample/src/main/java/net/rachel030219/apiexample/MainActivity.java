@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setAction("net.rachel030219.hashchecker.action.CALCULATE_MD5");                      // Turn in action
         intent.putExtra("net.rachel030219.hashchecker.extra.URI",Uri.parse(
-                "file:///storage/emulated/0/Android/obb/.nomedia"));                                          // Turn in uri
+                "file:///storage/emulated/0/Android/obb/.nomedia"));                                // Turn in uri
         // intent.putExtra("net.rachel030219.hashchecker.extra.FILE",new File(
         //         "/storage/emulated/0/Android/obb/.nomedia"));                                    // Select one(prefer uri)
         intent.putExtra("net.rachel030219.hashchecker.extra.VALUE",
@@ -59,10 +59,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE){
             switch (resultCode){
                 case 100:                                                                           // This means your value matches your file
-                    Toast.makeText(this, "Yay! Matches!", Toast.LENGTH_SHORT).show();
-                    break;
-                case -100:                                                                          // This means your value does not match your file
-                    Toast.makeText(this, "What? Does not match…", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Yay! Matches! " + data.getExtras().getString("net.rachel030219.hashchecker.extra.RESULT_VALUE"), Toast.LENGTH_SHORT).show();
                     break;
                 default:                                                                            // This means "这届用户不行啊", ignoring this section is OK
                     break;

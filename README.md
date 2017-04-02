@@ -5,13 +5,13 @@ A simple hash calculator
 Feel free to do anything you like, for example, fork it and change it.  
 随便对待它吧，你可以Fork并自行修改 。 
 
-Now, you are able to check a file in other apps.(After 1.4)  
-现在，你可以在其它应用中检查文件正确性。（1.4之后）
+Now, you are able to check a file in other apps(after 1.4), or get a value(after 1.5).
+现在，你可以在其它应用中检查文件正确性（1.4之后），或者获取一个值（1.5之后）。
 
 ## HOW TO USE HASHCHECKER'S API IN OTHER APPS - FAST TUTORIAL
 **Step 0**  
-You should have a file and a value to compare with.  
-你需要有一个文件和一个用于比对的值。  
+You should have a file and a value to compare with(optional).
+你需要有一个文件和一个用于比对的值（可选）。
 Of course, an Android device with this app.  
 当然还有，一台装有 HashChecker 的 Android 设备。
   
@@ -23,7 +23,7 @@ For example,
 ```
 …
 Intent intent = new Intent();
-intent.setAction("net.rachel030219.hashchecker.action.COMPARE_MD5");
+intent.setAction("net.rachel030219.hashchecker.action.COMPARE_MD5");    // You can just replace "COMPARE" with "CALCULATE" to calculate and get the value
 …
 ```
 Optional action list is rolled out.  
@@ -35,7 +35,7 @@ Turn in extra and set type.
 ```
 …
 intent.putExtra("net.rachel030219.hashchecker.extra.URI",uri);
-intent.putExtra("net.rachel030219.hashchecker.extra.VALUE",value);
+intent.putExtra("net.rachel030219.hashchecker.extra.VALUE",value);    // No need if you choose "CALCULATE"
 intent.setType("image/png");
 …
 ```
@@ -79,7 +79,7 @@ That's all! So easy, right?
 
 ## API DOC
 
-#### Actions
+#### Comparing Actions
 0. `net.rachel030219.hashchecker.action.COMPARE_MD5`
     Calculate and compare file's MD5  
     计算、比较 MD5 值
@@ -89,24 +89,53 @@ That's all! So easy, right?
     同理， SHA1
     
 2. `net.rachel030219.hashchecker.action.COMPARE_SHA256`
-    Again, SHA256  
+    Again, SHA256
     同理x2， SHA256
     
 3. `net.rachel030219.hashchecker.action.COMPARE_SHA384`
-    Againn, SHA384  
-    同理x3， SHA256
+    Againn, SHA384
+    同理x3， SHA384
     
 4. `net.rachel030219.hashchecker.action.COMPARE_SHA512`
-    Againnn, SHA384  
-    同理x4， SHA256
+    Againnn, SHA512
+    同理x4， SHA512
     
 5. `net.rachel030219.hashchecker.action.COMPARE_CRC32_HEX`
-    Againnnn, CRC32, remember to turn in a hexadecimal value  
+    Againnnn, CRC32, remember to turn in a hexadecimal value
     同理x5， CRC32 ，记得传入一个十六进制值
     
 6. `net.rachel030219.hashchecker.action.COMPARE_CRC32_DEC`
     Againnnnn, CRC32, you need also to turn in a String value, although decimal CRC32 can be long value  
     同理x6， CRC32 ，你同样需要传入一个 String 值，即使十进制的 CRC32 可以用 long 存储
+
+#### Calculating Actions
+    0. `net.rachel030219.hashchecker.action.COMPARE_MD5`
+        Calculate and compare file's MD5
+        计算 MD5 值
+
+    1. `net.rachel030219.hashchecker.action.COMPARE_SHA1`
+        The same, SHA1
+        同理， SHA1
+
+    2. `net.rachel030219.hashchecker.action.COMPARE_SHA256`
+        Again, SHA256
+        同理x2， SHA256
+
+    3. `net.rachel030219.hashchecker.action.COMPARE_SHA384`
+        Againn, SHA384
+        同理x3， SHA384
+
+    4. `net.rachel030219.hashchecker.action.COMPARE_SHA512`
+        Againnn, SHA512
+        同理x4， SHA512
+
+    5. `net.rachel030219.hashchecker.action.COMPARE_CRC32_HEX`
+        Againnnn, CRC32 in hexadecimal
+        同理x5， CRC32 十六进制
+
+    6. `net.rachel030219.hashchecker.action.COMPARE_CRC32_DEC`
+        Againnnnn, CRC32 in decimal
+        同理x6， CRC32 十进制
     
 #### Extras
 0. `net.rachel030219.hashchecker.extra.URI` - `android.net.Uri`  
@@ -135,10 +164,15 @@ That's all! So easy, right?
     另外， HashChecker 会自动改变其大小写，不必特意去改动。
     
 #### And the result…
-As what I said, HashChecker is unable to return a String value, so its API is used for only comparing.  
-就像我所说的那样， HashChecker 不能回传 String 值，所以它的 API 只用来比较。  
-And so, you need to check what it returns. Only two cases.  
-那么，你就需要检查它所返回的值。只有两种情况。
+~~ As what I said, HashChecker is unable to return a String value, so its API is used for only comparing. ~~
+~~ 就像我所说的那样， HashChecker 不能回传 String 值，所以它的 API 只用来比较。 ~~
+~~ And so, you need to check what it returns. ~~
+~~ 那么，就需要检查它所返回的值。 ~~
+
+When you choose `COMPARE`, you'll have to check the result.
+当选择 COMPARE 的时候，需要检查返回值以判断结果是否如预期。
+There are only two cases.
+只有两种情况。
 
 0. `100` - `java.lang.Integer`  
     In this case, result matches what you have turned in. Congratulations!  
@@ -149,6 +183,13 @@ And so, you need to check what it returns. Only two cases.
 2. And other values?  
     Umm… I don't know either. Maybe your user did something that impolite to HashChecker. So if you got this case, you can just retry. ~~(F***ing your user is also OK)~~  
     唔…我也不知道了。可能你的用户做了某些对 HashChecker 不礼貌的事情。所以如果你发现出现这种奇葩事情，重来就行。 ~~（对你的用户表示*礼貌*也行我不反对）~~  
+
+Or, you choose `CALCULATE`, then please get the value out from the extra.
+或者如果选择了 `CALCULATE` ，就请从 Extra 中取出值。
+
+0. `100` - `java.lang.Integer` & `net.rachel030219.hashchecker.extra.RESULT_VALUE`
+    This is just the value you are looking for.
+    这就是你想要的那个值。
 
 ***
 

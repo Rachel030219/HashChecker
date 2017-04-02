@@ -68,6 +68,27 @@ public class CalcActivity extends AppCompatActivity {
                         case "net.rachel030219.hashchecker.action.COMPARE_CRC32_DEC":
                             calculationValue = HashTool.getCRC32(file) + "";
                             break;
+                        case "net.rachel030219.hashchecker.action.CALCULATE_MD5":
+                            calculationValue = HashTool.getFileHash("MD5", file);
+                            break;
+                        case "net.rachel030219.hashchecker.action.CALCULATE_SHA1":
+                            calculationValue = HashTool.getFileHash("SHA1", file);
+                            break;
+                        case "net.rachel030219.hashchecker.action.CALCULATE_SHA256":
+                            calculationValue = HashTool.getFileHash("SHA256", file);
+                            break;
+                        case "net.rachel030219.hashchecker.action.CALCULATE_SHA384":
+                            calculationValue = HashTool.getFileHash("SHA384", file);
+                            break;
+                        case "net.rachel030219.hashchecker.action.CALCULATE_SHA512":
+                            calculationValue = HashTool.getFileHash("SHA512", file);
+                            break;
+                        case "net.rachel030219.hashchecker.action.CALCULATE_CRC32_HEX":
+                            calculationValue = MathTool.toHex(HashTool.getCRC32(file));
+                            break;
+                        case "net.rachel030219.hashchecker.action.CALCULATE_CRC32_DEC":
+                            calculationValue = HashTool.getCRC32(file) + "";
+                            break;
                         default:
                             // 去你丫的你在干嘛？
                             break;
@@ -80,10 +101,17 @@ public class CalcActivity extends AppCompatActivity {
     }
 
     public void returnResult(){
-        if (value.toUpperCase().equals(calculationValue.toUpperCase()))
-            setResult(100);
-        else
-            setResult(-100);
+        if (mainIntent.getAction().matches("COMPARE") && calculationValue != null) {
+            if (value.toUpperCase().equals(calculationValue.toUpperCase()))
+                setResult(100);
+            else
+                setResult(-100);
+        } else {
+            Intent data = new Intent();
+            data.putExtra("net.rachel030219.hashchecker.extra.VALUE", calculationValue);
+            setResult(100, data);
+        }
+        //TODO: Hand value in data
         finish();
     }
 }
