@@ -39,9 +39,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setAction("net.rachel030219.hashchecker.action.CALCULATE_MD5");                      // Turn in action
         intent.putExtra("net.rachel030219.hashchecker.extra.URI",Uri.parse(
-                "file:///storage/emulated/0/cmcc_sso_config.dat"));                                // Turn in uri
+                "file:///storage/emulated/0/Android/obb/.nomedia"));                                // Turn in uri
         // intent.putExtra("net.rachel030219.hashchecker.extra.FILE",new File(
-        //         "/storage/emulated/0/cmcc_sso_config.dat"));                                    // Select one(prefer uri)
+        //         "/storage/emulated/0/Android/obb/.nomedia"));                                    // Select one(prefer uri)
         intent.putExtra("net.rachel030219.hashchecker.extra.VALUE",
                 "D41D8CD98F00B204E9800998ECF8427E");                                                // Turn in value to compare with. For .nomedia files, it is usually D41D8CD98F00B204E9800998ECF8427E
         intent.setType("*/*");                                                                      // I don't know what its type is, so just type "*/*"
