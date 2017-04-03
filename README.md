@@ -60,7 +60,7 @@ protected void onActivityResult(int requestCode,int resultCode,Intent data){
             case 100:
                 // Do something…
                 break;
-            case -100:
+            case 10:
                 // Do something…
                 break;
             default:
@@ -177,7 +177,7 @@ There are only two cases.
 0. `100` - `java.lang.Integer`  
     In this case, result matches what you have turned in. Congratulations!  
     这种情况下，结果与你所传入的值匹配。恭喜！  
-1. `-100` - `java.lang.Integer`  
+1. `10` - `java.lang.Integer`
     In this case, result does not match what you have turned in. Maybe you need to check the file.  
     这种情况下，结果与你所传入的值不相符。可能得查查这个文件了。  
 2. And other values?  

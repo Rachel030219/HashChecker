@@ -39,9 +39,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setAction("net.rachel030219.hashchecker.action.CALCULATE_MD5");                      // Turn in action
         intent.putExtra("net.rachel030219.hashchecker.extra.URI",Uri.parse(
-                "file:///storage/emulated/0/Android/obb/.nomedia"));                                // Turn in uri
+                "file:///storage/emulated/0/cmcc_sso_config.dat"));                                // Turn in uri
         // intent.putExtra("net.rachel030219.hashchecker.extra.FILE",new File(
-        //         "/storage/emulated/0/Android/obb/.nomedia"));                                    // Select one(prefer uri)
+        //         "/storage/emulated/0/cmcc_sso_config.dat"));                                    // Select one(prefer uri)
         intent.putExtra("net.rachel030219.hashchecker.extra.VALUE",
                 "D41D8CD98F00B204E9800998ECF8427E");                                                // Turn in value to compare with. For .nomedia files, it is usually D41D8CD98F00B204E9800998ECF8427E
         intent.setType("*/*");                                                                      // I don't know what its type is, so just type "*/*"
@@ -58,8 +58,11 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE){
             switch (resultCode){
-                case 100:                                                                           // This means your value matches your file
+                case 100:                                                                           // This means your value matches your file or you've got the value
                     Toast.makeText(this, "Yay! Matches! " + data.getExtras().getString("net.rachel030219.hashchecker.extra.RESULT_VALUE"), Toast.LENGTH_SHORT).show();
+                    break;
+                case 10:
+                    Toast.makeText(this, "Something went wrong.", Toast.LENGTH_SHORT).show();
                     break;
                 default:                                                                            // This means "这届用户不行啊", ignoring this section is OK
                     break;
