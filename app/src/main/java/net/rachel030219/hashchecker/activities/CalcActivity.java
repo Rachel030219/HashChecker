@@ -26,7 +26,6 @@ import net.rachel030219.hashchecker.tools.MathTool;
 public class CalcActivity extends AppCompatActivity {
     Intent mainIntent;
     String value;
-    Uri uri;
     File file;
     String calculationValue;
 

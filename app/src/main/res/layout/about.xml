@@ -108,7 +108,16 @@ limitations under the License.
 		</LinearLayout>
 
 	</ScrollView>
-	
+
+	<TextView
+        android:id="@+id/about_pp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/about_pp"
+        android:maxLines="1"
+        android:layout_marginBottom="48dp"
+        android:layout_gravity="center|bottom"/>
+
 	<TextView
 		android:id="@+id/about_me"
 		android:layout_width="wrap_content"

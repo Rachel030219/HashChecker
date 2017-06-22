@@ -37,7 +37,8 @@ import net.rachel030219.hashchecker.R;
 public class AboutActivity extends AppCompatActivity{
 	TextView mPreferenceFragmentCompat;
 	TextView mMaterialSettingsActivityDemo;
-	
+
+	TextView mAboutPP;
 	TextView mAboutMe;
 	
 	@Override
@@ -67,7 +68,15 @@ public class AboutActivity extends AppCompatActivity{
 		mPreferenceFragmentCompat.setOnClickListener(new OnProjectClick(this,res.getString(R.string.about_projects_preferencefragment),res.getString(R.string.about_projects_preferencefragment_license),"https://github.com/Machinarius/PreferenceFragment-Compat"));
 		mMaterialSettingsActivityDemo = (TextView)findViewById(R.id.about_projects_materialsettingsactivitydemo);
 		mMaterialSettingsActivityDemo.setOnClickListener(new OnProjectClick(this,res.getString(R.string.about_projects_materialsettingsactivitydemo),res.getString(R.string.about_projects_materialsettingsactivitydemo_license),"https://drakeet.me/material-design-settings-activity"));
-		
+		mAboutPP = (TextView)findViewById(R.id.about_pp);
+        mAboutPP.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://github.com/TaRGroup/Privacy-Policy"));
+                startActivity(intent);
+            }
+        });
 		mAboutMe = (TextView)findViewById(R.id.about_me);
 		mAboutMe.setOnClickListener(new View.OnClickListener(){
 			@Override
