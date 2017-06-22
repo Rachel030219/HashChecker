@@ -36,18 +36,13 @@ public class CalcActivity extends AppCompatActivity {
         mainIntent = getIntent();
         if(mainIntent != null){
             Bundle extras = mainIntent.getExtras();
-            uri = (Uri)extras.get("net.rachel030219.hashchecker.extra.URI");
             value = (String)extras.get("net.rachel030219.hashchecker.extra.VALUE");
-            if (uri == null) {
-                file = (File)extras.get("net.rachel030219.hashchecker.extra.FILE");
-            } else {
-                file = new File(FileUtils.getPath(this,uri));
-            }
+            file = (File)extras.get("net.rachel030219.hashchecker.extra.FILE");
             runOnUiThread(new Runnable(){
                 @Override
                 public void run() {
                     Dialog dialog = ProgressDialog.show(CalcActivity.this, null, "Calculating…", true);
-                    new Handler().post(new Runnable(){
+                    new Thread(){
                         @Override
                         public void run() {
                             switch(mainIntent.getAction()){
@@ -99,7 +94,7 @@ public class CalcActivity extends AppCompatActivity {
                             }
                             returnResult();
                         }
-                    });
+                    }.start();
                     dialog.dismiss();
                 }
             });

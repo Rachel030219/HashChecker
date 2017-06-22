@@ -38,12 +38,10 @@ public class MainActivity extends AppCompatActivity {
         // start calculating
         Intent intent = new Intent();
         intent.setAction("net.rachel030219.hashchecker.action.CALCULATE_MD5");                      // Turn in action
-        intent.putExtra("net.rachel030219.hashchecker.extra.URI",Uri.parse(
-                "file:///storage/emulated/0/Android/obb/.nomedia"));                                // Turn in uri
-        // intent.putExtra("net.rachel030219.hashchecker.extra.FILE",new File(
-        //         "/storage/emulated/0/Android/obb/.nomedia"));                                    // Select one(prefer uri)
-        intent.putExtra("net.rachel030219.hashchecker.extra.VALUE",
-                "D41D8CD98F00B204E9800998ECF8427E");                                                // Turn in value to compare with. For .nomedia files, it is usually D41D8CD98F00B204E9800998ECF8427E
+        intent.putExtra("net.rachel030219.hashchecker.extra.FILE",new File(
+                "/storage/emulated/0/Android/obb/.nomedia"));                                       // Turn in file
+        // intent.putExtra("net.rachel030219.hashchecker.extra.VALUE",
+        //         "D41D8CD98F00B204E9800998ECF8427E");                                             // Turn in value to compare with. For empty files, it is usually D41D8CD98F00B204E9800998ECF8427E
         intent.setType("*/*");                                                                      // I don't know what its type is, so just type "*/*"
         try {
             startActivityForResult(intent,REQUEST_CODE);                                            // Let's try it now!
@@ -59,12 +57,12 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE){
             switch (resultCode){
                 case 100:                                                                           // This means your value matches your file or you've got the value
-                    Toast.makeText(this, "Yay! Matches! " + data.getExtras().getString("net.rachel030219.hashchecker.extra.RESULT_VALUE"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Yay! Got it! " + data.getExtras().getString("net.rachel030219.hashchecker.extra.RESULT_VALUE"), Toast.LENGTH_SHORT).show();
                     break;
                 case 10:
                     Toast.makeText(this, "Something went wrong.", Toast.LENGTH_SHORT).show();
                     break;
-                default:                                                                            // This means "这届用户不行啊", ignoring this section is OK
+                default:                                                                            // This means "你们是我带过最差的一届用户", ignoring this section is OK
                     break;
             }
         }

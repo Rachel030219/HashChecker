@@ -34,7 +34,7 @@ Turn in extra and set type.
 放入数据，设置类型。
 ```
 …
-intent.putExtra("net.rachel030219.hashchecker.extra.URI",uri);
+intent.putExtra("net.rachel030219.hashchecker.extra.FILE",file);
 intent.putExtra("net.rachel030219.hashchecker.extra.VALUE",value);    // No need if you choose "CALCULATE"
 intent.setType("image/png");
 …
@@ -138,30 +138,17 @@ That's all! So easy, right?
         同理x6， CRC32 十进制
     
 #### Extras
-0. `net.rachel030219.hashchecker.extra.URI` - `android.net.Uri`  
-    File's uri path, which tells where the file is.  
-    文件的 Uri 路径。  
-    You can turn in this extra or below one. Its priority is higher than below.  
-    你可以传入这个 extra 或者下面那个。这个 extra 的优先级比下面那个更高。
-
 1. `net.rachel030219.hashchecker.extra.FILE` - `java.io.File`  
     File, just the one you want to do with.  
-    文件，就是你想动的那个。  
-    You can turn in this extra or above one. Its priority is lower than above.  
-    你可以传入这个 extra 或者上面那个。这个 extra 的优先级比上面那个更低。
-    
-    > Description of the priority  
-      关于优先级的解释  
-      For example, you turn in both file and uri at the same time ~~(what a silly decision)~~ , and they toward to different files. Then, HashChecker will only use the file what the uri towards to.   
-      例如，你同时放入 File 和 Uri ~~（是不是傻）~~，而且它们还指向不同的文件。这时， HashChecker 将默认使用 Uri 所指向的文件。
+    文件，就是你想计算的那个。  
     
 2. `net.rachel030219.hashchecker.extra.VALUE` - `java.lang.String`  
     The value which will be compared with the result.  
     最后会和结果进行对比的值。  
-    Android limits the result an activity can return, so you **MUST** turn in this.  
-    Android 限制了 activity 能够回传的结果，所以你必须传入这个值。
-    BTW, HashChecker will auto change its case, so do not change it specially.  
-    另外， HashChecker 会自动改变其大小写，不必特意去改动。
+    Not required after 1.5 and when calculating.  
+    在 1.5 之后，计算值时不被要求。  
+    BTW, HashChecker will auto change its case.  
+    另外， HashChecker 会自动改变其大小写。
     
 #### And the result…
 ~~ As what I said, HashChecker is unable to return a String value, so its API is used for only comparing. ~~
