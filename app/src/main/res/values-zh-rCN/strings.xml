@@ -16,11 +16,6 @@ limitations under the License.
 -->
 <resources>
 
-    <string name="app_name">HashChecker</string>
-
-	<string name="open">Open drawer</string>
-	<string name="close">Close drawer</string>
-
 	<string name="home">主页</string>
 	<string name="section">其他</string>
 	<string name="setting">设置</string>
@@ -41,7 +36,7 @@ limitations under the License.
 	<string name="checkInput">输入一个值进行比对</string>
 	<string name="same">完全相同</string>
 
-    <string name="header">HashChecker 1.5.1 STABLE\n你可以不计算 Hash 值，\n但你一定要有 HashChecker</string>
+    <string name="header">HashChecker 1.6 STABLE\n你可以不计算 Hash 值，\n但你一定要有 HashChecker</string>
 
 	<string name="settings_output">输出</string>
 	<string name="settings_output_case">大写</string>
@@ -75,20 +70,16 @@ limitations under the License.
 	<string name="settings_output_cover_on">在新值计算出来后，原值将被覆盖</string>
 	<string name="settings_output_cover_off">在新值计算出来后，原值将不会被覆盖</string>
 
-	<string name="about_version">HashChecker 1.5.1 STABLE</string>
-	<string name="about_projects">开源项目</string>
-	<string name="about_projects_preferencefragment">PreferenceFragment-Compat by Machinarius</string>
-	<string name="about_projects_preferencefragment_license">Copyright (C) 2013 The Android Open Source Project\nLicensed under the Apache License, Version 2.0 (the \"License\");\nYou may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 \nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
-	<string name="about_projects_materialsettingsactivitydemo">MaterialSettingsActivityDemo by drakeet</string>
-	<string name="about_projects_materialsettingsactivitydemo_license">作者没有给出开源协议，我从博客 https://drakeet.me 里学会了如何制作 Material Design 的设置界面</string>
+	<string name="about_version">HashChecker 1.6 STABLE</string>
+	<string name="about_projects">Credit</string>
+	<string name="about_projects_androidx">AndroidX by Google</string>
 	<string name="about_specialthanks">特别感谢：</string>
 	<string name="about_specialthanks_to">Trumeet\n\nRikka</string>
 	<string name="about_pp">隐私权政策</string>
-	<string name="about_me">Developed by Rachel, 2017</string>
+	<string name="about_me">Developed by Rachel, 2020</string>
 	<string name="about_me_title">自述</string>
-	<string name="about_me_content">你好，我是 Rachel ，一名14岁的高一学生，也是一名独立开发者。\n我用空余时间来开发 Android 应用。所有我个人的应用都将永久免费，希望你会喜欢。欢迎关注我的 Twitter（@tangrui003 ）来获取最新消息，加入 Telegram 频道（@rachelnotice ）以得到更新提示，你也可以随意在 Telegram（@Rachel030219 ）上向我提任何问题。\n- Rachel, 2017</string>
 	<string name="updated_title">更新日志</string>
-	<string name="updated_changelog">HashChecker 1.5.1 STABLE 更新日志:\n\n- 更改 API\n\n- 修复了影响排重的问题\n\n- 对颜色进行重排以帮助分辨\n\n- 添加了隐私权协议</string>
+	<string name="updated_changelog">HashChecker 1.6 STABLE 更新日志:\n\n- 支持直接多选文件\n\n- 更新了乱七八糟的东西来让应用可用</string>
 
     <string name="permission_denied">没权限的应用还有什么意思…</string>
 </resources>

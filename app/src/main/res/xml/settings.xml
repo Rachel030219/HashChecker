@@ -15,92 +15,81 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <PreferenceScreen
-	xmlns:android="http://schemas.android.com/apk/res/android">
+	xmlns:app="http://schemas.android.com/apk/res-auto">
 	
 	<PreferenceCategory
-		android:layout="@layout/settings_category"
-		android:title="@string/settings_output">
+		app:title="@string/settings_output">
 		
 		<CheckBoxPreference
-			android:layout="@layout/settings_item"
-			android:title="@string/settings_output_case"
-			android:key="output_case"
-			android:summaryOn="@string/settings_output_case_on"
-			android:summaryOff="@string/settings_output_case_off"
-			android:defaultValue="true"/>
+			app:title="@string/settings_output_case"
+			app:key="output_case"
+			app:summaryOn="@string/settings_output_case_on"
+			app:summaryOff="@string/settings_output_case_off"
+			app:defaultValue="true"/>
 
 		<CheckBoxPreference
-			android:layout="@layout/settings_item"
-			android:title="@string/settings_output_md5"
-			android:key="output_md5"
-			android:summaryOn="@string/settings_output_md5_on"
-			android:summaryOff="@string/settings_output_md5_off"
-			android:defaultValue="true"/>
+			app:title="@string/settings_output_md5"
+			app:key="output_md5"
+			app:summaryOn="@string/settings_output_md5_on"
+			app:summaryOff="@string/settings_output_md5_off"
+			app:defaultValue="true"/>
 
 		<CheckBoxPreference
-			android:layout="@layout/settings_item"
-			android:title="@string/settings_output_sha1"
-			android:key="output_sha1"
-			android:summaryOn="@string/settings_output_sha1_on"
-			android:summaryOff="@string/settings_output_sha1_off"
-			android:defaultValue="true"/>
+			app:title="@string/settings_output_sha1"
+			app:key="output_sha1"
+			app:summaryOn="@string/settings_output_sha1_on"
+			app:summaryOff="@string/settings_output_sha1_off"
+			app:defaultValue="true"/>
 
 		<CheckBoxPreference
-            android:layout="@layout/settings_item"
-            android:title="@string/settings_output_sha256"
-            android:key="output_sha256"
-            android:summaryOn="@string/settings_output_sha256_on"
-            android:summaryOff="@string/settings_output_sha256_off"
-            android:defaultValue="true"/>
+            app:title="@string/settings_output_sha256"
+            app:key="output_sha256"
+            app:summaryOn="@string/settings_output_sha256_on"
+            app:summaryOff="@string/settings_output_sha256_off"
+            app:defaultValue="true"/>
 
         <CheckBoxPreference
-            android:layout="@layout/settings_item"
-            android:title="@string/settings_output_sha384"
-            android:key="output_sha384"
-            android:summaryOn="@string/settings_output_sha384_on"
-            android:summaryOff="@string/settings_output_sha384_off"
-            android:defaultValue="true"/>
+            app:title="@string/settings_output_sha384"
+            app:key="output_sha384"
+            app:summaryOn="@string/settings_output_sha384_on"
+            app:summaryOff="@string/settings_output_sha384_off"
+            app:defaultValue="true"/>
 
         <CheckBoxPreference
-            android:layout="@layout/settings_item"
-            android:title="@string/settings_output_sha512"
-            android:key="output_sha512"
-            android:summaryOn="@string/settings_output_sha512_on"
-            android:summaryOff="@string/settings_output_sha512_off"
-            android:defaultValue="true"/>
+            app:title="@string/settings_output_sha512"
+            app:key="output_sha512"
+            app:summaryOn="@string/settings_output_sha512_on"
+            app:summaryOff="@string/settings_output_sha512_off"
+            app:defaultValue="true"/>
 
 		<CheckBoxPreference
-            android:layout="@layout/settings_item"
-            android:title="@string/settings_output_crc32"
-            android:key="output_crc32"
-            android:summaryOn="@string/settings_output_crc32_on"
-            android:summaryOff="@string/settings_output_crc32_off"
-            android:defaultValue="true"/>
+            app:title="@string/settings_output_crc32"
+            app:key="output_crc32"
+            app:summaryOn="@string/settings_output_crc32_on"
+            app:summaryOff="@string/settings_output_crc32_off"
+            app:defaultValue="true"/>
 
 		<CheckBoxPreference
-            android:layout="@layout/settings_item"
-			android:title="@string/settings_output_crc32_hex"
-			android:key="output_crc32_hex"
-            android:summaryOn="@string/settings_output_crc32_hex_on"
-            android:summaryOff="@string/settings_output_crc32_hex_off"
-            android:defaultValue="false"
-            android:dependency="output_crc32"/>
+			app:title="@string/settings_output_crc32_hex"
+			app:key="output_crc32_hex"
+            app:summaryOn="@string/settings_output_crc32_hex_on"
+            app:summaryOff="@string/settings_output_crc32_hex_off"
+            app:defaultValue="false"
+            app:dependency="output_crc32"/>
 
 		<CheckBoxPreference
-			android:layout="@layout/settings_item"
-			android:title="@string/settings_output_copyall_tag"
-			android:key="output_copyall_tag"
-			android:summaryOn="@string/settings_output_copyall_tag_on"
-			android:summaryOff="@string/settings_output_copyall_tag_off"
-			android:defaultValue="true"/>
+			app:title="@string/settings_output_copyall_tag"
+			app:key="output_copyall_tag"
+			app:summaryOn="@string/settings_output_copyall_tag_on"
+			app:summaryOff="@string/settings_output_copyall_tag_off"
+			app:defaultValue="true"/>
 
 		<CheckBoxPreference
-            android:layout="@layout/settings_item"
-            android:title="@string/settings_output_cover"
-            android:key="output_cover"
-            android:summaryOn="@string/settings_output_cover_on"
-            android:summaryOff="@string/settings_output_cover_off"
-            android:defaultValue="true"/>
+            app:title="@string/settings_output_cover"
+            app:key="output_cover"
+            app:summaryOn="@string/settings_output_cover_on"
+            app:summaryOff="@string/settings_output_cover_off"
+            app:defaultValue="true"/>
 		
 	</PreferenceCategory>
 	

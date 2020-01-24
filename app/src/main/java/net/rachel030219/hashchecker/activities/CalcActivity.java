@@ -1,18 +1,16 @@
 package net.rachel030219.hashchecker.activities;
 
 import java.io.File;
+import java.io.FileDescriptor;
 
 import android.os.Bundle;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.net.Uri;
 import android.content.Intent;
 
-import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
-import net.rachel030219.hashchecker.tools.FileUtils;
 import net.rachel030219.hashchecker.tools.HashTool;
 import net.rachel030219.hashchecker.tools.MathTool;
 
@@ -26,7 +24,7 @@ import net.rachel030219.hashchecker.tools.MathTool;
 public class CalcActivity extends AppCompatActivity {
     Intent mainIntent;
     String value;
-    File file;
+    FileDescriptor file;
     String calculationValue;
 
     @Override
@@ -35,8 +33,8 @@ public class CalcActivity extends AppCompatActivity {
         mainIntent = getIntent();
         if(mainIntent != null){
             Bundle extras = mainIntent.getExtras();
-            value = (String)extras.get("net.rachel030219.hashchecker.extra.VALUE");
-            file = (File)extras.get("net.rachel030219.hashchecker.extra.FILE");
+            value = (String) extras.get("net.rachel030219.hashchecker.extra.VALUE");
+            file = (FileDescriptor) extras.get("net.rachel030219.hashchecker.extra.FILE");
             runOnUiThread(new Runnable(){
                 @Override
                 public void run() {

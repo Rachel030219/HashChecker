@@ -23,22 +23,15 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.content.Intent;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.res.Resources;
 
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import net.rachel030219.hashchecker.R;
 
 public class AboutActivity extends AppCompatActivity{
-	TextView mPreferenceFragmentCompat;
-	TextView mMaterialSettingsActivityDemo;
 
-	TextView mAboutPP;
 	TextView mAboutMe;
 	
 	@Override
@@ -46,7 +39,7 @@ public class AboutActivity extends AppCompatActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.about);
 
-		Toolbar mToolbar = (Toolbar)findViewById(R.id.about_toolbar);
+		Toolbar mToolbar = findViewById(R.id.about_toolbar);
 		mToolbar.setTitle(getTitle());
 		setSupportActionBar(mToolbar);
 
@@ -63,71 +56,21 @@ public class AboutActivity extends AppCompatActivity{
 	}
 
 	private void bindViews(){
-		Resources res = getResources();
-		mPreferenceFragmentCompat = (TextView)findViewById(R.id.about_projects_preferencefragment);
-		mPreferenceFragmentCompat.setOnClickListener(new OnProjectClick(this,res.getString(R.string.about_projects_preferencefragment),res.getString(R.string.about_projects_preferencefragment_license),"https://github.com/Machinarius/PreferenceFragment-Compat"));
-		mMaterialSettingsActivityDemo = (TextView)findViewById(R.id.about_projects_materialsettingsactivitydemo);
-		mMaterialSettingsActivityDemo.setOnClickListener(new OnProjectClick(this,res.getString(R.string.about_projects_materialsettingsactivitydemo),res.getString(R.string.about_projects_materialsettingsactivitydemo_license),"https://drakeet.me/material-design-settings-activity"));
-		mAboutPP = (TextView)findViewById(R.id.about_pp);
-        mAboutPP.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://github.com/TaRGroup/Privacy-Policy"));
-                startActivity(intent);
-            }
-        });
-		mAboutMe = (TextView)findViewById(R.id.about_me);
+		mAboutMe = findViewById(R.id.about_me);
 		mAboutMe.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v){
-				AlertDialog.Builder builder = new AlertDialog.Builder(AboutActivity.this);
-				builder.setTitle(R.string.about_me_title);
-				builder.setMessage(R.string.about_me_content);
-				builder.setPositiveButton("GOT IT",null);
-				builder.show();
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse("https://me.stfw.info"));
+				startActivity(intent);
 			}
 		});
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
-		switch(item.getItemId()){
-			case android.R.id.home:
-				finish();
-				break;
-		}
+		if (item.getItemId() == android.R.id.home)
+			finish();
 		return true;
-	}
-	
-	class OnProjectClick implements View.OnClickListener{
-		Context context;
-		String title;
-		String license;
-		String url;
-		
-		OnProjectClick(Context context,String title,String license,String url){
-			this.context = context;
-			this.title = title;
-			this.license = license;
-			this.url = url;
-		}
-		
-		@Override
-		public void onClick(View v){
-			AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-			dialog.setTitle(title);
-			dialog.setMessage(license);
-			dialog.setPositiveButton("GOT IT",null);
-			dialog.setNegativeButton("MORE...",new DialogInterface.OnClickListener(){
-				@Override
-				public void onClick(DialogInterface dialog,int i){
-					Uri uri = Uri.parse(url);
-					Intent intent = new Intent(Intent.ACTION_VIEW,uri);
-					startActivity(intent);
-				}
-			});
-			dialog.show();
-		}
 	}
 }

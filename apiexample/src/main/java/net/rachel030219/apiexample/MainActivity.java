@@ -17,13 +17,11 @@ package net.rachel030219.apiexample;
 import java.io.File;
 
 import android.os.Bundle;
-import android.os.Environment;
-import android.net.Uri;
 import android.view.View;
 import android.content.Intent;
 import android.widget.Toast;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_CODE = 1024;

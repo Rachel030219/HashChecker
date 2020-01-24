@@ -16,43 +16,24 @@
 package net.rachel030219.hashchecker.tools;
 
 public class ClipboardManager{
-	android.text.ClipboardManager oldManager;
 	android.content.ClipboardManager newManager;
 	
-	boolean newAPI = android.os.Build.VERSION.SDK_INT >= 11;
-	
 	public ClipboardManager(android.content.Context context){
-		if(newAPI){
-			newManager = (android.content.ClipboardManager)context.getSystemService(context.CLIPBOARD_SERVICE);
-		} else {
-			oldManager = (android.text.ClipboardManager)context.getSystemService(context.CLIPBOARD_SERVICE);
-		}
+		newManager = (android.content.ClipboardManager)context.getSystemService(context.CLIPBOARD_SERVICE);
 	}
 	
 	public void set(String text){
-		if(newAPI){
-			newManager.setPrimaryClip(android.content.ClipData.newPlainText(null, text));
-		} else {
-			oldManager.setText(text);
-		}
+		newManager.setPrimaryClip(android.content.ClipData.newPlainText(null, text));
 	}
 	
 	public CharSequence get(){
-		if(newAPI){
-			if (newManager.getPrimaryClip() != null)
-				return newManager.getPrimaryClip().getItemAt(0).getText();
-			else
-				return "";
-		} else {
-			return oldManager.getText();
-		}
+		if (newManager.getPrimaryClip() != null)
+			return newManager.getPrimaryClip().getItemAt(0).getText();
+		else
+			return "";
 	}
 	
 	public boolean has(){
-		if(newAPI){
-			return newManager.hasPrimaryClip();
-		} else {
-			return oldManager.hasText();
-		}
+		return newManager.hasPrimaryClip();
 	}
 }

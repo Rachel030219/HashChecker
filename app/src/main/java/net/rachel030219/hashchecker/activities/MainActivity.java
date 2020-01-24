@@ -1,18 +1,24 @@
 package net.rachel030219.hashchecker.activities;
 
 import java.io.File;
+import java.io.FileDescriptor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.Manifest;
+import android.content.ClipData;
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.ProgressDialog;
 import android.net.Uri;
+import android.os.ParcelFileDescriptor;
+import android.provider.OpenableColumns;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -30,19 +36,19 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
 
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.navigation.NavigationView;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import net.rachel030219.hashchecker.R;
 import net.rachel030219.hashchecker.tools.ClipboardManager;
@@ -63,9 +69,9 @@ public class MainActivity extends AppCompatActivity {
 	FloatingActionButton mFab;
 	CoordinatorLayout mRoot;
 
-    HashMap<Integer,String> mMap;
+    SparseArray<String> mMap;
 
-    ArrayList<HashMap<Integer,String>> mDatas;
+    ArrayList<SparseArray<String>> mDatas;
     ArrayList<CardView> mCards;
 
     boolean eMD5 = true;
@@ -104,11 +110,11 @@ public class MainActivity extends AppCompatActivity {
 		bindView();
 		checkUpdated();
 
-        mMap = new HashMap<>();
+        mMap = new SparseArray<>();
         mDatas = new ArrayList<>();
         mCards = new ArrayList<>();
 
-        mRecycler = (RecyclerView)findViewById(R.id.recycler);
+        mRecycler = findViewById(R.id.recycler);
         mRecycler.setLayoutManager(new LinearLayoutManager(this));
         adapter = new RecyclerAdapter();
         mRecycler.setAdapter(adapter);
@@ -161,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 	private void bindView(){
-		mToolbar = (Toolbar)findViewById(R.id.toolbar);
+		mToolbar = findViewById(R.id.toolbar);
 		mToolbar.setTitle(getTitle());
 		setSupportActionBar(mToolbar);
 		
@@ -169,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
 		mActionBar.setHomeButtonEnabled(true);
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 		
-		mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer);
+		mDrawerLayout = findViewById(R.id.drawer);
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open, R.string.close) {
             @Override
             public void onDrawerOpened(View mDrawerView) {
@@ -189,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
 			mDrawerLayout.setClipToPadding(false);
 		}
 		
-		NavigationView mNavigation = (NavigationView) findViewById(R.id.navigation);
+		NavigationView mNavigation = findViewById(R.id.navigation);
 		mNavigation.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 			@Override
 			public boolean onNavigationItemSelected(MenuItem menuItem) {
@@ -208,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 		
-		mFab = (FloatingActionButton)findViewById(R.id.fab);
+		mFab = findViewById(R.id.fab);
 		mFab.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v){
@@ -216,17 +222,19 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 		
-		mRoot = (CoordinatorLayout)findViewById(R.id.rootLayout);
+		mRoot = findViewById(R.id.rootLayout);
 	}
 	
 	private void showFileChooser() {
-		Intent intent = new Intent(Intent.ACTION_GET_CONTENT); 
+		Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
 		intent.setType("*/*"); 
 		intent.addCategory(Intent.CATEGORY_OPENABLE);
-		
+		intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
 		try {
-            multiShare = false;
 			startActivityForResult(Intent.createChooser(intent, "Select a File to Upload"), FILE_SELECT_CODE);
+			for (int i = 0;i<mCards.size();i++) {
+			    mCards.get(i).setCardBackgroundColor(getResources().getColor(android.R.color.white));
+            }
 		} catch (android.content.ActivityNotFoundException ex) {
 			android.widget.Toast.makeText(this, "Please install a File Manager.", android.widget.Toast.LENGTH_SHORT).show();
 		}
@@ -234,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
 	
 	public void checkUpdated(){
 		final SharedPreferences preferences = getSharedPreferences("updated",MODE_PRIVATE);
-		if(!preferences.getBoolean("updated1.5.1",false)){
+		if(!preferences.getBoolean("updated1.6",false)){
             preferences.edit().clear().apply();
 			AlertDialog.Builder dialog = new AlertDialog.Builder(this);
 			dialog.setTitle(R.string.updated_title);
@@ -242,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
 			dialog.setPositiveButton("GOT IT",new DialogInterface.OnClickListener(){
 				@Override
 				public void onClick(DialogInterface dialog,int count){
-					preferences.edit().putBoolean("updated1.5.1",true).apply();
+					preferences.edit().putBoolean("updated1.6",true).apply();
 				}
 			});
 			dialog.show();
@@ -251,13 +259,19 @@ public class MainActivity extends AppCompatActivity {
 	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data){
-		switch(requestCode){
-			case FILE_SELECT_CODE:
-				if(resultCode == RESULT_OK){
-					updateResult(data.getData());
-				}
-				break;
-		}
+        if(requestCode == FILE_SELECT_CODE && resultCode == RESULT_OK) {
+            ClipData clipData = data.getClipData();
+            if (clipData == null) {
+                multiShare = false;
+                updateResult(data.getData());
+            }
+            else {
+                for (int i = 0; i < clipData.getItemCount(); i++) {
+                    multiShare = true;
+                    updateResult(clipData.getItemAt(i).getUri());
+                }
+            }
+        }
 		super.onActivityResult(requestCode,resultCode,data);
 	}
 
@@ -276,9 +290,10 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case REQUEST_FILE_PERMISSION_CODE_MULTI_SHARE:
                         ArrayList<Uri> list = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
-                        for(int i = 0;i < list.size();i++){
-                            updateResult(list.get(i));
-                        }
+                        if (list != null)
+                            for(int i = 0;i < list.size();i++){
+                                updateResult(list.get(i));
+                            }
                         break;
                 }
             }
@@ -410,15 +425,13 @@ public class MainActivity extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         for (int i : shouldColor) {
-
-                                            if (shouldUse > 1 && i >= 1 && !mDatas.get(shouldColor.get(shouldColor.indexOf(i))).get(shouldUse).toUpperCase().equals(mDatas.get(shouldColor.get(shouldColor.indexOf(i)-1)).get(shouldUse).toUpperCase())) {
+                                            if (shouldUse > 1 && i >= 1 && !mDatas.get(shouldColor.get(shouldColor.indexOf(i))).get(shouldUse).toUpperCase().equals(mDatas.get(shouldColor.get(shouldColor.indexOf(i))).get(shouldUse).toUpperCase())) {
                                                 if (nowColor + 1 == colorList.length) {
                                                     nowColor = 0;
                                                 } else {
                                                     nowColor++;
                                                 }
                                             }
-
                                             mCards.get(i).setCardBackgroundColor(Color.parseColor(colorList[nowColor]));
                                         }
                                     }
@@ -442,16 +455,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void updateResult(Uri uri){
+    public void updateResult(final Uri uri){
 		try{
-			final File file = new File(FileUtils.getPath(this,uri));
-            if (mDatas.size() > 0) {
-                for (int i = 0;i < mDatas.size();i++){
-                    if (file.getAbsolutePath().equals(mDatas.get(i).get(1))){
-                        return;
-                    }
-                }
-            }
+            final FileDescriptor file = getContentResolver().openFileDescriptor(uri, "r").getFileDescriptor();
+            Cursor returnCursor = getContentResolver().query(uri, null, null, null, null);
+            returnCursor.moveToFirst();
+            final String fileName = returnCursor.getString(returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
 
 			final ProgressDialog dialog = ProgressDialog.show(MainActivity.this,null,"Calculating…",true);
 			new Thread(){
@@ -466,45 +475,48 @@ public class MainActivity extends AppCompatActivity {
                     String sha512 = null;
                     String crc32 = null;
 
-                    if (eMD5)
-					    md5 = HashTool.getFileHash("MD5",file);
-                    if (eSHA1)
-					    sha1 = HashTool.getFileHash("SHA1",file);
-                    if (eSHA256)
-					    sha256 = HashTool.getFileHash("SHA256",file);
-                    if (eSHA384)
-					    sha384 = HashTool.getFileHash("SHA384",file);
-                    if (eSHA512)
-                        sha512 = HashTool.getFileHash("SHA512",file);
-                    if (eCRC32)
-                        if (hexCRC32)
-                            crc32 = MathTool.toHex(HashTool.getCRC32(file));
-                        else
-                            crc32 = HashTool.getCRC32(file) + "";
-
+                    try {
+                        if (eMD5)
+                            md5 = HashTool.getFileHash("MD5", getContentResolver().openFileDescriptor(uri, "r").getFileDescriptor());
+                        if (eSHA1)
+                            sha1 = HashTool.getFileHash("SHA1", getContentResolver().openFileDescriptor(uri, "r").getFileDescriptor());
+                        if (eSHA256)
+                            sha256 = HashTool.getFileHash("SHA256", getContentResolver().openFileDescriptor(uri, "r").getFileDescriptor());
+                        if (eSHA384)
+                            sha384 = HashTool.getFileHash("SHA384", getContentResolver().openFileDescriptor(uri, "r").getFileDescriptor());
+                        if (eSHA512)
+                            sha512 = HashTool.getFileHash("SHA512", getContentResolver().openFileDescriptor(uri, "r").getFileDescriptor());
+                        if (eCRC32)
+                            if (hexCRC32)
+                                crc32 = MathTool.toHex(HashTool.getCRC32(getContentResolver().openFileDescriptor(uri, "r").getFileDescriptor()));
+                            else
+                                crc32 = HashTool.getCRC32(getContentResolver().openFileDescriptor(uri, "r").getFileDescriptor()) + "";
+                    } catch (Exception e) {
+                        android.util.Log.e("HashChecker exception", e.toString());
+                    }
 					if(uppercase){
-                        mMap = new HashMap<>();
-                        mMap.put(1,file.getAbsolutePath());
+                        mMap = new SparseArray<>();
+                        mMap.put(1,fileName);
 
                         if (eMD5)
-						    mMap.put(2,md5.toUpperCase());
+                            mMap.put(2, md5.toUpperCase());
                         if (eSHA1)
-                            mMap.put(3,sha1.toUpperCase());
+                            mMap.put(3, sha1.toUpperCase());
                         if (eSHA256)
-						    mMap.put(4,sha256.toUpperCase());
+                            mMap.put(4, sha256.toUpperCase());
                         if (eSHA384)
-						    mMap.put(5,sha384.toUpperCase());
+                            mMap.put(5, sha384.toUpperCase());
                         if (eSHA512)
-						    mMap.put(6,sha512.toUpperCase());
+                            mMap.put(6, sha512.toUpperCase());
                         if (eCRC32)
-                            mMap.put(7,crc32.toUpperCase());
+                            mMap.put(7, crc32.toUpperCase());
 
                         if(!multiShare && eCover)
                             mDatas = new ArrayList<>();
                         mDatas.add(mMap);
 					} else {
-                        mMap = new HashMap<>();
-                        mMap.put(1,file.getAbsolutePath());
+                        mMap = new SparseArray<>();
+                        mMap.put(1,fileName);
 
                         if (eMD5)
                             mMap.put(2,md5.toLowerCase());
@@ -534,7 +546,7 @@ public class MainActivity extends AppCompatActivity {
 				}
 			}.start();
 		} catch (Exception e) {
-
+            android.util.Log.e("HashChecker exception", e.toString());
 		}
 	}
 	
@@ -616,8 +628,7 @@ public class MainActivity extends AppCompatActivity {
         
         @Override
         public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-            Holder holder = new Holder(LayoutInflater.from(MainActivity.this).inflate(R.layout.recycler_item,parent,false));
-            return holder;
+            return new Holder(LayoutInflater.from(MainActivity.this).inflate(R.layout.recycler_item,parent,false));
         }
 
         @Override
@@ -638,20 +649,20 @@ public class MainActivity extends AppCompatActivity {
 
             Holder(View view){
                 super(view);
-                mResult = (CardView)view.findViewById(R.id.result);
+                mResult = view.findViewById(R.id.result);
                 mCards.add(mResult);
-                mFile = (TextView)view.findViewById(R.id.file);
+                mFile = view.findViewById(R.id.file);
 
-                mMD5 = (TextView)view.findViewById(R.id.md5);
-                mSHA1 = (TextView)view.findViewById(R.id.sha1);
+                mMD5 = view.findViewById(R.id.md5);
+                mSHA1 = view.findViewById(R.id.sha1);
 
-                mSHA256 = (TextView)view.findViewById(R.id.sha256);
-                mSHA384 = (TextView)view.findViewById(R.id.sha384);
-                mSHA512 = (TextView)view.findViewById(R.id.sha512);
-                mCRC32 = (TextView)view.findViewById(R.id.crc32);
+                mSHA256 = view.findViewById(R.id.sha256);
+                mSHA384 = view.findViewById(R.id.sha384);
+                mSHA512 = view.findViewById(R.id.sha512);
+                mCRC32 = view.findViewById(R.id.crc32);
 
                 // EditText
-                mCheckInput = (EditText)view.findViewById(R.id.checkInput);
+                mCheckInput = view.findViewById(R.id.checkInput);
                 mCheckInput.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v){
@@ -767,7 +778,7 @@ public class MainActivity extends AppCompatActivity {
                 Pattern lowerPattern = Pattern.compile("[a-z]");
                 Pattern upperPattern = Pattern.compile("[A-Z]");
                 if(!text.toString().equals(""))
-                    check = text.toString().substring(0,text.toString().length());
+                    check = text.toString();
                 if(uppercase){
                     if(check != null){
                         Matcher matcher = lowerPattern.matcher(check);

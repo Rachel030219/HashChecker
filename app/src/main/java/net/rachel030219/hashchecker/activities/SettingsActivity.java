@@ -20,9 +20,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import net.rachel030219.hashchecker.R;
 
@@ -32,7 +32,7 @@ public class SettingsActivity extends AppCompatActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.settings_activity);
 
-		Toolbar mToolbar = (Toolbar)findViewById(R.id.settings_toolbar);
+		Toolbar mToolbar = findViewById(R.id.settings_toolbar);
 		mToolbar.setTitle(getTitle());
 		setSupportActionBar(mToolbar);
 
@@ -48,11 +48,8 @@ public class SettingsActivity extends AppCompatActivity{
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
-		switch(item.getItemId()){
-			case android.R.id.home:
-				finish();
-				break;
-		}
+		if (item.getItemId() == android.R.id.home)
+			finish();
 		return true;
 	}
 }

@@ -14,17 +14,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<android.support.design.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
 
-	<android.support.design.widget.AppBarLayout
+	<com.google.android.material.appbar.AppBarLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content">
 
-		<android.support.v7.widget.Toolbar
+		<androidx.appcompat.widget.Toolbar
 			android:id="@+id/about_toolbar"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
@@ -34,7 +34,7 @@ limitations under the License.
 			android:paddingTop="@dimen/translucent"
 			android:fitsSystemWindows="true"/>
 
-	</android.support.design.widget.AppBarLayout>
+	</com.google.android.material.appbar.AppBarLayout>
 
 	<ScrollView
 		android:layout_height="match_parent"
@@ -43,7 +43,7 @@ limitations under the License.
 
 		<LinearLayout
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"
+			android:layout_height="wrap_content"
 			android:orientation="vertical"
 			android:gravity="center|top"
 			android:padding="16dp">
@@ -67,18 +67,9 @@ limitations under the License.
 				android:layout_marginBottom="10dp"/>
 
 			<TextView
-				android:id="@+id/about_projects_preferencefragment"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="@string/about_projects_preferencefragment"
-				android:maxLines="1"
-				android:layout_marginBottom="10dp"/>
-
-			<TextView
-				android:id="@+id/about_projects_materialsettingsactivitydemo"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/about_projects_materialsettingsactivitydemo"
+				android:text="@string/about_projects_androidx"
 				android:maxLines="1"
 				android:layout_marginBottom="10dp"/>
 
@@ -127,5 +118,5 @@ limitations under the License.
 		android:layout_marginBottom="16dp"
 		android:layout_gravity="center|bottom"/>
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 

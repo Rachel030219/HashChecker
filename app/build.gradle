@@ -16,13 +16,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
 
     defaultConfig {
         applicationId "net.rachel030219.hashchecker"
-        minSdkVersion 9
-        targetSdkVersion 25
+        minSdkVersion 18
+        targetSdkVersion 29
         versionCode 17
         versionName "1.5.1 STABLE"
     }
@@ -35,11 +35,11 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:support-v4:25.1.0'
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support:cardview-v7:25.1.0'
-    compile 'com.android.support:recyclerview-v7:25.1.0'
-    compile 'com.android.support:design:25.1.0'
-    compile 'com.github.machinarius:preferencefragment:0.1.2'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.fragment:fragment:1.2.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.preference:preference:1.1.0'
+    implementation 'com.google.android.material:material:1.0.0'
 }

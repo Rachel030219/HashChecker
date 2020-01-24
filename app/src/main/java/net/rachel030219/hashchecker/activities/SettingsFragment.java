@@ -16,16 +16,12 @@
 package net.rachel030219.hashchecker.activities;
 
 import android.os.Bundle;
-
-import com.github.machinarius.preferencefragment.PreferenceFragment;
-
+import androidx.preference.PreferenceFragmentCompat;
 import net.rachel030219.hashchecker.R;
 
-public class SettingsFragment extends PreferenceFragment{
-
+public class SettingsFragment extends PreferenceFragmentCompat{
 	@Override
-	public void onCreate(Bundle savedInstanceState){
-		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(R.xml.settings);
+	public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+		setPreferencesFromResource(R.xml.settings, rootKey);
 	}
 }
