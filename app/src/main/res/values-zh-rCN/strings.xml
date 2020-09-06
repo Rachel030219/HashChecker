@@ -70,12 +70,11 @@ limitations under the License.
 	<string name="settings_output_cover_on">在新值计算出来后，原值将被覆盖</string>
 	<string name="settings_output_cover_off">在新值计算出来后，原值将不会被覆盖</string>
 
-	<string name="about_version">HashChecker 1.6 STABLE</string>
+	<string name="about_version">HashChecker 1.7 STABLE</string>
 	<string name="about_projects">Credit</string>
 	<string name="about_projects_androidx">AndroidX by Google</string>
 	<string name="about_specialthanks">特别感谢：</string>
 	<string name="about_specialthanks_to">Trumeet\n\nRikka</string>
 	<string name="about_pp">隐私权政策</string>
 	<string name="about_me">Developed by Rachel, 2020</string>
-	<string name="about_me_title">自述</string>
 </resources>

@@ -75,12 +75,11 @@ limitations under the License.
     <string name="settings_output_cover_on">The result before will be covered after a new value is calculated</string>
     <string name="settings_output_cover_off">The result before will not be covered after a new value is calculated</string>
 
-	<string name="about_version">HashChecker 1.6 STABLE</string>
+	<string name="about_version">HashChecker 1.7 STABLE</string>
 	<string name="about_projects">Credit</string>
 	<string name="about_projects_androidx">AndroidX by Google</string>
 	<string name="about_specialthanks">Special thanks to:</string>
 	<string name="about_specialthanks_to">Trumeet\n\nRikka</string>
 	<string name="about_pp">Privacy Policy</string>
 	<string name="about_me">Developed by Rachel, 2020</string>
-	<string name="about_me_title">About me</string>
 </resources>

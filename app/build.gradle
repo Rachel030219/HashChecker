@@ -23,8 +23,8 @@ android {
         applicationId "net.rachel030219.hashchecker"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 18
-        versionName "1.6 STABLE"
+        versionCode 19
+        versionName "1.7 STABLE"
     }
     buildTypes {
         release {
