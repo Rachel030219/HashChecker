@@ -78,8 +78,4 @@ limitations under the License.
 	<string name="about_pp">隐私权政策</string>
 	<string name="about_me">Developed by Rachel, 2020</string>
 	<string name="about_me_title">自述</string>
-	<string name="updated_title">更新日志</string>
-	<string name="updated_changelog">HashChecker 1.6 STABLE 更新日志:\n\n- 支持直接多选文件\n\n- 更新了乱七八糟的东西来让应用可用</string>
-
-    <string name="permission_denied">没权限的应用还有什么意思…</string>
 </resources>

@@ -1,20 +1,16 @@
 package net.rachel030219.hashchecker.activities;
 
-import java.io.File;
-import java.io.FileDescriptor;
+import java.io.BufferedInputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import android.Manifest;
 import android.content.ClipData;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.ProgressDialog;
 import android.net.Uri;
-import android.os.ParcelFileDescriptor;
 import android.provider.OpenableColumns;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -29,7 +25,6 @@ import android.widget.Toast;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.content.Intent;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -39,7 +34,6 @@ import android.preference.PreferenceManager;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
@@ -52,7 +46,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import net.rachel030219.hashchecker.R;
 import net.rachel030219.hashchecker.tools.ClipboardManager;
-import net.rachel030219.hashchecker.tools.FileUtils;
 import net.rachel030219.hashchecker.tools.HashTool;
 import net.rachel030219.hashchecker.tools.MathTool;
 
@@ -93,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerAdapter adapter;
 
     boolean multiShare = false;
+    boolean multiShareEnd = false;
 
     String[] colorList = new String[]{"#F8BBD0","#D1C4E9","#C5CAE9","#F0F4C3","#FFCCBC","#B2DFDB","#C8C6D9","#BBDEFB","#CFD8DC"};
     int nowColor = -1;
@@ -108,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
 		manager = new ClipboardManager(this);
 
 		bindView();
-		checkUpdated();
 
         mMap = new SparseArray<>();
         mDatas = new ArrayList<>();
@@ -126,10 +119,10 @@ public class MainActivity extends AppCompatActivity {
 			String type = open.getType();
 			if(action.equals(Intent.ACTION_SEND) && type != null){
                 multiShare = false;
-                checkPermissions(REQUEST_FILE_PERMISSION_CODE_SHARE,open);
+                startCalculation(REQUEST_FILE_PERMISSION_CODE_SHARE,open);
 			} else if(action.equals(Intent.ACTION_SEND_MULTIPLE)){
                 multiShare = true;
-                checkPermissions(REQUEST_FILE_PERMISSION_CODE_MULTI_SHARE,open);
+                startCalculation(REQUEST_FILE_PERMISSION_CODE_MULTI_SHARE,open);
             }
 		}
     }
@@ -218,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
 		mFab.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v){
-				checkPermissions(REQUEST_FILE_PERMISSION_CODE_INAPP,null);
+				startCalculation(REQUEST_FILE_PERMISSION_CODE_INAPP,null);
 			}
 		});
 		
@@ -240,23 +233,6 @@ public class MainActivity extends AppCompatActivity {
 		}
 	}
 	
-	public void checkUpdated(){
-		final SharedPreferences preferences = getSharedPreferences("updated",MODE_PRIVATE);
-		if(!preferences.getBoolean("updated1.6",false)){
-            preferences.edit().clear().apply();
-			AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-			dialog.setTitle(R.string.updated_title);
-			dialog.setMessage(R.string.updated_changelog);
-			dialog.setPositiveButton("GOT IT",new DialogInterface.OnClickListener(){
-				@Override
-				public void onClick(DialogInterface dialog,int count){
-					preferences.edit().putBoolean("updated1.6",true).apply();
-				}
-			});
-			dialog.show();
-		}
-	}
-	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data){
         if(requestCode == FILE_SELECT_CODE && resultCode == RESULT_OK) {
@@ -264,10 +240,10 @@ public class MainActivity extends AppCompatActivity {
             if (clipData == null) {
                 multiShare = false;
                 updateResult(data.getData());
-            }
-            else {
+            } else {
+                multiShare = true;
                 for (int i = 0; i < clipData.getItemCount(); i++) {
-                    multiShare = true;
+                    multiShareEnd = (i == clipData.getItemCount() - 1);
                     updateResult(clipData.getItemAt(i).getUri());
                 }
             }
@@ -275,66 +251,23 @@ public class MainActivity extends AppCompatActivity {
 		super.onActivityResult(requestCode,resultCode,data);
 	}
 
-    public void checkPermissions(int REQUEST_CODE,Intent intent){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_CODE);
-            } else {
-                switch(REQUEST_CODE){
-                    case REQUEST_FILE_PERMISSION_CODE_INAPP:
-                        showFileChooser();
-                        break;
-                    case REQUEST_FILE_PERMISSION_CODE_SHARE:
-                        Uri data = intent.getParcelableExtra(Intent.EXTRA_STREAM);
-                        updateResult(data);
-                        break;
-                    case REQUEST_FILE_PERMISSION_CODE_MULTI_SHARE:
-                        ArrayList<Uri> list = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
-                        if (list != null)
-                            for(int i = 0;i < list.size();i++){
-                                updateResult(list.get(i));
-                            }
-                        break;
+    public void startCalculation(int REQUEST_CODE, Intent intent){
+        switch(REQUEST_CODE){
+            case REQUEST_FILE_PERMISSION_CODE_INAPP:
+                showFileChooser();
+                break;
+            case REQUEST_FILE_PERMISSION_CODE_SHARE:
+                Uri data = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                updateResult(data);
+                break;
+            case REQUEST_FILE_PERMISSION_CODE_MULTI_SHARE:
+                ArrayList<Uri> list = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
+                for(int i = 0;i < list.size();i++){
+                    updateResult(list.get(i));
                 }
-            }
-        } else {
-            switch(REQUEST_CODE){
-                case REQUEST_FILE_PERMISSION_CODE_INAPP:
-                    showFileChooser();
-                    break;
-                case REQUEST_FILE_PERMISSION_CODE_SHARE:
-                    Uri data = intent.getParcelableExtra(Intent.EXTRA_STREAM);
-                    updateResult(data);
-                    break;
-                case REQUEST_FILE_PERMISSION_CODE_MULTI_SHARE:
-                    ArrayList<Uri> list = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
-                    for(int i = 0;i < list.size();i++){
-                        updateResult(list.get(i));
-                    }
-                    break;
-            }
+                break;
         }
     }
-
-	@Override
-	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults){
-		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-		
-		int grantResult = grantResults[0];
-		if (grantResult == PackageManager.PERMISSION_GRANTED){
-			switch(requestCode){
-				case REQUEST_FILE_PERMISSION_CODE_INAPP:
-					showFileChooser();
-					break;
-				case REQUEST_FILE_PERMISSION_CODE_SHARE:
-					updateResult((Uri)getIntent().getParcelableExtra(Intent.EXTRA_STREAM));
-					break;
-			}
-		} else if(grantResult == PackageManager.PERMISSION_DENIED) {
-            Toast.makeText(this,R.string.permission_denied,Toast.LENGTH_LONG).show();
-			finish();
-		}
-	}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -457,7 +390,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateResult(final Uri uri){
 		try{
-            final FileDescriptor file = getContentResolver().openFileDescriptor(uri, "r").getFileDescriptor();
             Cursor returnCursor = getContentResolver().query(uri, null, null, null, null);
             returnCursor.moveToFirst();
             final String fileName = returnCursor.getString(returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
@@ -477,20 +409,20 @@ public class MainActivity extends AppCompatActivity {
 
                     try {
                         if (eMD5)
-                            md5 = HashTool.getFileHash("MD5", getContentResolver().openFileDescriptor(uri, "r").getFileDescriptor());
+                            md5 = HashTool.getFileHash("MD5", new BufferedInputStream(getContentResolver().openInputStream(uri)));
                         if (eSHA1)
-                            sha1 = HashTool.getFileHash("SHA1", getContentResolver().openFileDescriptor(uri, "r").getFileDescriptor());
+                            sha1 = HashTool.getFileHash("SHA1", new BufferedInputStream(getContentResolver().openInputStream(uri)));
                         if (eSHA256)
-                            sha256 = HashTool.getFileHash("SHA256", getContentResolver().openFileDescriptor(uri, "r").getFileDescriptor());
+                            sha256 = HashTool.getFileHash("SHA256", new BufferedInputStream(getContentResolver().openInputStream(uri)));
                         if (eSHA384)
-                            sha384 = HashTool.getFileHash("SHA384", getContentResolver().openFileDescriptor(uri, "r").getFileDescriptor());
+                            sha384 = HashTool.getFileHash("SHA384", new BufferedInputStream(getContentResolver().openInputStream(uri)));
                         if (eSHA512)
-                            sha512 = HashTool.getFileHash("SHA512", getContentResolver().openFileDescriptor(uri, "r").getFileDescriptor());
+                            sha512 = HashTool.getFileHash("SHA512", new BufferedInputStream(getContentResolver().openInputStream(uri)));
                         if (eCRC32)
                             if (hexCRC32)
-                                crc32 = MathTool.toHex(HashTool.getCRC32(getContentResolver().openFileDescriptor(uri, "r").getFileDescriptor()));
+                                crc32 = MathTool.toHex(HashTool.getCRC32(new BufferedInputStream(getContentResolver().openInputStream(uri))));
                             else
-                                crc32 = HashTool.getCRC32(getContentResolver().openFileDescriptor(uri, "r").getFileDescriptor()) + "";
+                                crc32 = HashTool.getCRC32(new BufferedInputStream(getContentResolver().openInputStream(uri))) + "";
                     } catch (Exception e) {
                         android.util.Log.e("HashChecker exception", e.toString());
                     }
@@ -511,7 +443,7 @@ public class MainActivity extends AppCompatActivity {
                         if (eCRC32)
                             mMap.put(7, crc32.toUpperCase());
 
-                        if(!multiShare && eCover)
+                        if((!multiShare && eCover))
                             mDatas = new ArrayList<>();
                         mDatas.add(mMap);
 					} else {
@@ -531,7 +463,7 @@ public class MainActivity extends AppCompatActivity {
                         if (eCRC32)
                             mMap.put(7,crc32.toLowerCase());
 
-                        if(!multiShare && eCover)
+                        if((!multiShare && eCover))
                             mDatas = new ArrayList<>();
                         mDatas.add(mMap);
 					}

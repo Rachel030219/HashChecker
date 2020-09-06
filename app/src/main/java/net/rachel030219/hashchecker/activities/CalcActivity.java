@@ -1,7 +1,9 @@
 package net.rachel030219.hashchecker.activities;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileDescriptor;
+import java.io.FileInputStream;
 
 import android.os.Bundle;
 import android.app.Dialog;
@@ -44,46 +46,32 @@ public class CalcActivity extends AppCompatActivity {
                         public void run() {
                             switch(mainIntent.getAction()){
                                 case "net.rachel030219.hashchecker.action.COMPARE_MD5":
-                                    calculationValue = HashTool.getFileHash("MD5", file);
+                                case "net.rachel030219.hashchecker.action.CALCULATE_MD5":
+                                    calculationValue = HashTool.getFileHash("MD5", new BufferedInputStream(new FileInputStream(file)));
                                     break;
                                 case "net.rachel030219.hashchecker.action.COMPARE_SHA1":
-                                    calculationValue = HashTool.getFileHash("SHA1", file);
+                                case "net.rachel030219.hashchecker.action.CALCULATE_SHA1":
+                                    calculationValue = HashTool.getFileHash("SHA1", new BufferedInputStream(new FileInputStream(file)));
                                     break;
                                 case "net.rachel030219.hashchecker.action.COMPARE_SHA256":
-                                    calculationValue = HashTool.getFileHash("SHA256", file);
+                                case "net.rachel030219.hashchecker.action.CALCULATE_SHA256":
+                                    calculationValue = HashTool.getFileHash("SHA256", new BufferedInputStream(new FileInputStream(file)));
                                     break;
                                 case "net.rachel030219.hashchecker.action.COMPARE_SHA384":
-                                    calculationValue = HashTool.getFileHash("SHA384", file);
+                                case "net.rachel030219.hashchecker.action.CALCULATE_SHA384":
+                                    calculationValue = HashTool.getFileHash("SHA384", new BufferedInputStream(new FileInputStream(file)));
                                     break;
                                 case "net.rachel030219.hashchecker.action.COMPARE_SHA512":
-                                    calculationValue = HashTool.getFileHash("SHA512", file);
+                                case "net.rachel030219.hashchecker.action.CALCULATE_SHA512":
+                                    calculationValue = HashTool.getFileHash("SHA512", new BufferedInputStream(new FileInputStream(file)));
                                     break;
                                 case "net.rachel030219.hashchecker.action.COMPARE_CRC32_HEX":
-                                    calculationValue = MathTool.toHex(HashTool.getCRC32(file));
+                                case "net.rachel030219.hashchecker.action.CALCULATE_CRC32_HEX":
+                                    calculationValue = MathTool.toHex(HashTool.getCRC32(new BufferedInputStream(new FileInputStream(file))));
                                     break;
                                 case "net.rachel030219.hashchecker.action.COMPARE_CRC32_DEC":
-                                    calculationValue = HashTool.getCRC32(file) + "";
-                                    break;
-                                case "net.rachel030219.hashchecker.action.CALCULATE_MD5":
-                                    calculationValue = HashTool.getFileHash("MD5", file);
-                                    break;
-                                case "net.rachel030219.hashchecker.action.CALCULATE_SHA1":
-                                    calculationValue = HashTool.getFileHash("SHA1", file);
-                                    break;
-                                case "net.rachel030219.hashchecker.action.CALCULATE_SHA256":
-                                    calculationValue = HashTool.getFileHash("SHA256", file);
-                                    break;
-                                case "net.rachel030219.hashchecker.action.CALCULATE_SHA384":
-                                    calculationValue = HashTool.getFileHash("SHA384", file);
-                                    break;
-                                case "net.rachel030219.hashchecker.action.CALCULATE_SHA512":
-                                    calculationValue = HashTool.getFileHash("SHA512", file);
-                                    break;
-                                case "net.rachel030219.hashchecker.action.CALCULATE_CRC32_HEX":
-                                    calculationValue = MathTool.toHex(HashTool.getCRC32(file));
-                                    break;
                                 case "net.rachel030219.hashchecker.action.CALCULATE_CRC32_DEC":
-                                    calculationValue = HashTool.getCRC32(file) + "";
+                                    calculationValue = HashTool.getCRC32(new BufferedInputStream(new FileInputStream(file))) + "";
                                     break;
                                 default:
                                     // 去你丫的你在干嘛？

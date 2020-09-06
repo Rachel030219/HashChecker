@@ -30,13 +30,4 @@ public class MathTool {
     public static String toHex(long dec){
         return Long.toHexString(dec);
     }
-
-    /**
-     * @author Rachel
-     * @param hex value that you want to convert
-     * @return decimal value
-     */
-    public static long toDec(String hex){
-        return Long.valueOf(hex,16);
-    }
 }

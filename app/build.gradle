@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         applicationId "net.rachel030219.hashchecker"
-        minSdkVersion 18
+        minSdkVersion 19
         targetSdkVersion 29
         versionCode 18
         versionName "1.6 STABLE"

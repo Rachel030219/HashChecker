@@ -27,14 +27,12 @@ import java.util.zip.CRC32;
 
 public class HashTool{
 
-	public static String getFileHash(String type, FileDescriptor file){
+	public static String getFileHash(String type, BufferedInputStream bufferedInputStream){
 		int bufferSize = 256 * 1024;
 		DigestInputStream digestInputStream = null;
 		try {
 			MessageDigest messageDigest = MessageDigest.getInstance(type);
-			FileInputStream stream = new FileInputStream(file);
-			BufferedInputStream bufferedStream = new BufferedInputStream(stream);
-			digestInputStream = new DigestInputStream(bufferedStream, messageDigest);
+			digestInputStream = new DigestInputStream(bufferedInputStream, messageDigest);
 			byte[] buffer =new byte[bufferSize];
 			while (digestInputStream.read(buffer) > 0);
 			messageDigest= digestInputStream.getMessageDigest();
@@ -63,15 +61,14 @@ public class HashTool{
 		return new String(resultCharArray);
 	}
 
-	public static long getCRC32(FileDescriptor file){
+	public static long getCRC32(BufferedInputStream bufferedInputStream){
         try {
-            BufferedInputStream fi = new BufferedInputStream(new FileInputStream(file));
             int gByte;
             CRC32 gCRC = new CRC32();
-            while ((gByte = fi.read()) != -1) {
+            while ((gByte = bufferedInputStream.read()) != -1) {
                 gCRC.update(gByte);
             }
-            fi.close();
+            bufferedInputStream.close();
             return gCRC.getValue();
         } catch (IOException e) {
 			android.util.Log.e("HashChecker exception", e.toString());

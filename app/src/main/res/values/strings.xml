@@ -83,8 +83,4 @@ limitations under the License.
 	<string name="about_pp">Privacy Policy</string>
 	<string name="about_me">Developed by Rachel, 2020</string>
 	<string name="about_me_title">About me</string>
-	<string name="updated_title">What\'s New</string>
-	<string name="updated_changelog">HashChecker 1.6 STABLE Changelog:\n\n- Selecting multiple files directly supported\n\n- All the bugs(hopefully) fixed</string>
-
-    <string name="permission_denied">Please grant permission in settings, or you will be no longer able to use this app.</string>
 </resources>
